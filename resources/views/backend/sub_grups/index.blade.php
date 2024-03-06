@@ -17,11 +17,11 @@
             background-color: #9e9e9e21 !important;
         }
 
-        th,
+        /* th,
         td {
             white-space: nowrap !important;
             vertical-align: middle !important;
-        }
+        } */
     </style>
 @endpush
 @section('content')
