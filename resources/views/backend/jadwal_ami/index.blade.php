@@ -96,15 +96,15 @@
                             <label for="exampleInputEmail1">Program Studi</label>
                             <select name="prodi" id="prodi" class="form-control" required>
                                 <option value="">--Pilih--</option>
-                                <option value="Teknologi Rekayasa Bandar Udara">Teknologi Rekayasa Bandar Udara</option>
-                                <option value="Manajemen Bandar Udara">Manajemen Bandar Udara</option>
-                                <option value="Penyelamatan dan Pemadam Kebakaran Penerbangan">Penyelamatan dan Pemadam Kebakaran Penerbangan</option>
-                               
+                                <option value="Prodi Teknologi Rekayasa Bandar Udara">Prodi Teknologi Rekayasa Bandar Udara</option>
+                                <option value="Prodi Manajemen Bandar Udara">Prodi Manajemen Bandar Udara</option>
+                                <option value="Prodi Penyelamatan dan Pemadam Kebakaran Penerbangan">Prodi Penyelamatan dan Pemadam Kebakaran Penerbangan</option>
+                                <option value="Perguruan Tinggi">Perguruan Tinggi</option>
                             </select>
                             <span class="text-danger error" style="font-size: 12px;" id="prodi_alert"></span>
                         </div>
                         <div class="form-group">
-                            <label>Kurikulum Instrumen</label>
+                            <label>Instrumen AMI</label>
                                 <select name="kurikulum_instrumen_id" id="kurikulum_instrumen_id" class="form-control ">
                                     <option value="">-Pilih-</option>
                                     @foreach ($kurikulums as $kr)
@@ -115,7 +115,7 @@
                             </div>
 
                         <fieldset class="form-group border p-3">
-                            <legend class="w-auto px-2">Jadwal Upload Dokumen</legend>
+                            <legend class="w-auto px-2">Jadwal AMI</legend>
                             <div class="form-group">
                                 <label>Tgl Awal Upload</label>
                                 <input name="tgl_awal_upload" id="tgl_awal_upload" type="date" class="form-control">
