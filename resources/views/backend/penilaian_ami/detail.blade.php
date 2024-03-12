@@ -120,8 +120,21 @@
                                                         value="{{ $item->jadwal_ami_id }}">
                                                     <input type="hidden" name="sub_grup_id"
                                                         value="{{ $item->sub_grup_id }}">
-                                                    <input name="skor" type="number" max="4" maxlength="4"
-                                                        value="{{ $item->skor }}" class="form-control">
+                                                    {{-- <input name="skor" type="number" max="4" maxlength="4"
+                                                        value="{{ $item->skor }}" class="form-control"> --}}
+                                                    <select name="skor" id="" class="form-control">
+                                                        <option value="">--Pilih--</option>
+                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}>0
+                                                        </option>
+                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }}>1
+                                                        </option>
+                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }}>2
+                                                        </option>
+                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }}>3
+                                                        </option>
+                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }}>4
+                                                        </option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <button style="border-radius: 10px !important;"
@@ -150,8 +163,21 @@
                                                         value="{{ $item->jadwal_ami_id }}">
                                                     <input type="hidden" name="sub_grup_id"
                                                         value="{{ $item->sub_grup_id }}">
-                                                    <input name="skor" type="number" max="4" maxlength="4"
-                                                        value="{{ $item->skor }}" class="form-control">
+                                                    {{-- <input name="skor" type="number" max="4" maxlength="4"
+                                                        value="{{ $item->skor }}" class="form-control"> --}}
+                                                    <select name="skor" id="" class="form-control">
+                                                        <option value="">--Pilih--</option>
+                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}>0
+                                                        </option>
+                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }}>1
+                                                        </option>
+                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }}>2
+                                                        </option>
+                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }}>3
+                                                        </option>
+                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }}>4
+                                                        </option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <button style="border-radius: 10px !important;"

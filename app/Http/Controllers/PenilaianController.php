@@ -111,6 +111,7 @@ class PenilaianController extends Controller
                 'jadwal_ami_id' => $request->jadwal_ami_id,
                 'butir_instrumen_id' => $request->butir_instrumen_id,
                 'grup_instrumen_id' => $request->grup_instrumen_id,
+                'sub_grup_id' => $request->sub_grup_id,
                 'kurikulum_instrumen_id' => $request->kurikulum_instrumen_id,
                 'skor' => $request->skor,
                 'create_oleh' => Auth::id()
