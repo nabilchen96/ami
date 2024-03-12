@@ -24,6 +24,12 @@ class ButirInstrumenController extends Controller
         ]);
     }
 
+    public function getSubGrup($idGrup)
+    {
+
+        echo json_encode(DB::table('sub_grups')->where('grup_instrumen_id',$idGrup)->get());
+    }
+
     public function data($kurikulum_id)
     {
 

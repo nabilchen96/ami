@@ -65,6 +65,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-butir_instrumen', 'App\Http\Controllers\ButirInstrumenController@update');
     Route::post('/delete-butir_instrumen', 'App\Http\Controllers\ButirInstrumenController@delete');
 
+    Route::get('/sub_grups_by_grup_id/{id}', 'App\Http\Controllers\ButirInstrumenController@getSubGrup');
+
     // JADWAL AMI
     Route::get('/jadwal_ami', 'App\Http\Controllers\JadwalAmiController@index');
     Route::get('/data-jadwal_ami', 'App\Http\Controllers\JadwalAmiController@data');
