@@ -122,7 +122,7 @@
                                                         value="{{ $item->sub_grup_id }}">
                                                     {{-- <input name="skor" type="number" max="4" maxlength="4"
                                                         value="{{ $item->skor }}" class="form-control"> --}}
-                                                    <select name="skor" id="" class="form-control">
+                                                    <select name="skor" id="" class="form-control" required>
                                                         <option value="">--Pilih--</option>
                                                         <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}>0
                                                         </option>
@@ -165,7 +165,7 @@
                                                         value="{{ $item->sub_grup_id }}">
                                                     {{-- <input name="skor" type="number" max="4" maxlength="4"
                                                         value="{{ $item->skor }}" class="form-control"> --}}
-                                                    <select name="skor" id="" class="form-control">
+                                                    <select name="skor" id="" class="form-control" required>
                                                         <option value="">--Pilih--</option>
                                                         <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}>0
                                                         </option>
