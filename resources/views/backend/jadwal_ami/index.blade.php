@@ -325,9 +325,17 @@
                         $('#myTable').DataTable().clear().destroy();
                         getData()
 
-                    } else {
+                    } else if(res.data.responCode == 0) {
 
                         console.log('terjadi error');
+                    } else if(res.data.responCode == 2){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'GAGAL!',
+                            text: res.data.respon,
+                            timer: 3000,
+                            showConfirmButton: false
+                        })
                     }
 
                     document.getElementById("tombol_kirim").disabled = false;
