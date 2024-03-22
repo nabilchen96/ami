@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Program Studi</label>
+                            <label for="exampleInputEmail1">Auditee</label>
                             <select name="prodi" id="prodi" class="form-control" required>
                                 <option value="">--Pilih--</option>
                                 <option value="Prodi Teknologi Rekayasa Bandar Udara">Prodi Teknologi Rekayasa Bandar Udara</option>
