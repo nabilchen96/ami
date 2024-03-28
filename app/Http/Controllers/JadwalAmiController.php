@@ -15,9 +15,11 @@ class JadwalAmiController extends Controller
     public function index()
     {
         $auditors = User::where('role', 'Auditor')->get();
+        $audites = User::where('role', 'Auditee')->get();
         $kurikulums = KurikulumInstrumen::where('is_aktif', '1')->get();
         return view('backend.jadwal_ami.index', [
             'auditors' => $auditors,
+            'audites' => $audites,
             'kurikulums' => $kurikulums
         ]);
     }
@@ -26,11 +28,12 @@ class JadwalAmiController extends Controller
     {
 
         $jadwal_amis = DB::table('jadwal_amis')
-            ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'kurikulum_instrumens.nama_kurikulum')
+            ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3','pic_auditee.name as nama_pic_auditee', 'kurikulum_instrumens.nama_kurikulum')
             ->leftJoin('users as users', 'users.id', 'jadwal_amis.input_oleh')
             ->leftJoin('users as auditor1', 'auditor1.id', 'jadwal_amis.auditor_satu')
             ->leftJoin('users as auditor2', 'auditor2.id', 'jadwal_amis.auditor_dua')
             ->leftJoin('users as auditor3', 'auditor3.id', 'jadwal_amis.auditor_tiga')
+            ->leftJoin('users as pic_auditee', 'pic_auditee.id', 'jadwal_amis.pic_auditee')
             ->leftJoin('kurikulum_instrumens', 'kurikulum_instrumens.id', 'jadwal_amis.kurikulum_instrumen_id');
 
         $jadwal_amis = $jadwal_amis->get();
@@ -70,6 +73,8 @@ class JadwalAmiController extends Controller
                     'auditor_satu'   => $request->auditor_satu,
                     'auditor_dua'   => $request->auditor_dua,
                     'auditor_tiga'   => $request->auditor_tiga,
+                    'pic_auditee'   => $request->pic_auditee,
+                    'link_upload_dokumen'   => $request->link_upload_dokumen,
                     'kurikulum_instrumen_id'   => $request->kurikulum_instrumen_id,
                     'status_aktif'   => $request->status_aktif,
                     'input_oleh'       => Auth::user()->id,
@@ -117,6 +122,8 @@ class JadwalAmiController extends Controller
                     'auditor_satu'   => $request->auditor_satu,
                     'auditor_dua'   => $request->auditor_dua,
                     'auditor_tiga'   => $request->auditor_tiga,
+                    'pic_auditee'   => $request->pic_auditee,
+                    'link_upload_dokumen'   => $request->link_upload_dokumen,
                     'kurikulum_instrumen_id'   => $request->kurikulum_instrumen_id,
                     'status_aktif'   => $request->status_aktif,
                     'input_oleh'       => Auth::user()->id,

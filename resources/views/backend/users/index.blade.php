@@ -97,6 +97,7 @@
                             <select name="role" class="form-control" id="role" required>
                                 <option value="Admin">Admin</option>
                                 <option value="Auditor">Auditor</option>
+                                <option value="Auditee">Auditee</option>
                             </select>
                         </div>
 
@@ -155,6 +156,8 @@
                                 return `<span class="badge badge-success">${row.role}</span>`
                             } else if (row.role == "Auditor") {
                                 return `<span class="badge badge-primary">${row.role}</span>`
+                            } else if (row.role == "Auditee") {
+                                return `<span class="badge badge-warning">${row.role}</span>`
                             }
                         }
                     },

@@ -103,6 +103,18 @@
                             </select>
                             <span class="text-danger error" style="font-size: 12px;" id="prodi_alert"></span>
                         </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">PIC Auditee</label>
+                            <select name="pic_auditee" id="pic_auditee" class="form-control" required>
+                                <option value="">--Pilih--</option>
+                                    @foreach ($audites as $auditee)
+                                        <option value="{{ $auditee->id }}">{{ $auditee->name }}</option>
+                                    @endforeach
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="pic_auditee"></span>
+                        </div>
+
                         <div class="form-group">
                             <label>Instrumen AMI</label>
                                 <select name="kurikulum_instrumen_id" id="kurikulum_instrumen_id" class="form-control ">
@@ -126,6 +138,12 @@
                                 <label>Tgl Akhir Upload</label>
                                 <input name="tgl_akhir_upload" id="tgl_akhir_upload" type="date" class="form-control">
                                 <span class="text-danger error" style="font-size: 12px;" id="tgl_akhir_upload_alert"></span>
+                              </div>
+
+                              <div class="form-group">
+                                <label>Link Unggahan Dokumen</label>
+                                <input name="link_upload_dokumen" id="link_upload_dokumen" type="url" class="form-control">
+                                <span class="text-danger error" style="font-size: 12px;" id="link_upload_dokumen_alert"></span>
                               </div>
                         </fieldset>
                         <fieldset class="form-group border p-3">
@@ -212,7 +230,13 @@
                         data: "judul"
                     },
                     {
-                        data: "nama_kurikulum"
+                        render: function(data, type, row, meta) {
+                            return `
+                                
+                                    <p>${row.nama_kurikulum}</p>
+                                    <p>Link Unggah Dok. : <a target="_blank" href=${row.link_upload_dokumen}>${row.link_upload_dokumen}</a></p>
+                            `
+                        }
                     },
                     {
                         render: function(data, type, row, meta) {
@@ -226,7 +250,13 @@
                         }
                     },
                     {
-                        data: "prodi"
+                        render: function(data, type, row, meta) {
+                            return `
+                                
+                                    <p>${row.prodi}</p>
+                                    <p>PIC : ${row.nama_pic_auditee}</p>
+                            `
+                        }
                     },
                     {
                         render: function(data, type, row, meta) {
@@ -291,6 +321,8 @@
                 modal.find('#auditor_satu').val(cokData[0].auditor_satu)
                 modal.find('#auditor_dua').val(cokData[0].auditor_dua)
                 modal.find('#auditor_tiga').val(cokData[0].auditor_tiga)
+                modal.find('#link_upload_dokumen').val(cokData[0].link_upload_dokumen)
+                modal.find('#pic_auditee').val(cokData[0].pic_auditee)
                 modal.find('#kurikulum_instrumen_id').val(cokData[0].kurikulum_instrumen_id)
                 modal.find('#status_aktif').val(cokData[0].status_aktif)
             }
