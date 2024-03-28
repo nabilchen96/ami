@@ -78,7 +78,9 @@
                                     <th></th>
                                     <th>Pertanyaan</th>
                                     <th>Nilai</th>
+                                    @if (Auth::user()->role == "Admin" || Auth::user()->role == "Auditor")
                                     <th></th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,7 +99,7 @@
                                     @endphp
                                     @if ($namagrup != $namagrupprev)
                                         <tr style="background: green !important;">
-                                            <td colspan="5"><b>{{ $item->nama_grup_instrumen }}</b></td>
+                                            <td colspan="{{ Auth::user()->role == "Admin" || Auth::user()->role == "Auditor" ? "5" : "4" }} "><b>{{ $item->nama_grup_instrumen }}</b></td>
                                         </tr>
                                     @endif
                                     @if ($item->nama_sub_grup != $namasubgrupprev)
@@ -130,23 +132,25 @@
                                                     {{-- <input name="skor" type="number" max="4" maxlength="4"
                                                         value="{{ $item->skor }}" class="form-control"> --}}
                                                     <select name="skor" id="" class="form-control" required>
-                                                        <option value="">--Pilih--</option>
-                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}>0
+                                                        <option value="" {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>--Pilih--</option>
+                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>0
                                                         </option>
-                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }}>1
+                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>1
                                                         </option>
-                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }}>2
+                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>2
                                                         </option>
-                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }}>3
+                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>3
                                                         </option>
-                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }}>4
+                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>4
                                                         </option>
                                                     </select>
                                                 </td>
+                                                @if (Auth::user()->role == "Admin" || Auth::user()->role == "Auditor")
                                                 <td>
                                                     <button style="border-radius: 10px !important;"
                                                         class="btn btn-sm btn-primary">Submit</button>
                                                 </td>
+                                                @endif
                                             </form>
                                         </tr>
                                         @php
@@ -173,23 +177,25 @@
                                                     {{-- <input name="skor" type="number" max="4" maxlength="4"
                                                         value="{{ $item->skor }}" class="form-control"> --}}
                                                     <select name="skor" id="" class="form-control" required>
-                                                        <option value="">--Pilih--</option>
-                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}>0
+                                                        <option value="" {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>--Pilih--</option>
+                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }} >0
                                                         </option>
-                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }}>1
+                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>1
                                                         </option>
-                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }}>2
+                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>2
                                                         </option>
-                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }}>3
+                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>3
                                                         </option>
-                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }}>4
+                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>4
                                                         </option>
                                                     </select>
                                                 </td>
+                                                @if (Auth::user()->role == "Admin" || Auth::user()->role == "Auditor")
                                                 <td>
                                                     <button style="border-radius: 10px !important;"
                                                         class="btn btn-sm btn-primary">Submit</button>
                                                 </td>
+                                                @endif
                                             </form>
                                         </tr>
                                     @endif
