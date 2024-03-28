@@ -59,6 +59,13 @@
                                 <td>:</td>
                                 <td>{{ $jadwal->prodi }}</td>
                             </tr>
+                            <tr>
+                                <td>Link Dokumen</td>
+                                <td>:</td>
+                                <td colspan="4">
+                                    <a target="_blank" href="{{$jadwal->link_upload_dokumen}}">{{ $jadwal->link_upload_dokumen }}</a>
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div id="spider-chart-container" class="border" style="padding-top: 20px; width: 100%; margin: 0 auto">
