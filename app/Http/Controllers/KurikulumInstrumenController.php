@@ -44,6 +44,7 @@ class KurikulumInstrumenController extends Controller
         } else {
             $data = KurikulumInstrumen::create([
                 'nama_kurikulum'   => $request->nama_kurikulum,
+                'jenis_instrumen'  => $request->jenis_instrumen,
                 'input_oleh'       => Auth::user()->id,
             ]);
 
@@ -73,6 +74,7 @@ class KurikulumInstrumenController extends Controller
             $kurikulum_instrumens = KurikulumInstrumen::find($request->id);
             $data = $kurikulum_instrumens->update([
                 'nama_kurikulum'   => $request->nama_kurikulum,
+                'jenis_instrumen'  => $request->jenis_instrumen,
                 'is_aktif'   => $request->is_aktif,
             ]);
 

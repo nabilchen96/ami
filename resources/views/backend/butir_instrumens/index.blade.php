@@ -47,9 +47,9 @@
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Kriteria / Sub Kriteria</th>
-                                    <th>Kode</th>
-                                    <th>Instrumen</th>
+                                    <th>Kriteria / Sub Kriteria / Kode</th>
+                                    <th>Pernyataan</th>
+                                    <th>Sasaran Standar</th>
                                     <th>User</th>
                                     <th width="5%"></th>
                                     <th width="5%"></th>
@@ -199,16 +199,20 @@
                     {
                         render: function(data, type, row, meta) {
                             return `
-                                ${row.nama_grup_instrumen} / ${row.nama_sub_grup}
+                                ${row.nama_grup_instrumen} / ${row.nama_sub_grup} / ${row.kode_instrumen}
                             `
                         }
                     },
 
                     {
-                        data: "kode_instrumen"
+                        data: "nama_instrumen"
                     },
                     {
-                        data: "nama_instrumen"
+                        render: function(data, type, row, meta) {
+                            return `
+                                ${row.keterangan}
+                            `
+                        }
                     },
                     {
                         data: "name"

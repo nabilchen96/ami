@@ -49,11 +49,12 @@
                                     {{ $jadwal->tgl_akhir_upload }}
                                 </td>
                             </tr>
+
                             <tr>
-                                <td>Kurikulum</td>
+                                <td>Kurikulum / Jenis Instrumen</td>
                                 <td>:</td>
                                 <td>
-                                    {{ $jadwal->nama_kurikulum }}
+                                    {{ $jadwal->nama_kurikulum }} / {{ $jadwal->jenis_instrumen }}
                                 </td>
                                 <td>Auditee</td>
                                 <td>:</td>
@@ -63,152 +64,343 @@
                                 <td>Link Dokumen</td>
                                 <td>:</td>
                                 <td colspan="4">
-                                    <a target="_blank" href="{{$jadwal->link_upload_dokumen}}">{{ $jadwal->link_upload_dokumen }}</a>
+                                    <a target="_blank"
+                                        href="{{ $jadwal->link_upload_dokumen }}">{{ $jadwal->link_upload_dokumen }}</a>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div id="spider-chart-container" class="border" style="padding-top: 20px; width: 100%; margin: 0 auto">
                     </div>
-                    <div class="table-responsive mt-4">
-                        <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
-                            <thead class="bg-primary text-white">
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Pertanyaan</th>
-                                    <th>Nilai</th>
-                                    @if (Auth::user()->role == "Admin" || Auth::user()->role == "Auditor")
-                                    <th></th>
-                                    @endif
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $namagrup = '';
-                                    $namagrupprev = '';
-                                    $namasubgrup = '';
-                                    $namasubgrupprev = '';
-                                    $totalRows = count($data);
-                                @endphp
 
-                                @foreach ($data as $k => $item)
+                    @if ($jadwal->jenis_instrumen == 'BAN-PT' || $jadwal->jenis_instrumen == 'LAM')
+                        <div class="table-responsive mt-4">
+                            <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Pertanyaan</th>
+                                        <th>Nilai</th>
+                                        @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                            <th></th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @php
-                                        $namagrup = $item->nama_grup_instrumen;
-                                        $namasubgrup = $item->nama_sub_grup;
+                                        $namagrup = '';
+                                        $namagrupprev = '';
+                                        $namasubgrup = '';
+                                        $namasubgrupprev = '';
+                                        $totalRows = count($data);
                                     @endphp
-                                    @if ($namagrup != $namagrupprev)
-                                        <tr style="background: green !important;">
-                                            <td colspan="{{ Auth::user()->role == "Admin" || Auth::user()->role == "Auditor" ? "5" : "4" }} "><b>{{ $item->nama_grup_instrumen }}</b></td>
-                                        </tr>
-                                    @endif
-                                    @if ($item->nama_sub_grup != $namasubgrupprev)
+
+                                    @foreach ($data as $k => $item)
                                         @php
-                                            $groupRowCount = 0;
-                                            foreach ($data as $row) {
-                                                if ($row->nama_sub_grup == $item->nama_sub_grup) {
-                                                    $groupRowCount++;
+                                            $namagrup = $item->nama_grup_instrumen;
+                                            $namasubgrup = $item->nama_sub_grup;
+                                        @endphp
+                                        @if ($namagrup != $namagrupprev)
+                                            <tr style="background: green !important;">
+                                                <td
+                                                    colspan="{{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor' ? '5' : '4' }} ">
+                                                    <b>{{ $item->nama_grup_instrumen }}</b>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @if ($item->nama_sub_grup != $namasubgrupprev)
+                                            @php
+                                                $groupRowCount = 0;
+                                                foreach ($data as $row) {
+                                                    if ($row->nama_sub_grup == $item->nama_sub_grup) {
+                                                        $groupRowCount++;
+                                                    }
                                                 }
-                                            }
-                                        @endphp
-                                        <tr>
-                                            <td rowspan="{{ $groupRowCount }}"><b>{{ $item->nama_sub_grup }}</b>
-                                            </td>
-                                            <td>{{ $item->kode_instrumen }}</td>
-                                            <td>{{ $item->nama_instrumen }}</td>
-                                            <form action="{{ url('store-penilaian_ami') }}" method="POST">
-                                                @csrf
-                                                <td>
-                                                    <input type="hidden" name="butir_instrumen_id"
-                                                        value="{{ $item->butir_instrumen_id }}">
-                                                    <input type="hidden" name="grup_instrumen_id"
-                                                        value="{{ $item->grup_instrumen_id }}">
-                                                    <input type="hidden" name="kurikulum_instrumen_id"
-                                                        value="{{ $item->kurikulum_instrumen_id }}">
-                                                    <input type="hidden" name="jadwal_ami_id"
-                                                        value="{{ $item->jadwal_ami_id }}">
-                                                    <input type="hidden" name="sub_grup_id"
-                                                        value="{{ $item->sub_grup_id }}">
-                                                    {{-- <input name="skor" type="number" max="4" maxlength="4"
+                                            @endphp
+                                            <tr>
+                                                <td rowspan="{{ $groupRowCount }}"><b>{{ $item->nama_sub_grup }}</b>
+                                                </td>
+                                                <td>{{ $item->kode_instrumen }}</td>
+                                                <td>{{ $item->nama_instrumen }}</td>
+                                                <form action="{{ url('store-penilaian_ami') }}" method="POST">
+                                                    @csrf
+                                                    <td>
+                                                        <input type="hidden" name="butir_instrumen_id"
+                                                            value="{{ $item->butir_instrumen_id }}">
+                                                        <input type="hidden" name="grup_instrumen_id"
+                                                            value="{{ $item->grup_instrumen_id }}">
+                                                        <input type="hidden" name="kurikulum_instrumen_id"
+                                                            value="{{ $item->kurikulum_instrumen_id }}">
+                                                        <input type="hidden" name="jadwal_ami_id"
+                                                            value="{{ $item->jadwal_ami_id }}">
+                                                        <input type="hidden" name="sub_grup_id"
+                                                            value="{{ $item->sub_grup_id }}">
+                                                        {{-- <input name="skor" type="number" max="4" maxlength="4"
                                                         value="{{ $item->skor }}" class="form-control"> --}}
-                                                    <select name="skor" id="" class="form-control" required>
-                                                        <option value="" {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>--Pilih--</option>
-                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>0
-                                                        </option>
-                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>1
-                                                        </option>
-                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>2
-                                                        </option>
-                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>3
-                                                        </option>
-                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>4
-                                                        </option>
-                                                    </select>
-                                                </td>
-                                                @if (Auth::user()->role == "Admin" || Auth::user()->role == "Auditor")
-                                                <td>
-                                                    <button style="border-radius: 10px !important;"
-                                                        class="btn btn-sm btn-primary">Submit</button>
-                                                </td>
-                                                @endif
-                                            </form>
-                                        </tr>
+                                                        <select name="skor" id="" class="form-control" required>
+                                                            <option value=""
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
+                                                                --Pilih--</option>
+                                                            <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>0
+                                                            </option>
+                                                            <option value="1" {{ $item->skor == 1 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>1
+                                                            </option>
+                                                            <option value="2" {{ $item->skor == 2 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>2
+                                                            </option>
+                                                            <option value="3" {{ $item->skor == 3 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>3
+                                                            </option>
+                                                            <option value="4" {{ $item->skor == 4 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>4
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                                        <td>
+                                                            <button style="border-radius: 10px !important;"
+                                                                class="btn btn-sm btn-primary">Submit</button>
+                                                        </td>
+                                                    @endif
+                                                </form>
+                                            </tr>
+                                            @php
+                                                $namagrupprev = $item->nama_grup_instrumen;
+                                                $namasubgrupprev = $item->nama_sub_grup;
+                                            @endphp
+                                        @else
+                                            <tr>
+                                                <td>{{ $item->kode_instrumen }}</td>
+                                                <td>{{ $item->nama_instrumen }}</td>
+                                                <form action="{{ url('store-penilaian_ami') }}" method="POST">
+                                                    @csrf
+                                                    <td>
+                                                        <input type="hidden" name="butir_instrumen_id"
+                                                            value="{{ $item->butir_instrumen_id }}">
+                                                        <input type="hidden" name="grup_instrumen_id"
+                                                            value="{{ $item->grup_instrumen_id }}">
+                                                        <input type="hidden" name="kurikulum_instrumen_id"
+                                                            value="{{ $item->kurikulum_instrumen_id }}">
+                                                        <input type="hidden" name="jadwal_ami_id"
+                                                            value="{{ $item->jadwal_ami_id }}">
+                                                        <input type="hidden" name="sub_grup_id"
+                                                            value="{{ $item->sub_grup_id }}">
+                                                        {{-- <input name="skor" type="number" max="4" maxlength="4"
+                                                        value="{{ $item->skor }}" class="form-control"> --}}
+                                                        <select name="skor" id="" class="form-control" required>
+                                                            <option value=""
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
+                                                                --Pilih--</option>
+                                                            <option value="0" {{ $item->skor == 0 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>0
+                                                            </option>
+                                                            <option value="1" {{ $item->skor == 1 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>1
+                                                            </option>
+                                                            <option value="2" {{ $item->skor == 2 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>2
+                                                            </option>
+                                                            <option value="3" {{ $item->skor == 3 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>3
+                                                            </option>
+                                                            <option value="4" {{ $item->skor == 4 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>4
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                                        <td>
+                                                            <button style="border-radius: 10px !important;"
+                                                                class="btn btn-sm btn-primary">Submit</button>
+                                                        </td>
+                                                    @endif
+                                                </form>
+                                            </tr>
+                                        @endif
+
+                                        @if ($k == $totalRows - 1)
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+
+
+                            </table>
+                        </div>
+                    @elseif($jadwal->jenis_instrumen == 'SN-DIKTI')
+                        <div class="table-responsive mt-4">
+                            <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Pertanyaan</th>
+                                        <th>Nilai</th>
+                                        @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                            <th></th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $namagrup = '';
+                                        $namagrupprev = '';
+                                        $namasubgrup = '';
+                                        $namasubgrupprev = '';
+                                        $totalRows = count($data);
+                                    @endphp
+
+                                    @foreach ($data as $k => $item)
                                         @php
-                                            $namagrupprev = $item->nama_grup_instrumen;
-                                            $namasubgrupprev = $item->nama_sub_grup;
+                                            $namagrup = $item->nama_grup_instrumen;
+                                            $namasubgrup = $item->nama_sub_grup;
                                         @endphp
-                                    @else
-                                        <tr>
-                                            <td>{{ $item->kode_instrumen }}</td>
-                                            <td>{{ $item->nama_instrumen }}</td>
-                                            <form action="{{ url('store-penilaian_ami') }}" method="POST">
-                                                @csrf
-                                                <td>
-                                                    <input type="hidden" name="butir_instrumen_id"
-                                                        value="{{ $item->butir_instrumen_id }}">
-                                                    <input type="hidden" name="grup_instrumen_id"
-                                                        value="{{ $item->grup_instrumen_id }}">
-                                                    <input type="hidden" name="kurikulum_instrumen_id"
-                                                        value="{{ $item->kurikulum_instrumen_id }}">
-                                                    <input type="hidden" name="jadwal_ami_id"
-                                                        value="{{ $item->jadwal_ami_id }}">
-                                                    <input type="hidden" name="sub_grup_id"
-                                                        value="{{ $item->sub_grup_id }}">
-                                                    {{-- <input name="skor" type="number" max="4" maxlength="4"
-                                                        value="{{ $item->skor }}" class="form-control"> --}}
-                                                    <select name="skor" id="" class="form-control" required>
-                                                        <option value="" {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>--Pilih--</option>
-                                                        <option value="0" {{ $item->skor == 0 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }} >0
-                                                        </option>
-                                                        <option value="1" {{ $item->skor == 1 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>1
-                                                        </option>
-                                                        <option value="2" {{ $item->skor == 2 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>2
-                                                        </option>
-                                                        <option value="3" {{ $item->skor == 3 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>3
-                                                        </option>
-                                                        <option value="4" {{ $item->skor == 4 ? 'selected' : '' }} {{ Auth::user()->role == "Auditee" ? 'disabled' : '' }}>4
-                                                        </option>
-                                                    </select>
+                                        @if ($namagrup != $namagrupprev)
+                                            <tr style="background: green !important;">
+                                                <td
+                                                    colspan="{{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor' ? '5' : '4' }} ">
+                                                    <b>{{ $item->nama_grup_instrumen }}</b>
                                                 </td>
-                                                @if (Auth::user()->role == "Admin" || Auth::user()->role == "Auditor")
-                                                <td>
-                                                    <button style="border-radius: 10px !important;"
-                                                        class="btn btn-sm btn-primary">Submit</button>
+                                            </tr>
+                                        @endif
+                                        @if ($item->nama_sub_grup != $namasubgrupprev)
+                                            @php
+                                                $groupRowCount = 0;
+                                                foreach ($data as $row) {
+                                                    if ($row->nama_sub_grup == $item->nama_sub_grup) {
+                                                        $groupRowCount++;
+                                                    }
+                                                }
+                                            @endphp
+                                            <tr>
+                                                <td rowspan="{{ $groupRowCount }}"><b>{{ $item->nama_sub_grup }}</b>
                                                 </td>
-                                                @endif
-                                            </form>
-                                        </tr>
-                                    @endif
+                                                <td>{{ $item->kode_instrumen }}</td>
+                                                <td>{{ $item->nama_instrumen }}</td>
+                                                <form action="{{ url('store-penilaian_ami') }}" method="POST">
+                                                    @csrf
+                                                    <td>
+                                                        <input type="hidden" name="butir_instrumen_id"
+                                                            value="{{ $item->butir_instrumen_id }}">
+                                                        <input type="hidden" name="grup_instrumen_id"
+                                                            value="{{ $item->grup_instrumen_id }}">
+                                                        <input type="hidden" name="kurikulum_instrumen_id"
+                                                            value="{{ $item->kurikulum_instrumen_id }}">
+                                                        <input type="hidden" name="jadwal_ami_id"
+                                                            value="{{ $item->jadwal_ami_id }}">
+                                                        <input type="hidden" name="sub_grup_id"
+                                                            value="{{ $item->sub_grup_id }}">
+                                                        {{-- <input name="skor" type="number" max="4" maxlength="4"
+                                                    value="{{ $item->skor }}" class="form-control"> --}}
+                                                        <select name="skor" id="" class="form-control"
+                                                            required>
+                                                            <option value=""
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
+                                                                --Pilih--</option>
+                                                            <option value="0"
+                                                                {{ $item->skor == 0 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>0
+                                                            </option>
+                                                            <option value="1"
+                                                                {{ $item->skor == 1 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>1
+                                                            </option>
+                                                            <option value="2"
+                                                                {{ $item->skor == 2 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>2
+                                                            </option>
+                                                            <option value="3"
+                                                                {{ $item->skor == 3 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>3
+                                                            </option>
+                                                            <option value="4"
+                                                                {{ $item->skor == 4 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>4
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                                        <td>
+                                                            <button style="border-radius: 10px !important;"
+                                                                class="btn btn-sm btn-primary">Submit</button>
+                                                        </td>
+                                                    @endif
+                                                </form>
+                                            </tr>
+                                            @php
+                                                $namagrupprev = $item->nama_grup_instrumen;
+                                                $namasubgrupprev = $item->nama_sub_grup;
+                                            @endphp
+                                        @else
+                                            <tr>
+                                                <td>{{ $item->kode_instrumen }}</td>
+                                                <td>{{ $item->nama_instrumen }}</td>
+                                                <form action="{{ url('store-penilaian_ami') }}" method="POST">
+                                                    @csrf
+                                                    <td>
+                                                        <input type="hidden" name="butir_instrumen_id"
+                                                            value="{{ $item->butir_instrumen_id }}">
+                                                        <input type="hidden" name="grup_instrumen_id"
+                                                            value="{{ $item->grup_instrumen_id }}">
+                                                        <input type="hidden" name="kurikulum_instrumen_id"
+                                                            value="{{ $item->kurikulum_instrumen_id }}">
+                                                        <input type="hidden" name="jadwal_ami_id"
+                                                            value="{{ $item->jadwal_ami_id }}">
+                                                        <input type="hidden" name="sub_grup_id"
+                                                            value="{{ $item->sub_grup_id }}">
+                                                        {{-- <input name="skor" type="number" max="4" maxlength="4"
+                                                    value="{{ $item->skor }}" class="form-control"> --}}
+                                                        <select name="skor" id="" class="form-control"
+                                                            required>
+                                                            <option value=""
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
+                                                                --Pilih--</option>
+                                                            <option value="0"
+                                                                {{ $item->skor == 0 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>0
+                                                            </option>
+                                                            <option value="1"
+                                                                {{ $item->skor == 1 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>1
+                                                            </option>
+                                                            <option value="2"
+                                                                {{ $item->skor == 2 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>2
+                                                            </option>
+                                                            <option value="3"
+                                                                {{ $item->skor == 3 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>3
+                                                            </option>
+                                                            <option value="4"
+                                                                {{ $item->skor == 4 ? 'selected' : '' }}
+                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>4
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                                        <td>
+                                                            <button style="border-radius: 10px !important;"
+                                                                class="btn btn-sm btn-primary">Submit</button>
+                                                        </td>
+                                                    @endif
+                                                </form>
+                                            </tr>
+                                        @endif
 
-                                    @if ($k == $totalRows - 1)
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
+                                        @if ($k == $totalRows - 1)
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
 
 
-                        </table>
-                    </div>
+                            </table>
+                        </div>
+                    @endif
+
                     {{-- <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"

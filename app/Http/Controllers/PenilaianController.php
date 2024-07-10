@@ -53,7 +53,7 @@ class PenilaianController extends Controller
         // dd($data);
 
         $jadwal_amis = DB::table('jadwal_amis')
-            ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'kurikulum_instrumens.nama_kurikulum')
+            ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'kurikulum_instrumens.nama_kurikulum','kurikulum_instrumens.jenis_instrumen')
             ->leftJoin('users as users', 'users.id', 'jadwal_amis.input_oleh')
             ->leftJoin('users as auditor1', 'auditor1.id', 'jadwal_amis.auditor_satu')
             ->leftJoin('users as auditor2', 'auditor2.id', 'jadwal_amis.auditor_dua')
