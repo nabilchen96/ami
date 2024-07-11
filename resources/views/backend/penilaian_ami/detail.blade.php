@@ -427,9 +427,10 @@
 @push('script')
     <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 
-    <script src="{{ asset('js/accessibility.js') }}"></script>
+    
     <script src="{{ asset('js/highcharts.js') }}"></script>
     <script src="{{ asset('js/exporting.js') }}"></script>
+    <script src="{{ asset('js/accessibility.js') }}"></script>
     <script src="{{ asset('js/highcharts-more.js') }}"></script>
 
     {{-- <script src="https://code.highcharts.com/modules/accessibility.js"></script>

@@ -115,9 +115,10 @@
             })
         }
     </script>
-    <script src="{{ asset('js/accessibility.js') }}"></script>
+    
     <script src="{{ asset('js/highcharts.js') }}"></script>
     <script src="{{ asset('js/exporting.js') }}"></script>
+    <script src="{{ asset('js/accessibility.js') }}"></script>
     <script src="{{ asset('js/highcharts-more.js') }}"></script>
     <script>
         // Mengambil URL saat ini
