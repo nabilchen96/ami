@@ -115,10 +115,10 @@
             })
         }
     </script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="{{ asset('js/accessibility.js') }}"></script>
+    <script src="{{ asset('js/highcharts.js') }}"></script>
+    <script src="{{ asset('js/exporting.js') }}"></script>
+    <script src="{{ asset('js/highcharts-more.js') }}"></script>
     <script>
         // Mengambil URL saat ini
         var url = window.location.href;
