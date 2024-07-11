@@ -438,9 +438,9 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script> --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            getData()
-        })
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     getData()
+        // })
 
         // Mengambil URL saat ini
         var url = window.location.href;

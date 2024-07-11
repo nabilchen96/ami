@@ -105,15 +105,15 @@
     <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            getData()
-        })
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     getData()
+        // })
 
-        function getData() {
-            $("#myTable").DataTable({
-                "ordering": false,
-            })
-        }
+        // function getData() {
+        //     $("#myTable").DataTable({
+        //         "ordering": false,
+        //     })
+        // }
     </script>
     
     <script src="{{ asset('js/highcharts.js') }}"></script>
