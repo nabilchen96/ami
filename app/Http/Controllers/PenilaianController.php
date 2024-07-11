@@ -41,10 +41,12 @@ class PenilaianController extends Controller
                 'bi.id as butir_instrumen_id',
                 'bi.grup_instrumen_id',
                 'bi.kode_instrumen',
+                'bi.keterangan',
                 'gi.nama_grup_instrumen',
                 'sg.nama_sub_grup',
                 'sg.id as sub_grup_id',
-                'j.skor'
+                'j.skor',
+                'j.skor_persen',
             )
             ->where('ja.id', $id)
             ->get();
@@ -101,22 +103,60 @@ class PenilaianController extends Controller
 
     public function store(Request $request)
     {
+        
+        if($request->jenis_instrumen == "SN-DIKTI"){
+            $skor = $request->skor_persen;
+            if($skor == 100){
+                $nilainya = 4;
+            } elseif ($skor >= 66.0 && $skor <= 99.0) {
+                $nilainya = 3;
+            } elseif ($skor >= 33.0 && $skor <= 65.0) {
+                $nilainya = 2;
+            } elseif ($skor >= 0.0 && $skor <= 35.0) {
+                $nilainya = 1;
+            } else {
+                $nilainya = 0;
+            }
 
-        Jawaban::UpdateOrcreate(
-            [
-                'jadwal_ami_id' => $request->jadwal_ami_id,
-                'butir_instrumen_id' => $request->butir_instrumen_id
-            ],
-            [
-                'jadwal_ami_id' => $request->jadwal_ami_id,
-                'butir_instrumen_id' => $request->butir_instrumen_id,
-                'grup_instrumen_id' => $request->grup_instrumen_id,
-                'sub_grup_id' => $request->sub_grup_id,
-                'kurikulum_instrumen_id' => $request->kurikulum_instrumen_id,
-                'skor' => $request->skor,
-                'create_oleh' => Auth::id()
-            ]
-        );
+            Jawaban::UpdateOrcreate(
+                [
+                    'jadwal_ami_id' => $request->jadwal_ami_id,
+                    'butir_instrumen_id' => $request->butir_instrumen_id
+                ],
+                [
+                    'jadwal_ami_id' => $request->jadwal_ami_id,
+                    'butir_instrumen_id' => $request->butir_instrumen_id,
+                    'grup_instrumen_id' => $request->grup_instrumen_id,
+                    'sub_grup_id' => $request->sub_grup_id,
+                    'kurikulum_instrumen_id' => $request->kurikulum_instrumen_id,
+                    'skor' => $nilainya,
+                    'skor_persen' => $skor,
+                    'create_oleh' => Auth::id()
+                ]
+            );
+
+        } else {
+            $skor = $request->skor;
+            $nilainya = $skor;
+
+            Jawaban::UpdateOrcreate(
+                [
+                    'jadwal_ami_id' => $request->jadwal_ami_id,
+                    'butir_instrumen_id' => $request->butir_instrumen_id
+                ],
+                [
+                    'jadwal_ami_id' => $request->jadwal_ami_id,
+                    'butir_instrumen_id' => $request->butir_instrumen_id,
+                    'grup_instrumen_id' => $request->grup_instrumen_id,
+                    'sub_grup_id' => $request->sub_grup_id,
+                    'kurikulum_instrumen_id' => $request->kurikulum_instrumen_id,
+                    'skor' => $nilainya,
+                    'create_oleh' => Auth::id()
+                ]
+            );
+        }
+        
+        
 
         return back();
     }

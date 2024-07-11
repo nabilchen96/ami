@@ -43,7 +43,7 @@
                         Tambah
                     </button>
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
+                        <table id="myTable" class="table table-bordered" style="width: 100%;">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>

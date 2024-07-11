@@ -59,6 +59,11 @@
                                 <td>:</td>
                                 <td>{{ $jadwal->prodi }}</td>
                             </tr>
+                            <tr>
+                                <td>Rata-rata</td>
+                                <td>:</td>
+                                <td colspan="4"><b>{{ $rata2 }}</b></td>
+                            </tr>
                         </table>
                     </div>
 

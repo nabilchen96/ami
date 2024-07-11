@@ -75,7 +75,7 @@
 
                     @if ($jadwal->jenis_instrumen == 'BAN-PT' || $jadwal->jenis_instrumen == 'LAM')
                         <div class="table-responsive mt-4">
-                            <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
+                            <table id="myTable" class="table table-bordered" style="width: 100%;">
                                 <thead class="bg-primary text-white">
                                     <tr>
                                         <th></th>
@@ -136,6 +136,8 @@
                                                             value="{{ $item->jadwal_ami_id }}">
                                                         <input type="hidden" name="sub_grup_id"
                                                             value="{{ $item->sub_grup_id }}">
+                                                        <input type="hidden" name="jenis_instrumen"
+                                                            value="{{ $jadwal->jenis_instrumen }}">
                                                         {{-- <input name="skor" type="number" max="4" maxlength="4"
                                                         value="{{ $item->skor }}" class="form-control"> --}}
                                                         <select name="skor" id="" class="form-control" required>
@@ -188,6 +190,8 @@
                                                             value="{{ $item->jadwal_ami_id }}">
                                                         <input type="hidden" name="sub_grup_id"
                                                             value="{{ $item->sub_grup_id }}">
+                                                        <input type="hidden" name="jenis_instrumen"
+                                                            value="{{ $jadwal->jenis_instrumen }}">
                                                         {{-- <input name="skor" type="number" max="4" maxlength="4"
                                                         value="{{ $item->skor }}" class="form-control"> --}}
                                                         <select name="skor" id="" class="form-control" required>
@@ -232,13 +236,15 @@
                         </div>
                     @elseif($jadwal->jenis_instrumen == 'SN-DIKTI')
                         <div class="table-responsive mt-4">
-                            <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
+                            <table id="myTable" class="table table-bordered" style="width: 100%;">
                                 <thead class="bg-primary text-white">
                                     <tr>
                                         <th></th>
                                         <th></th>
                                         <th>Pertanyaan</th>
-                                        <th>Nilai</th>
+                                        <th>Sasaran Standar</th>
+                                        <th>Nilai (Persentase %)</th>
+                                        <th>Nilai (Skala 1-4)</th>
                                         @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                             <th></th>
                                         @endif
@@ -261,7 +267,7 @@
                                         @if ($namagrup != $namagrupprev)
                                             <tr style="background: green !important;">
                                                 <td
-                                                    colspan="{{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor' ? '5' : '4' }} ">
+                                                    colspan="{{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor' ? '7' : '6' }} ">
                                                     <b>{{ $item->nama_grup_instrumen }}</b>
                                                 </td>
                                             </tr>
@@ -280,6 +286,7 @@
                                                 </td>
                                                 <td>{{ $item->kode_instrumen }}</td>
                                                 <td>{{ $item->nama_instrumen }}</td>
+                                                <td><?php echo $item->keterangan; ?></td>
                                                 <form action="{{ url('store-penilaian_ami') }}" method="POST">
                                                     @csrf
                                                     <td>
@@ -293,34 +300,27 @@
                                                             value="{{ $item->jadwal_ami_id }}">
                                                         <input type="hidden" name="sub_grup_id"
                                                             value="{{ $item->sub_grup_id }}">
-                                                        {{-- <input name="skor" type="number" max="4" maxlength="4"
-                                                    value="{{ $item->skor }}" class="form-control"> --}}
-                                                        <select name="skor" id="" class="form-control"
-                                                            required>
-                                                            <option value=""
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
-                                                                --Pilih--</option>
-                                                            <option value="0"
-                                                                {{ $item->skor == 0 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>0
-                                                            </option>
-                                                            <option value="1"
-                                                                {{ $item->skor == 1 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>1
-                                                            </option>
-                                                            <option value="2"
-                                                                {{ $item->skor == 2 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>2
-                                                            </option>
-                                                            <option value="3"
-                                                                {{ $item->skor == 3 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>3
-                                                            </option>
-                                                            <option value="4"
-                                                                {{ $item->skor == 4 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>4
-                                                            </option>
-                                                        </select>
+                                                        <input type="hidden" name="jenis_instrumen"
+                                                            value="{{ $jadwal->jenis_instrumen }}">
+                                                        @php
+                                                            $persen = $item->skor_persen;
+                                                            if ($persen == 100) {
+                                                                $nilai = 4;
+                                                            } elseif ($persen >= 66.0 && $persen <= 99.0) {
+                                                                $nilai = 3;
+                                                            } elseif ($persen >= 33.0 && $persen <= 65.0) {
+                                                                $nilai = 2;
+                                                            } elseif ($persen >= 0.0 && $persen <= 35.0) {
+                                                                $nilai = 1;
+                                                            } else {
+                                                                $nilai = 0;
+                                                            }
+                                                        @endphp
+                                                        <input name="skor_persen" type="number" value="{{ $persen }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <input name="skor_persen" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
                                                     </td>
                                                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                         <td>
@@ -338,6 +338,7 @@
                                             <tr>
                                                 <td>{{ $item->kode_instrumen }}</td>
                                                 <td>{{ $item->nama_instrumen }}</td>
+                                                <td><?php echo $item->keterangan; ?></td>
                                                 <form action="{{ url('store-penilaian_ami') }}" method="POST">
                                                     @csrf
                                                     <td>
@@ -351,34 +352,27 @@
                                                             value="{{ $item->jadwal_ami_id }}">
                                                         <input type="hidden" name="sub_grup_id"
                                                             value="{{ $item->sub_grup_id }}">
-                                                        {{-- <input name="skor" type="number" max="4" maxlength="4"
-                                                    value="{{ $item->skor }}" class="form-control"> --}}
-                                                        <select name="skor" id="" class="form-control"
-                                                            required>
-                                                            <option value=""
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
-                                                                --Pilih--</option>
-                                                            <option value="0"
-                                                                {{ $item->skor == 0 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>0
-                                                            </option>
-                                                            <option value="1"
-                                                                {{ $item->skor == 1 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>1
-                                                            </option>
-                                                            <option value="2"
-                                                                {{ $item->skor == 2 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>2
-                                                            </option>
-                                                            <option value="3"
-                                                                {{ $item->skor == 3 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>3
-                                                            </option>
-                                                            <option value="4"
-                                                                {{ $item->skor == 4 ? 'selected' : '' }}
-                                                                {{ Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>4
-                                                            </option>
-                                                        </select>
+                                                        <input type="hidden" name="jenis_instrumen"
+                                                            value="{{ $jadwal->jenis_instrumen }}">
+                                                        @php
+                                                            $persen = $item->skor_persen;
+                                                            if ($persen == 100) {
+                                                                $nilai = 4;
+                                                            } elseif ($persen >= 66.0 && $persen <= 99.0) {
+                                                                $nilai = 3;
+                                                            } elseif ($persen >= 33.0 && $persen <= 65.0) {
+                                                                $nilai = 2;
+                                                            } elseif ($persen >= 0.0 && $persen <= 35.0) {
+                                                                $nilai = 1;
+                                                            } else {
+                                                                $nilai = 0;
+                                                            }
+                                                        @endphp
+                                                        <input name="skor_persen" type="number" value="{{ $persen }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control">
+
+                                                    </td>
+                                                    <td>
+                                                        <input name="skor_persen" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
                                                     </td>
                                                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                         <td>
