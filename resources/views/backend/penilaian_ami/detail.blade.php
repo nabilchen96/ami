@@ -320,7 +320,7 @@
                                                         
                                                     </td>
                                                     <td>
-                                                        <input name="skor_persen" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
+                                                        <input name="skor" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
                                                     </td>
                                                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                         <td>
@@ -372,7 +372,7 @@
 
                                                     </td>
                                                     <td>
-                                                        <input name="skor_persen" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
+                                                        <input name="skor" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
                                                     </td>
                                                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                         <td>
