@@ -83,6 +83,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-penilaian_ami', 'App\Http\Controllers\PenilaianController@update');
     Route::post('/delete-penilaian_ami', 'App\Http\Controllers\PenilaianController@delete');
 
+    // RECORD TEMUAN
+    Route::get('/record_temuan/{jadwal_ami_id}', 'App\Http\Controllers\RecordTemuanController@index');
+    Route::get('/data-record_temuan/{jadwal_ami_id}', 'App\Http\Controllers\RecordTemuanController@data');
+    Route::post('/store-record_temuan', 'App\Http\Controllers\RecordTemuanController@store');
+    Route::post('/update-record_temuan', 'App\Http\Controllers\RecordTemuanController@update');
+    Route::post('/delete-record_temuan', 'App\Http\Controllers\RecordTemuanController@delete');
+
     // LAPORAN AMI
     Route::get('/laporan_ami', 'App\Http\Controllers\LaporanController@index');
     Route::get('/laporan_ami/{id}', 'App\Http\Controllers\LaporanController@detail');

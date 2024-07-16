@@ -17,11 +17,11 @@
             background-color: #9e9e9e21 !important;
         }
 
-        th,
+        /* th,
         td {
             white-space: nowrap !important;
             vertical-align: middle !important;
-        }
+        } */
     </style>
 @endpush
 @section('content')
@@ -29,11 +29,12 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data User</h3>
+                    <h3 class="font-weight-bold">Record Temuan {{ $judul->judul }}</h3>
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-12 mt-4">
             <div class="card w-100">
@@ -46,13 +47,9 @@
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>No. HP</th>
-                                    <th>NIP</th>
-                                    <th>Role</th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
+                                    <th>No HP</th>
+                                    <th>Keterangan</th>
+                                    <th>Tgl. Input</th>
                                 </tr>
                             </thead>
                         </table>
@@ -67,47 +64,31 @@
             <div class="modal-content">
                 <form id="form">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">User Form</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">Isi Temuan</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
+                        <input type="text" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input name="email" id="email" type="email" placeholder="email"
-                                class="form-control form-control-sm" required>
-                            <span class="text-danger error" style="font-size: 12px;" id="email_alert"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Lengkap</label>
-                            <input name="name" id="name" type="text" placeholder="Nama Lengkap"
-                                class="form-control form-control-sm" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">NIP</label>
-                            <input name="nip" id="nip" type="text" placeholder="NIP"
-                                class="form-control form-control-sm" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">No. WA (Aktif)</label>
-                            <input name="nohp" id="nohp" type="number" placeholder="nohp"
+                            <label for="exampleInputEmail1">No HP</label>
+                            <input name="nohp" id="nohp" type="text" placeholder="No HP"
                                 class="form-control form-control-sm" required>
                             <span class="text-danger error" style="font-size: 12px;" id="nohp_alert"></span>
                         </div>
+
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input name="password" id="password" type="password" placeholder="Password"
-                                class="form-control form-control-sm" required>
-                            <span class="text-danger error" style="font-size: 12px;" id="password_alert"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Role</label>
-                            <select name="role" class="form-control" id="role" required>
-                                <option value="Admin">Admin</option>
-                                <option value="Auditor">Auditor</option>
-                                <option value="Auditee">Auditee</option>
-                            </select>
+                            <label for="exampleInputEmail1">Keterangan</label>
+                            <textarea name="isi_keterangan" id="isi_keterangan" class="form-control" cols="30" rows="10"></textarea>
+                            <span class="text-danger error" style="font-size: 12px;" id="isi_keterangan_alert"></span>
                         </div>
 
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tgl Input</label>
+                            <input name="tanggal_input" id="tanggal_input" type="date" placeholder="Tgl Input"
+                                class="form-control form-control-sm" required>
+                            <span class="text-danger error" style="font-size: 12px;" id="tanggal_input_alert"></span>
+                        </div>
+                        
                     </div>
                     <div class="modal-footer p-3">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
@@ -132,9 +113,10 @@
         })
 
         function getData() {
+            var jadwal_ami_id = document.getElementById('jadwal_ami_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-user',
+                ajax: '/data-record_temuan/'+jadwal_ami_id,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
@@ -148,46 +130,15 @@
                         }
                     },
                     {
-                        data: "name"
+                        data: "no_hp"
                     },
                     {
-                        data: "email"
+                        data: "isi_keterangan"
                     },
                     {
-                        data: "nohp"
+                        data: "tanggal_input"
                     },
-                    {
-                        data: "nip"
-                    },
-                    {
-                        render: function(data, type, row, meta) {
-                            
-                            if (row.role == "Admin") {
-                                return `<span class="badge badge-success">${row.role}</span>`
-                            } else if (row.role == "Auditor") {
-                                return `<span class="badge badge-primary">${row.role}</span>`
-                            } else if (row.role == "Auditee") {
-                                return `<span class="badge badge-warning">${row.role}</span>`
-                            }
-                        }
-                    },
-
-                    {
-                        render: function(data, type, row, meta) {
-                            return `<a data-toggle="modal" data-target="#modal"
-                                    data-bs-id=` + (row.id) + ` href="javascript:void(0)">
-                                    <i style="font-size: 1.5rem;" class="text-success bi bi-grid"></i>
-                                </a>`
-                        }
-                    },
-                    {
-                        render: function(data, type, row, meta) {
-                            return `<a href="javascript:void(0)" onclick="hapusData(` + (row
-                                .id) + `)">
-                                    <i style="font-size: 1.5rem;" class="text-danger bi bi-trash"></i>
-                                </a>`
-                        }
-                    },
+                    
                 ]
             })
         }
@@ -208,11 +159,7 @@
             if (recipient) {
                 var modal = $(this)
                 modal.find('#id').val(cokData[0].id)
-                modal.find('#email').val(cokData[0].email)
-                modal.find('#nohp').val(cokData[0].nohp)
-                modal.find('#name').val(cokData[0].name)
-                modal.find('#role').val(cokData[0].role)
-                modal.find('#nip').val(cokData[0].nip)
+                modal.find('#nama_grup_instrumen').val(cokData[0].nama_grup_instrumen)
             }
         })
 
@@ -226,7 +173,7 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-user' : '/update-user',
+                    url: formData.get('id') == '' ? '/store-record_temuan' : '/update-record_temuan',
                     data: formData,
                 })
                 .then(function(res) {
@@ -272,7 +219,7 @@
             }).then((result) => {
 
                 if (result.value) {
-                    axios.post('/delete-user', {
+                    axios.post('/delete-grup_instrumen', {
                             id
                         })
                         .then((response) => {

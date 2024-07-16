@@ -18,6 +18,7 @@ class CreateRecordTemuansTable extends Migration
             $table->unsignedBigInteger('jadwal_ami_id')->nullable();
             $table->string('no_hp')->nullable();
             $table->text('isi_keterangan')->nullable();
+            $table->date('tanggal_input')->nullable();
             $table->timestamps();
 
             $table->foreign('jadwal_ami_id')->references('id')->on('jadwal_amis')

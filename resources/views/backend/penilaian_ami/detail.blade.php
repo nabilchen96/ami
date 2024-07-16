@@ -63,9 +63,12 @@
                             <tr>
                                 <td>Link Dokumen</td>
                                 <td>:</td>
-                                <td colspan="4">
+                                <td colspan="3">
                                     <a target="_blank"
                                         href="{{ $jadwal->link_upload_dokumen }}">{{ $jadwal->link_upload_dokumen }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ url('record_temuan/'.$jadwal->id) }}" class="btn btn-warning">List Temuan</a>
                                 </td>
                             </tr>
                         </table>
