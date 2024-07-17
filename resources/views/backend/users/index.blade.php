@@ -96,7 +96,7 @@
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
                             <input name="password" id="password" type="password" placeholder="Password"
-                                class="form-control form-control-sm" required>
+                                class="form-control form-control-sm">
                             <span class="text-danger error" style="font-size: 12px;" id="password_alert"></span>
                         </div>
                         <div class="form-group">
@@ -246,7 +246,7 @@
                         getData()
 
                     } else {
-
+                        document.getElementById('password_alert').innerHTML = res.data.respon.password ?? ''
                         console.log('terjadi error');
                     }
 
