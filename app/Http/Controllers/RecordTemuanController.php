@@ -2,38 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KurikulumInstrumen;
+use App\Models\RecordTemuan;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 
-class KurikulumInstrumenController extends Controller
+class RecordTemuanController extends Controller
 {
-    public function index()
+    public function index($jadwal_ami_id)
     {
-        return view('backend.kurikulum_instrumens.index');
+        $judul= DB::table('jadwal_amis')->where('id',$jadwal_ami_id)->first();
+        
+        return view('backend.record_temuans.index', compact('jadwal_ami_id','judul'));
     }
 
-    public function data()
+    public function data($jadwal_ami_id)
     {
 
-        $kurikulum_instrumens = DB::table('kurikulum_instrumens')
-            ->select('kurikulum_instrumens.*', 'users.name')
-            ->leftJoin('users', 'users.id', 'kurikulum_instrumens.input_oleh');
+        $record_temuans = DB::table('record_temuans')
+        ->leftJoin('jadwal_amis', 'jadwal_amis.id', 'record_temuans.jadwal_ami_id')
+        ->where('record_temuans.jadwal_ami_id', $jadwal_ami_id);
 
-        $kurikulum_instrumens = $kurikulum_instrumens->get();
+        $record_temuans = $record_temuans->get();
 
 
-        return response()->json(['data' => $kurikulum_instrumens]);
+        return response()->json(['data' => $record_temuans]);
     }
 
     public function store(Request $request)
     {
 
-
+dd($request->all());
         $validator = Validator::make($request->all(), [
-            'nama_kurikulum'   => 'required',
+            'jadwal_ami_id'   => 'required',
+            'no_hp'   => 'required',
+            'no_isi_keterangan'   => 'required',
+            'tanggal_input'   => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -42,10 +47,11 @@ class KurikulumInstrumenController extends Controller
                 'respon'        => $validator->errors()
             ];
         } else {
-            $data = KurikulumInstrumen::create([
-                'nama_kurikulum'   => $request->nama_kurikulum,
-                'jenis_instrumen'  => $request->jenis_instrumen,
-                'input_oleh'       => Auth::user()->id,
+            $data = RecordTemuan::create([
+                'jadwal_ami_id'   => $request->jadwal_ami_id,
+                'no_hp'  => $request->no_hp,
+                'isi_keterangan'       => $request->isi_keterangan,
+                'tanggal_input'       => $request->tanggal_input,
             ]);
 
             $data = [
@@ -71,11 +77,12 @@ class KurikulumInstrumenController extends Controller
             ];
         } else {
 
-            $kurikulum_instrumens = KurikulumInstrumen::find($request->id);
-            $data = $kurikulum_instrumens->update([
+            $record_temuans = RecordTemuan::find($request->id);
+            $data = $record_temuans->update([
                 'nama_kurikulum'   => $request->nama_kurikulum,
                 'jenis_instrumen'  => $request->jenis_instrumen,
                 'is_aktif'   => $request->is_aktif,
+                'tanggal_input'       => $request->tanggal_input,
             ]);
 
             $data = [
@@ -90,7 +97,7 @@ class KurikulumInstrumenController extends Controller
     public function delete(Request $request)
     {
 
-        $data = KurikulumInstrumen::find($request->id)->delete();
+        $data = RecordTemuan::find($request->id)->delete();
 
         $data = [
             'responCode'    => 1,

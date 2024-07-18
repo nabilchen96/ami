@@ -59,9 +59,13 @@ class LaporanController extends Controller
 
         $jadwal_amis = $jadwal_amis->first();
 
+        $getAVG =  DB::table('jawabans')->select(DB::raw('AVG(skor) as rata_rata'))->where('jadwal_ami_id', $id )->first();
+        // dd($getAVG->rata_rata);
+
         return view('backend.laporan_ami.detail', [
             'data' => $data,
-            'jadwal' => $jadwal_amis
+            'jadwal' => $jadwal_amis,
+            'rata2' => $getAVG->rata_rata,
         ]);
     }
 

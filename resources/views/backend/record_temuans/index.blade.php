@@ -17,11 +17,11 @@
             background-color: #9e9e9e21 !important;
         }
 
-        th,
+        /* th,
         td {
             white-space: nowrap !important;
             vertical-align: middle !important;
-        }
+        } */
     </style>
 @endpush
 @section('content')
@@ -29,11 +29,12 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data Kurikulum Instrumen</h3>
+                    <h3 class="font-weight-bold">Record Temuan {{ $judul->judul }}</h3>
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-12 mt-4">
             <div class="card w-100">
@@ -46,13 +47,9 @@
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Nama Kurikulum</th>
-                                    <th>Jenis Instrumen</th>
-                                    <th>User</th>
-                                    <th>Aktif?</th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
+                                    <th>No HP</th>
+                                    <th>Keterangan</th>
+                                    <th>Tgl. Input</th>
                                 </tr>
                             </thead>
                         </table>
@@ -67,35 +64,29 @@
             <div class="modal-content">
                 <form id="form">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">Kurikulum Form</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">Isi Temuan</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
+                        <input type="text" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Kurikulum Instrumen</label>
-                            <input name="nama_kurikulum" id="nama_kurikulum" type="text" placeholder="Nama Kurikulum Instrumen"
+                            <label for="exampleInputEmail1">No HP</label>
+                            <input name="nohp" id="nohp" type="text" placeholder="No HP"
                                 class="form-control form-control-sm" required>
-                            <span class="text-danger error" style="font-size: 12px;" id="nama_kurikulum_alert"></span>
+                            <span class="text-danger error" style="font-size: 12px;" id="nohp_alert"></span>
                         </div>
 
                         <div class="form-group">
-                            <label for="jenis_instrumen">Nama Kurikulum Instrumen</label>
-                            <select name="jenis_instrumen" class="form-control" id="jenis_instrumen" required>
-                                <option value="">--Pilih Jenis Instrumen--</option>
-                                <option value="BAN-PT">BAN-PT</option>
-                                <option value="SN-DIKTI">SN-DIKTI</option>
-                                <option value="LAM">LAM</option>
-                            </select>
-                            <span class="text-danger error" style="font-size: 12px;" id="jenis_instrumen_alert"></span>
+                            <label for="exampleInputEmail1">Keterangan</label>
+                            <textarea name="isi_keterangan" id="isi_keterangan" class="form-control" cols="30" rows="10"></textarea>
+                            <span class="text-danger error" style="font-size: 12px;" id="isi_keterangan_alert"></span>
                         </div>
 
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Aktifkan?</label>
-                            <select class="form-control" name="is_aktif" id="is_aktif">
-                                <option value="1">Ya</option>
-                                <option value="0">Tidak</option>
-                            </select>
-                            <span class="text-danger error" style="font-size: 12px;" id="is_aktif_alert"></span>
+                            <label for="exampleInputEmail1">Tgl Input</label>
+                            <input name="tanggal_input" id="tanggal_input" type="date" placeholder="Tgl Input"
+                                class="form-control form-control-sm" required>
+                            <span class="text-danger error" style="font-size: 12px;" id="tanggal_input_alert"></span>
                         </div>
                         
                     </div>
@@ -122,9 +113,10 @@
         })
 
         function getData() {
+            var jadwal_ami_id = document.getElementById('jadwal_ami_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-kurikulum_instrumen',
+                ajax: '/data-record_temuan/'+jadwal_ami_id,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
@@ -138,51 +130,15 @@
                         }
                     },
                     {
-                        data: "nama_kurikulum"
+                        data: "no_hp"
                     },
                     {
-                        data: "jenis_instrumen"
+                        data: "isi_keterangan"
                     },
                     {
-                        data: "name"
+                        data: "tanggal_input"
                     },
-
-                    {
-                        render: function(data, type, row, meta) {
-                            
-                            if (row.is_aktif == "1") {
-                                return `<span class="badge badge-success">Ya</span>`
-                            } else if (row.is_aktif == "0") {
-                                return `<span class="badge badge-danger">Tidak</span>`
-                            }
-                        }
-                    },
-
-                    {
-                   render: function (data, type, row, meta) {
-                        return `<a 
-                                href="butir_instrumen/${row.id}">
-                            <i style="font-size: 1.5rem;" class="text-primary bi bi-info-circle"></i>
-                        </a>`
-                    }
-                },
-
-                    {
-                        render: function(data, type, row, meta) {
-                            return `<a data-toggle="modal" data-target="#modal"
-                                    data-bs-id=` + (row.id) + ` href="javascript:void(0)">
-                                    <i style="font-size: 1.5rem;" class="text-success bi bi-grid"></i>
-                                </a>`
-                        }
-                    },
-                    {
-                        render: function(data, type, row, meta) {
-                            return `<a href="javascript:void(0)" onclick="hapusData(` + (row
-                                .id) + `)">
-                                    <i style="font-size: 1.5rem;" class="text-danger bi bi-trash"></i>
-                                </a>`
-                        }
-                    },
+                    
                 ]
             })
         }
@@ -203,9 +159,7 @@
             if (recipient) {
                 var modal = $(this)
                 modal.find('#id').val(cokData[0].id)
-                modal.find('#nama_kurikulum').val(cokData[0].nama_kurikulum)
-                modal.find('#jenis_instrumen').val(cokData[0].jenis_instrumen)
-                modal.find('#is_aktif').val(cokData[0].is_aktif)
+                modal.find('#nama_grup_instrumen').val(cokData[0].nama_grup_instrumen)
             }
         })
 
@@ -219,7 +173,7 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-kurikulum_instrumen' : '/update-kurikulum_instrumen',
+                    url: formData.get('id') == '' ? '/store-record_temuan' : '/update-record_temuan',
                     data: formData,
                 })
                 .then(function(res) {
@@ -265,7 +219,7 @@
             }).then((result) => {
 
                 if (result.value) {
-                    axios.post('/delete-kurikulum_instrumen', {
+                    axios.post('/delete-grup_instrumen', {
                             id
                         })
                         .then((response) => {
