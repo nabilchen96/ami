@@ -142,6 +142,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="#">
+                                {{ Auth::user()->name }} : {{ Auth::user()->role }}
+                            </a>
                             <a class="dropdown-item" href="{{ url('logout') }}">
                                 <i class="ti-power-off text-primary"></i>
                                 Logout
