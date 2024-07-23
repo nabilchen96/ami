@@ -29,7 +29,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data Grup Instrumen</h3>
+                    <h3 class="font-weight-bold">Data Sasaran Standar</h3>
                 </div>
             </div>
         </div>
@@ -68,14 +68,12 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
-                    
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nama Grup Instrumen</label>
-                            <input name="nama_grup_instrumen[]" id="nama_grup_instrumen" type="text" placeholder="Nama Grup Instrumen"
-                                class="form-control form-control-sm" >
+                            <input name="nama_grup_instrumen" id="nama_grup_instrumen" type="text" placeholder="Nama Grup Instrumen"
+                                class="form-control form-control-sm" required>
                             <span class="text-danger error" style="font-size: 12px;" id="nama_grup_instrumen_alert"></span>
                         </div>
-
                         
                     </div>
                     <div class="modal-footer p-3">

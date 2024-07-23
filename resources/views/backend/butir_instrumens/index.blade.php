@@ -18,10 +18,10 @@
         }
 
         /* th,
-            td {
-                white-space: nowrap !important;
-                vertical-align: middle !important;
-            } */
+                td {
+                    white-space: nowrap !important;
+                    vertical-align: middle !important;
+                } */
     </style>
 @endpush
 @section('content')
@@ -210,7 +210,9 @@
                     {
                         render: function(data, type, row, meta) {
                             return `
-                                ${row.keterangan}
+                                <a href="edit-butir_instrumen/${row.id}">
+                                    <i style="font-size: 1.5rem;" class="text-info text-center bi bi-eye"></i>
+                                </a>
                             `
                         }
                     },

@@ -68,7 +68,8 @@
                                         href="{{ $jadwal->link_upload_dokumen }}">{{ $jadwal->link_upload_dokumen }}</a>
                                 </td>
                                 <td>
-                                    <a href="{{ url('record_temuan/'.$jadwal->id) }}" class="btn btn-warning">List Temuan</a>
+                                    <a href="{{ url('record_temuan/' . $jadwal->id) }}" class="btn btn-warning">List
+                                        Temuan</a>
                                 </td>
                             </tr>
                         </table>
@@ -289,7 +290,35 @@
                                                 </td>
                                                 <td>{{ $item->kode_instrumen }}</td>
                                                 <td>{{ $item->nama_instrumen }}</td>
-                                                <td><?php echo $item->keterangan; ?></td>
+                                                <td>
+                                                    @php
+                                                        $subs = DB::table('sub_butir_instrumens')
+                                                            ->where('butir_instrumen_id', $item->butir_instrumen_id)
+                                                            ->get();
+                                                    @endphp
+
+                                                    <ul>
+                                                        @foreach ($subs as $subss)
+                                                            <li>{{ $subss->nama_sub_butir }}
+                                                                @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                                                    @if ($subss->upload_file == '1')
+                                                                        <a href="{{ url('berkas/' . $subss->id) }}">Cek
+                                                                            File</a>
+                                                                    @else
+                                                                    @endif
+                                                                @else
+                                                                    @if ($subss->upload_file == '1')
+                                                                        <a href="{{ url('berkas/' . $subss->id) }}">Upload
+                                                                            File</a>
+                                                                    @else
+                                                                    @endif
+                                                                @endif
+
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+
+                                                </td>
                                                 <form action="{{ url('store-penilaian_ami') }}" method="POST">
                                                     @csrf
                                                     <td>
@@ -319,11 +348,16 @@
                                                                 $nilai = 0;
                                                             }
                                                         @endphp
-                                                        <input name="skor_persen" type="number" value="{{ $persen }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" >
-                                                        
+                                                        <input name="skor_persen" type="number"
+                                                            value="{{ $persen }}"
+                                                            @if (Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif
+                                                            class="form-control">
+
                                                     </td>
                                                     <td>
-                                                        <input name="skor" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" readonly>
+                                                        <input name="skor" type="number" value="{{ $item->skor }}"
+                                                            @if (Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif
+                                                            class="form-control" readonly>
                                                     </td>
                                                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                         <td>
@@ -341,7 +375,30 @@
                                             <tr>
                                                 <td>{{ $item->kode_instrumen }}</td>
                                                 <td>{{ $item->nama_instrumen }}</td>
-                                                <td><?php echo $item->keterangan; ?></td>
+                                                <td>
+                                                    @php
+                                                        $subs = DB::table('sub_butir_instrumens')
+                                                            ->where('butir_instrumen_id', $item->butir_instrumen_id)
+                                                            ->get();
+                                                    @endphp
+                                                    @foreach ($subs as $subss)
+                                                        <li>{{ $subss->nama_sub_butir }}
+                                                            @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                                                @if ($subss->upload_file == '1')
+                                                                    <a href="{{ url('berkas/' . $subss->id) }}">Cek File</a>
+                                                                @else
+                                                                @endif
+                                                            @else
+                                                                @if ($subss->upload_file == '1')
+                                                                    <a href="{{ url('berkas/' . $subss->id) }}">Upload
+                                                                        File</a>
+                                                                @else
+                                                                @endif
+                                                            @endif
+
+                                                        </li>
+                                                    @endforeach
+                                                </td>
                                                 <form action="{{ url('store-penilaian_ami') }}" method="POST">
                                                     @csrf
                                                     <td>
@@ -371,11 +428,16 @@
                                                                 $nilai = 0;
                                                             }
                                                         @endphp
-                                                        <input name="skor_persen" type="number" value="{{ $persen }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control">
+                                                        <input name="skor_persen" type="number"
+                                                            value="{{ $persen }}"
+                                                            @if (Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif
+                                                            class="form-control">
 
                                                     </td>
                                                     <td>
-                                                        <input name="skor" type="number" value="{{ $item->skor }}" @if(Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif class="form-control" readonly>
+                                                        <input name="skor" type="number" value="{{ $item->skor }}"
+                                                            @if (Auth::user()->role == 'Auditee') {{ 'disabled' }} @endif
+                                                            class="form-control" readonly>
                                                     </td>
                                                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                         <td>
@@ -430,7 +492,7 @@
 @push('script')
     <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 
-    
+
     <script src="{{ asset('js/accessibility.js') }}"></script>
     <script src="{{ asset('js/highcharts.js') }}"></script>
     <script src="{{ asset('js/exporting.js') }}"></script>
