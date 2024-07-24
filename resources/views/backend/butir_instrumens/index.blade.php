@@ -210,7 +210,7 @@
                     {
                         render: function(data, type, row, meta) {
                             return `
-                                <a href="edit-butir_instrumen/${row.id}">
+                                <a href="/subbutir_instrumen/${row.id}">
                                     <i style="font-size: 1.5rem;" class="text-info text-center bi bi-eye"></i>
                                 </a>
                             `

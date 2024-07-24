@@ -25,11 +25,12 @@
     </style>
 @endpush
 @section('content')
+
     <div class="row" style="margin-top: -200px;">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data Sasaran Standar</h3>
+                    <h3 class="font-weight-bold">Data Sasaran Standar </h3>
                 </div>
             </div>
         </div>
@@ -38,6 +39,8 @@
         <div class="col-12 mt-4">
             <div class="card w-100">
                 <div class="card-body">
+                    {{ $butir_instrumen->nama_instrumen }}
+                    <hr>
                     <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
                         Tambah
                     </button>
@@ -47,7 +50,7 @@
                                 <tr>
                                     <th width="5%">No</th>
                                     <th>Name</th>
-                                    <th>User</th>
+                                    <th>Upload File?</th>
                                     <th width="5%"></th>
                                     <th width="5%"></th>
                                 </tr>
@@ -68,11 +71,21 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="butir_instrumen_id" id="butir_instrumen_id" value="{{ $butir_instrumen_id }}">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Grup Instrumen</label>
-                            <input name="nama_grup_instrumen" id="nama_grup_instrumen" type="text" placeholder="Nama Grup Instrumen"
+                            <label for="exampleInputEmail1">Nama Sub Butir Instrumen</label>
+                            <input name="nama_sub_butir" id="nama_sub_butir" type="text" placeholder="Nama Sub Butir Instrumen"
                                 class="form-control form-control-sm" required>
-                            <span class="text-danger error" style="font-size: 12px;" id="nama_grup_instrumen_alert"></span>
+                            <span class="text-danger error" style="font-size: 12px;" id="nama_sub_butir_alert"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Upload File?</label>
+                            <select class="form-control" name="upload_file" id="upload_file">
+                                <option value="">--Pilih--</option>
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="upload_file"></span>
                         </div>
                         
                     </div>
@@ -99,9 +112,10 @@
         })
 
         function getData() {
+            var butir_instrumen_id = document.getElementById('butir_instrumen_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-grup_instrumen',
+                ajax: '/data-subbutir_instrumen/'+butir_instrumen_id,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
@@ -115,10 +129,17 @@
                         }
                     },
                     {
-                        data: "nama_grup_instrumen"
+                        data: "nama_sub_butir"
                     },
                     {
-                        data: "name"
+                        render: function(data, type, row, meta) {
+                            
+                            if (row.upload_file == "1") {
+                                return `<span class="badge badge-success">Ya</span>`
+                            } else if (row.upload_file == "0") {
+                                return `<span class="badge badge-warning">Tidak</span>`
+                            }
+                        }
                     },
 
                     {
@@ -157,7 +178,8 @@
             if (recipient) {
                 var modal = $(this)
                 modal.find('#id').val(cokData[0].id)
-                modal.find('#nama_grup_instrumen').val(cokData[0].nama_grup_instrumen)
+                modal.find('#nama_sub_butir').val(cokData[0].nama_sub_butir)
+                modal.find('#upload_file').val(cokData[0].upload_file)
             }
         })
 
@@ -171,7 +193,7 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-grup_instrumen' : '/update-grup_instrumen',
+                    url: formData.get('id') == '' ? '/store-subbutir_instrumen' : '/update-subbutir_instrumen',
                     data: formData,
                 })
                 .then(function(res) {
@@ -217,7 +239,7 @@
             }).then((result) => {
 
                 if (result.value) {
-                    axios.post('/delete-grup_instrumen', {
+                    axios.post('/delete-subbutir_instrumen', {
                             id
                         })
                         .then((response) => {

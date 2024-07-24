@@ -65,6 +65,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-butir_instrumen', 'App\Http\Controllers\ButirInstrumenController@update');
     Route::post('/delete-butir_instrumen', 'App\Http\Controllers\ButirInstrumenController@delete');
 
+    // BUTIR INSTRUMEN
+    Route::get('/subbutir_instrumen/{butir_instrumen_id}', 'App\Http\Controllers\SubButirInstrumenController@index');
+    Route::get('/data-subbutir_instrumen/{butir_instrumen_id}', 'App\Http\Controllers\SubButirInstrumenController@data');
+    Route::get('subbutir_instrumen/edit-butir_instrumen/{id}', 'App\Http\Controllers\SubButirInstrumenController@edit');
+    Route::post('/store-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@store');
+    Route::post('/update-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@update');
+    Route::post('/delete-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@delete');
+
     Route::get('/sub_grups_by_grup_id/{id}', 'App\Http\Controllers\ButirInstrumenController@getSubGrup');
 
     // JADWAL AMI

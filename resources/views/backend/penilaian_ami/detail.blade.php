@@ -246,7 +246,7 @@
                                         <th></th>
                                         <th></th>
                                         <th>Pertanyaan</th>
-                                        <th>Sasaran Standar</th>
+                                        <th> Standar</th>
                                         <th>Nilai (Persentase %)</th>
                                         <th>Nilai (Skala 1-4)</th>
                                         @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
@@ -302,15 +302,24 @@
                                                             <li>{{ $subss->nama_sub_butir }}
                                                                 @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                                     @if ($subss->upload_file == '1')
-                                                                        <a href="{{ url('berkas/' . $subss->id) }}">Cek
-                                                                            File</a>
+                                                                        <a href="{{ url('berkas/' . $subss->id) }}"
+                                                                            title="Cek File">Cek File</a>
                                                                     @else
                                                                     @endif
                                                                 @else
-                                                                    @if ($subss->upload_file == '1')
-                                                                        <a href="{{ url('berkas/' . $subss->id) }}">Upload
-                                                                            File</a>
+                                                                    @php
+                                                                        $today = date('Y-m-d');
+                                                                    @endphp
+                                                                    @if ($jadwal->tgl_akhir_upload < $today)
+                                                                        <a href="#" title="Upload File"
+                                                                            class="text-danger">Batas Waktu Upload telah
+                                                                            Selesai</a>
                                                                     @else
+                                                                        @if ($subss->upload_file == '1')
+                                                                            <a href="{{ url('berkas/' . $subss->id) }}"
+                                                                                title="Upload File">Upload File</a>
+                                                                        @else
+                                                                        @endif
                                                                     @endif
                                                                 @endif
 
@@ -385,14 +394,24 @@
                                                         <li>{{ $subss->nama_sub_butir }}
                                                             @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                                 @if ($subss->upload_file == '1')
-                                                                    <a href="{{ url('berkas/' . $subss->id) }}">Cek File</a>
+                                                                    <a href="{{ url('berkas/' . $subss->id) }}">Cek
+                                                                        File</a>
                                                                 @else
                                                                 @endif
                                                             @else
-                                                                @if ($subss->upload_file == '1')
-                                                                    <a href="{{ url('berkas/' . $subss->id) }}">Upload
-                                                                        File</a>
+                                                                @php
+                                                                    $today = date('Y-m-d');
+                                                                @endphp
+                                                                @if ($jadwal->tgl_akhir_upload < $today)
+                                                                    <a href="#" title="Upload File"
+                                                                        class="text-danger">Batas Waktu Upload telah
+                                                                        Selesai</a>
                                                                 @else
+                                                                    @if ($subss->upload_file == '1')
+                                                                        <a href="{{ url('berkas/' . $subss->id) }}"
+                                                                            title="Upload File">Upload File</a>
+                                                                    @else
+                                                                    @endif
                                                                 @endif
                                                             @endif
 
