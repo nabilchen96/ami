@@ -235,7 +235,7 @@
                             return `
                                 
                                     <p>${row.nama_kurikulum}</p>
-                                    <p>Link Unggah Dok. : <a target="_blank" href=${row.link_upload_dokumen}>${row.link_upload_dokumen}</a></p>
+                                    <p style="display:none">Link Unggah Dok. : <a target="_blank" href=${row.link_upload_dokumen}>${row.link_upload_dokumen}</a></p>
                             `
                         }
                     },

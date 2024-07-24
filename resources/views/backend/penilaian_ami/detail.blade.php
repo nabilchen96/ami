@@ -61,15 +61,17 @@
                                 <td>{{ $jadwal->prodi }}</td>
                             </tr>
                             <tr>
-                                <td>Link Dokumen</td>
+                                <td>List Temuan</td>
                                 <td>:</td>
                                 <td colspan="3">
-                                    <a target="_blank"
-                                        href="{{ $jadwal->link_upload_dokumen }}">{{ $jadwal->link_upload_dokumen }}</a>
+                                    {{-- <a target="_blank"
+                                        href="{{ $jadwal->link_upload_dokumen }}">{{ $jadwal->link_upload_dokumen }}</a> --}}
+                                        <a href="{{ url('record_temuan/' . $jadwal->id) }}" class="btn btn-warning">List
+                                            Temuan</a>
                                 </td>
                                 <td>
-                                    <a href="{{ url('record_temuan/' . $jadwal->id) }}" class="btn btn-warning">List
-                                        Temuan</a>
+                                    {{-- <a href="{{ url('record_temuan/' . $jadwal->id) }}" class="btn btn-warning">List
+                                        Temuan</a> --}}
                                 </td>
                             </tr>
                         </table>
