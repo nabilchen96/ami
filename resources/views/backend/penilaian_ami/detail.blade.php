@@ -304,7 +304,7 @@
                                                             <li>{{ $subss->nama_sub_butir }}
                                                                 @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                                     @if ($subss->upload_file == '1')
-                                                                        <a href="{{ url('berkas/' . $subss->id) }}"
+                                                                        <a href="{{ url('file_subbutir_instrumen/' . $subss->id) }}"
                                                                             title="Cek File">Cek File</a>
                                                                     @else
                                                                     @endif
@@ -318,7 +318,7 @@
                                                                             Selesai</a>
                                                                     @else
                                                                         @if ($subss->upload_file == '1')
-                                                                            <a href="{{ url('berkas/' . $subss->id) }}"
+                                                                            <a href="{{ url('file_subbutir_instrumen/' . $subss->id) }}"
                                                                                 title="Upload File">Upload File</a>
                                                                         @else
                                                                         @endif
@@ -396,7 +396,7 @@
                                                         <li>{{ $subss->nama_sub_butir }}
                                                             @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                                 @if ($subss->upload_file == '1')
-                                                                    <a href="{{ url('berkas/' . $subss->id) }}">Cek
+                                                                    <a href="{{ url('file_subbutir_instrumen/' . $subss->id) }}">Cek
                                                                         File</a>
                                                                 @else
                                                                 @endif
@@ -410,7 +410,7 @@
                                                                         Selesai</a>
                                                                 @else
                                                                     @if ($subss->upload_file == '1')
-                                                                        <a href="{{ url('berkas/' . $subss->id) }}"
+                                                                        <a href="{{ url('file_subbutir_instrumen/' . $subss->id) }}"
                                                                             title="Upload File">Upload File</a>
                                                                     @else
                                                                     @endif
