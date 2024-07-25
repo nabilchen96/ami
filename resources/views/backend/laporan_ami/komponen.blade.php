@@ -16,11 +16,6 @@
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #9e9e9e21 !important;
         }
-
-        td,
-        th {
-            white-space: nowrap !important;
-        }
     </style>
 @endpush
 @section('content')
@@ -67,16 +62,15 @@
                         </table>
                     </div>
 
-                    <div id="spider-chart-container" class="border"
-                        style="padding-top: 20px; width: 100%; height: 300px; margin: 0 auto">
+                    <div id="spider-chart-container" class="border" style="padding-top: 20px; width: 100%; height: 300px; margin: 0 auto">
                     </div>
                     <div class="table-responsive mt-4">
                         <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th></th>
-                                    <th>Grup Komponen</th>
-                                    <th>Rata-rata Nilai</th>
+                                    <th>Nama Instrumen</th>
+                                    <th>Nilai</th>
                                     {{-- <th></th> --}}
                                 </tr>
                             </thead>
@@ -84,12 +78,8 @@
                                 @foreach ($data as $k => $item)
                                     <tr>
                                         <td>{{ $k + 1 }}</td>
-                                        <td>
-                                            <a href="{{ url('laporan_ami') }}/{{ $item->jadwal_ami_id }}/{{ $item->grup_instrumen_id}}">
-                                                {{ $item->nama_grup_instrumen }}
-                                            </a>
-                                        </td>
-                                        <td>{{ round($item->rata_rata, 2) }}</td>
+                                        <td>{{ $item->nama_instrumen }}</td>
+                                        <td>{{ $item->skor }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -120,7 +110,7 @@
         //     })
         // }
     </script>
-
+    
     {{-- <script src="{{ asset('js/highcharts.js') }}"></script>
     <script src="{{ asset('js/exporting.js') }}"></script>
     <script src="{{ asset('js/accessibility.js') }}"></script>
@@ -138,9 +128,12 @@
         var urlParts = url.split('/');
 
         // Mengambil elemen terakhir dari array yang merupakan angka
-        var angka = urlParts[urlParts.length - 1];
+        var angka = urlParts[urlParts.length - 2];
+        var angka2 = urlParts[urlParts.length - 1];
 
-        axios.get('/data-laporan_ami/' + angka).then(function(res) {
+        // console.log(angka2);
+
+        axios.get('/data-laporan_ami/' + angka + '/' + angka2).then(function(res) {
 
             let grup = res.data.map(function(e, index) {
                 // return e.nama_grup_instrumen
@@ -148,7 +141,7 @@
             })
 
             let nilai = res.data.map(function(e) {
-                return e.rata_rata;
+                return e.skor;
             });
 
             nilaiami(grup, nilai)

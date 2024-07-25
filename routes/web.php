@@ -109,7 +109,9 @@ Route::group(['middleware' => 'auth'], function () {
     // LAPORAN AMI
     Route::get('/laporan_ami', 'App\Http\Controllers\LaporanController@index');
     Route::get('/laporan_ami/{id}', 'App\Http\Controllers\LaporanController@detail');
+    Route::get('/laporan_ami/{id}/{id_komponen}', 'App\Http\Controllers\LaporanController@detailKomponen');
     Route::get('/data-laporan_ami/{id}', 'App\Http\Controllers\LaporanController@data');
+    Route::get('/data-laporan_ami/{id}/{id_komponen}', 'App\Http\Controllers\LaporanController@dataKomponen');
 });
 
 //LOGOUT
