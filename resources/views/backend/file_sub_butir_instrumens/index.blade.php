@@ -18,10 +18,10 @@
         }
 
         /* th,
-                                    td {
-                                        white-space: nowrap !important;
-                                        vertical-align: middle !important;
-                                    } */
+                                        td {
+                                            white-space: nowrap !important;
+                                            vertical-align: middle !important;
+                                        } */
     </style>
 @endpush
 @section('content')
@@ -41,11 +41,12 @@
                 <div class="card-body">
                     {{ $subbutir->nama_sub_butir }}
                     <hr>
-                    
-                    <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
-                        Tambah
-                    </button>
-                   
+                    @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee')
+                        <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
+                            Tambah
+                        </button>
+                    @endif
+
                     <div class="table-responsive">
                         <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
                             <thead class="bg-primary text-white">
@@ -79,14 +80,14 @@
                             value="{{ $sub_butir_instrumen_id }}">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nama File</label>
-                            <input name="nama_file" id="nama_file" type="text"
-                                placeholder="Nama File" class="form-control form-control-sm">
+                            <input name="nama_file" id="nama_file" type="text" placeholder="Nama File"
+                                class="form-control form-control-sm">
                             <span class="text-danger error" style="font-size: 12px;" id="nama_file_alert"></span>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Berkas</label>
-                            <input name="file_upload" id="file_upload" type="file"
-                                placeholder="File Berkas" class="form-control form-control-sm">
+                            <input name="file_upload" id="file_upload" type="file" placeholder="File Berkas"
+                                class="form-control form-control-sm">
                             <span class="text-danger error" style="font-size: 12px;" id="file_upload_alert"></span>
                         </div>
                         <div class="form-group">
@@ -109,7 +110,7 @@
         </div>
     </div>
 
-    
+
     {{-- <span style="
     width: 200px !important;
     white-space: normal;
@@ -146,10 +147,7 @@
                     },
                     {
                         render: function(data, type, row, meta) {
-
-                           
-                                return `<a href="/storage/${row.file_upload}" target="_blank">Lihat File</a>`
-                           
+                            return `<a href="/storage/${row.file_upload}" target="_blank">Lihat File</a>`
                         }
                     },
                     {
@@ -214,7 +212,8 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-file_subbutir_instrumen' : '/update-file_subbutir_instrumen',
+                    url: formData.get('id') == '' ? '/store-file_subbutir_instrumen' :
+                        '/update-file_subbutir_instrumen',
                     data: formData,
                 })
                 .then(function(res) {

@@ -69,6 +69,51 @@ class FileSubButirInstrumenController extends Controller
         return response()->json($data);
     }
 
+    public function update(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'nama_file'      => 'required',
+            'tampilkan'      => 'required',
+            'file_upload' => 'mimes:pdf,doc,docx|file|max:20480|nullable',
+        ]);
+
+        if ($validator->fails()) {
+            $data = [
+                'responCode'    => 0,
+                'respon'        => $validator->errors()
+            ];
+        } else {
+
+            $get = FileSubButirInstrumen::find($request->id);
+
+            if($request->file('file_upload')) {
+                if ($get->file_upload) {
+                    // delete terlebih dahulu gambar lama
+                    Storage::delete($get->file_upload);
+                }
+
+                // upload file yg baru
+                $pathFile = $request->file('file_upload')->store('berkas');
+            } else {
+                $pathFile = $get->file_upload;
+            }
+
+            $data = $get->update([
+                'nama_file'          => $request->nama_file,
+                'tampilkan'          => $request->tampilkan,
+                'sub_butir_instrumen_id' => $request->sub_butir_instrumen_id,
+                'file_upload'          => $pathFile,
+            ]);
+
+            $data = [
+                'responCode'    => 1,
+                'respon'        => 'Data Sukses Diupdate'
+            ];
+        }
+
+        return response()->json($data);
+    }
+
     public function delete(Request $request)
     {
 
