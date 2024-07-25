@@ -41,12 +41,46 @@
                 <div class="card-body">
                     {{ $butir_instrumen->nama_instrumen }}
                     <hr>
-                    
+                    @if (request('jumlah_data'))
+                        <div class="ml-2">
+                            <form id="form2">
+
+                                <h5 class="" id="exampleModalLabel">Input Sub Butir Instrumen</h5>
+
+                                @for ($i = 0; $i < request('jumlah_data'); $i++)
+                                    <input type="hidden" name="butir_instrumen_idd" id="butir_instrumen_idd"
+                                        value="{{ $butir_instrumen_id }}">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nama Sub Butir Instrumen</label>
+                                        <input name="nama_sub_butirr[]" id="nama_sub_butirr" type="text"
+                                            placeholder="Nama Sub Butir Instrumen" class="form-control form-control-sm"
+                                            required>
+                                        <span class="text-danger error" style="font-size: 12px;"
+                                            id="nama_sub_butir_alert"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Upload File?</label>
+                                        <select class="form-control" name="upload_filee[]" id="upload_filee" required>
+                                            <option value="">--Pilih--</option>
+                                            <option value="1">Ya</option>
+                                            <option value="0">Tidak</option>
+                                        </select>
+                                        <span class="text-danger error" style="font-size: 12px;" id="upload_filee"></span>
+                                    </div>
+                                    <hr>
+                                @endfor
+                                <button id="tombol_kirimm" class="btn btn-primary btn-sm">Submit</button>
+                            </form>
+                        </div>
+                    @endif
+                    <hr>
                     <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
                         Tambah
                     </button>
 
-                   
+                    <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal2">
+                        Tambah Beberapa Data
+                    </button>
                     <div class="table-responsive">
                         <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
                             <thead class="bg-primary text-white">
@@ -103,7 +137,31 @@
         </div>
     </div>
 
-    
+    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form">
+                    <div class="modal-header p-3">
+                        <h5 class="modal-title m-2" id="exampleModalLabel">Masukkan Jumlah Data</h5>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Jumlah Data</label>
+                            <input name="jumlah_data" id="jumlah_data" type="number"
+                                placeholder="Jumlah data yang akan diinput" class="form-control form-control-sm" required>
+                            <span class="text-danger error" style="font-size: 12px;" id="nama_sub_butir_alert"></span>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer p-3">
+                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                        <button id="tombol_kirim" class="btn btn-primary btn-sm">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     {{-- <span style="
     width: 200px !important;
     white-space: normal;
@@ -233,6 +291,48 @@
                 });
         }
 
+        // form2.onsubmit = (e) => {
+
+        //     let formData2 = new FormData(form2);
+
+        //     e.preventDefault();
+
+        //     document.getElementById("tombol_kirimm").disabled = true;
+
+        //     axios({
+        //             method: 'post',
+        //             url: '/store-subbutir_instrumen_bulk',
+        //             data: formData2,
+        //         })
+        //         .then(function(res) {
+        //             //handle success         
+        //             if (res.data.responCode == 1) {
+
+        //                 Swal.fire({
+        //                     icon: 'success',
+        //                     title: 'Sukses',
+        //                     text: res.data.respon,
+        //                     timer: 3000,
+        //                     showConfirmButton: false
+        //                 })
+
+        //                 setTimeout(() => {
+        //                     location.reload(res.data.respon);
+        //                 }, 1500);
+
+        //             } else {
+
+        //                 console.log('terjadi error');
+        //             }
+
+        //             document.getElementById("tombol_kirimm").disabled = false;
+        //         })
+        //         .catch(function(res) {
+        //             document.getElementById("tombol_kirimm").disabled = false;
+                  
+        //             console.log(res);
+        //         });
+        // }
 
         hapusData = (id) => {
             Swal.fire({

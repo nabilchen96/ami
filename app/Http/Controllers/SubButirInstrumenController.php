@@ -64,6 +64,40 @@ class SubButirInstrumenController extends Controller
         return response()->json($data);
     }
 
+    public function store_bulk(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(), [
+            'nama_sub_butirr'   => 'required',
+            'upload_filee'      => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $data = [
+                'responCode'    => 0,
+                'respon'        => $validator->errors()
+            ];
+        } else {
+            $nama_sub_butirr =  $request->nama_sub_butirr;
+            foreach ($nama_sub_butirr as $key => $nama_sub_butirr) {
+                $data = SubButirInstrumen::create([
+                    'nama_sub_butir'   => $request->nama_sub_butirr[$key],
+                    'upload_file'   => $request->upload_filee[$key],
+                    'butir_instrumen_id' => $request->butir_instrumen_idd,
+                    'input_by'            => Auth::user()->id,
+                ]);
+            }
+            
+
+            $data = [
+                'responCode'    => 1,
+                'respon'        => 'Data Sukses Ditambah'
+            ];
+        }
+
+        return response()->json($data);
+    }
+
     public function update(Request $request)
     {
 

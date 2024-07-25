@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/data-subbutir_instrumen/{butir_instrumen_id}', 'App\Http\Controllers\SubButirInstrumenController@data');
     Route::get('subbutir_instrumen/edit-butir_instrumen/{id}', 'App\Http\Controllers\SubButirInstrumenController@edit');
     Route::post('/store-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@store');
+    Route::post('/store-subbutir_instrumen_bulk', 'App\Http\Controllers\SubButirInstrumenController@store_bulk');
     Route::post('/update-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@update');
     Route::post('/delete-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@delete');
 
