@@ -23,9 +23,15 @@ class FileSubButirInstrumenController extends Controller
 
     public function data($sub_butir_instrumen_id)
     {
-
-        $file_sub_butir_instrumens = DB::table('file_sub_butir_instrumens')
+        if(Auth::user()->role == "Auditee"){
+            $file_sub_butir_instrumens = DB::table('file_sub_butir_instrumens')
             ->where('sub_butir_instrumen_id', $sub_butir_instrumen_id);
+        } else if(Auth::user()->role == "Auditor") {
+            $file_sub_butir_instrumens = DB::table('file_sub_butir_instrumens')
+            ->where('sub_butir_instrumen_id', $sub_butir_instrumen_id)
+            ->where('tampilkan','1');
+        }
+        
 
         $file_sub_butir_instrumens = $file_sub_butir_instrumens->get();
 

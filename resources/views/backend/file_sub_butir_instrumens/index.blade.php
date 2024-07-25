@@ -55,6 +55,7 @@
                                     <th>Name</th>
                                     <th>Berkas</th>
                                     <th>Tampilkan File?</th>
+                                    <th>Waktu Upload</th>
                                     <th width="5%"></th>
                                     <th width="5%"></th>
                                 </tr>
@@ -159,6 +160,10 @@
                                 return `<span class="badge badge-warning">Tidak</span>`
                             }
                         }
+                    },
+
+                    {
+                        data: "created_at"
                     },
 
                     {
