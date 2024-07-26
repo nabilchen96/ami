@@ -23,7 +23,7 @@ class FileSubButirInstrumenController extends Controller
 
     public function data($sub_butir_instrumen_id)
     {
-        if(Auth::user()->role == "Auditee"){
+        if(Auth::user()->role == "Auditee" || Auth::user()->role == "Admin"){
             $file_sub_butir_instrumens = DB::table('file_sub_butir_instrumens')
             ->where('sub_butir_instrumen_id', $sub_butir_instrumen_id);
         } else if(Auth::user()->role == "Auditor") {
