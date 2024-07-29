@@ -18,10 +18,10 @@
         }
 
         /* th,
-                                        td {
-                                            white-space: nowrap !important;
-                                            vertical-align: middle !important;
-                                        } */
+                                            td {
+                                                white-space: nowrap !important;
+                                                vertical-align: middle !important;
+                                            } */
     </style>
 @endpush
 @section('content')
@@ -73,12 +73,13 @@
             <div class="modal-content">
                 <form id="form" enctype="multipart/form-data">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">Sub Butir Instrumen</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">File Sub Butir Instrumen</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <input type="hidden" name="sub_butir_instrumen_id" id="sub_butir_instrumen_id"
                             value="{{ $sub_butir_instrumen_id }}">
+                        <input type="text" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nama File</label>
                             <input name="nama_file" id="nama_file" type="text" placeholder="Nama File"
@@ -128,9 +129,10 @@
 
         function getData() {
             var sub_butir_instrumen_id = document.getElementById('sub_butir_instrumen_id').value
+            var jadwal_ami_id = document.getElementById('jadwal_ami_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-file_subbutir_instrumen/' + sub_butir_instrumen_id,
+                ajax: '/data-file_subbutir_instrumen/' + sub_butir_instrumen_id + '/' + jadwal_ami_id ,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,

@@ -12,23 +12,27 @@ use Illuminate\Support\Facades\Storage;
 
 class FileSubButirInstrumenController extends Controller
 {
-    public function index($sub_butir_instrumen_id)
+    public function index($sub_butir_instrumen_id, $jadwal_ami_id)
     {
         $subbutir = SubButirInstrumen::where('id', $sub_butir_instrumen_id)->first();
         return view('backend.file_sub_butir_instrumens.index', [
             'subbutir' => $subbutir,
-            'sub_butir_instrumen_id' => $sub_butir_instrumen_id
+            'sub_butir_instrumen_id' => $sub_butir_instrumen_id,
+            'jadwal_ami_id' => $jadwal_ami_id,
         ]);
     }
 
-    public function data($sub_butir_instrumen_id)
+    public function data($sub_butir_instrumen_id, $jadwal_ami_id)
     {
+        
         if(Auth::user()->role == "Auditee" || Auth::user()->role == "Admin"){
             $file_sub_butir_instrumens = DB::table('file_sub_butir_instrumens')
-            ->where('sub_butir_instrumen_id', $sub_butir_instrumen_id);
+            ->where('sub_butir_instrumen_id', $sub_butir_instrumen_id)
+            ->where('jadwal_ami_id', $jadwal_ami_id);
         } else if(Auth::user()->role == "Auditor") {
             $file_sub_butir_instrumens = DB::table('file_sub_butir_instrumens')
             ->where('sub_butir_instrumen_id', $sub_butir_instrumen_id)
+            ->where('jadwal_ami_id', $jadwal_ami_id)
             ->where('tampilkan','1');
         }
         
@@ -61,6 +65,7 @@ class FileSubButirInstrumenController extends Controller
             $data = FileSubButirInstrumen::create([
                 'nama_file'          => $request->nama_file,
                 'tampilkan'          => $request->tampilkan,
+                'jadwal_ami_id'          => $request->jadwal_ami_id,
                 'sub_butir_instrumen_id' => $request->sub_butir_instrumen_id,
                 'file_upload'          => $pathFile,
                 'upload_by'      => Auth::user()->id,
@@ -107,6 +112,7 @@ class FileSubButirInstrumenController extends Controller
             $data = $get->update([
                 'nama_file'          => $request->nama_file,
                 'tampilkan'          => $request->tampilkan,
+                'jadwal_ami_id'          => $request->jadwal_ami_id,
                 'sub_butir_instrumen_id' => $request->sub_butir_instrumen_id,
                 'file_upload'          => $pathFile,
             ]);

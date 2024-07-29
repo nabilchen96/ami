@@ -75,8 +75,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/delete-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@delete');
 
     // FILE SUB BUTIR
-    Route::get('/file_subbutir_instrumen/{sub_butir_instrumen_id}', 'App\Http\Controllers\FileSubButirInstrumenController@index');
-    Route::get('/data-file_subbutir_instrumen/{sub_butir_instrumen_id}', 'App\Http\Controllers\FileSubButirInstrumenController@data');
+    Route::get('/file_subbutir_instrumen/{sub_butir_instrumen_id}/{jadwal_ami_id}', 'App\Http\Controllers\FileSubButirInstrumenController@index');
+    Route::get('/data-file_subbutir_instrumen/{sub_butir_instrumen_id}/{jadwal_ami_id}', 'App\Http\Controllers\FileSubButirInstrumenController@data');
     Route::post('/store-file_subbutir_instrumen', 'App\Http\Controllers\FileSubButirInstrumenController@store');
     Route::post('/update-file_subbutir_instrumen', 'App\Http\Controllers\FileSubButirInstrumenController@update');
     Route::post('/delete-file_subbutir_instrumen', 'App\Http\Controllers\FileSubButirInstrumenController@delete');
