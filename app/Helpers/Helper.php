@@ -64,14 +64,14 @@ function sendWADosen($noWA, $namaDosen, $email, $password)
 
     $pesan = "$greet
 *$namaDosen*, berikut kami sampaikan Akun untuk mengakses aplikasi AMI.
-URL : https://sipp.poltekbangplg.ac.id
+URL : https://ami.poltekbangplg.ac.id
 EMAIL : $email
 PASSWORD : *$password*
 
 Harap simpan *AKUN* tersebut agar bisa mengakses aplikasi AMI. 
 
 Salam Hormat 
-*- Admin PUSPPM -*";
+*- Admin SPM -*";
 
     $curl = curl_init();
 
