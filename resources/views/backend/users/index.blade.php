@@ -107,6 +107,14 @@
                                 <option value="Auditee">Auditee</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Kirim WA?</label>
+                            <select name="kirim_wa" class="form-control" id="kirim_wa" required>
+                                <option value="">--Pilih--</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+                        </div>
 
                     </div>
                     <div class="modal-footer p-3">
