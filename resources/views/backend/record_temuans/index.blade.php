@@ -68,11 +68,11 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
-                        <input type="text" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
+                        <input type="hidden" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                         <div class="form-group">
                             <label for="exampleInputEmail1">No HP</label>
-                            <input name="nohp" id="nohp" type="text" placeholder="No HP"
-                                class="form-control form-control-sm" required>
+                            <input name="no_hp" id="no_hp" type="text" value="{{$getKontak->nohp}}" placeholder="No HP"
+                                class="form-control form-control-sm" readonly>
                             <span class="text-danger error" style="font-size: 12px;" id="nohp_alert"></span>
                         </div>
 
@@ -87,6 +87,15 @@
                             <input name="tanggal_input" id="tanggal_input" type="date" placeholder="Tgl Input"
                                 class="form-control form-control-sm" required>
                             <span class="text-danger error" style="font-size: 12px;" id="tanggal_input_alert"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Kirim WA?</label>
+                            <select name="kirim_wa" class="form-control" id="kirim_wa" required>
+                                <option value="">--Pilih--</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
                         </div>
                         
                     </div>

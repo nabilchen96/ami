@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalAmi;
 use App\Models\RecordTemuan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
@@ -13,8 +15,9 @@ class RecordTemuanController extends Controller
     public function index($jadwal_ami_id)
     {
         $judul= DB::table('jadwal_amis')->where('id',$jadwal_ami_id)->first();
+        $getKontak = User::find($judul->pic_auditee);
         
-        return view('backend.record_temuans.index', compact('jadwal_ami_id','judul'));
+        return view('backend.record_temuans.index', compact('jadwal_ami_id','judul','getKontak'));
     }
 
     public function data($jadwal_ami_id)
@@ -33,11 +36,10 @@ class RecordTemuanController extends Controller
     public function store(Request $request)
     {
 
-dd($request->all());
         $validator = Validator::make($request->all(), [
             'jadwal_ami_id'   => 'required',
             'no_hp'   => 'required',
-            'no_isi_keterangan'   => 'required',
+            'isi_keterangan'   => 'required',
             'tanggal_input'   => 'required',
         ]);
 
@@ -53,6 +55,13 @@ dd($request->all());
                 'isi_keterangan'       => $request->isi_keterangan,
                 'tanggal_input'       => $request->tanggal_input,
             ]);
+
+            if($request->kirim_wa == "Ya") {
+                $getJadwal = JadwalAmi::find($request->jadwal_ami_id);
+                $getKontak = User::find($request->pic_auditee);
+
+                sendTemuan($request->no_hp, $request->isi_keterangan);
+            }
 
             $data = [
                 'responCode'    => 1,

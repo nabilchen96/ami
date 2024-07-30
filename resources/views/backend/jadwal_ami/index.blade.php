@@ -190,6 +190,16 @@
                             </select>
                             <span class="text-danger error" style="font-size: 12px;" id="status_aktif_alert"></span>
                         </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kirim WA?</label>
+                            <select class="form-control" name="kirim_wa" id="kirim_wa">
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="kirim_wa_alert"></span>
+                        </div>
+                        
                     </div>
                     <div class="modal-footer p-3">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
