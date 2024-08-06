@@ -121,10 +121,10 @@
             
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
                 style="box-shadow: 0px 5px 21px -5px #CDD1E1;">
-                <img src="https://poltekbangplg.ac.id/wp-content/uploads/2021/02/logo_poltekbangplg_new400x258.png" width="97px" alt="" srcset="">
-                <a class="navbar-brand brand-logo mr-5" style="font-size: 16px; margin-left: 20px;"
+                
+                <a
                     href="{{ url('/') }}">
-                    <h3><b>E-AMI</b></h3>
+                    <img src="{{ asset('siami2.png') }}" width="97px" alt="" srcset="">
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}">
                     <h4><b>AMI</b></h4>
