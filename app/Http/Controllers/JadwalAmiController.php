@@ -36,33 +36,36 @@ class JadwalAmiController extends Controller
     {
         if (Auth::user()->role == "Admin") {
             $jadwal_amis = DB::table('jadwal_amis')
-                ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'pic_auditee.name as nama_pic_auditee', 'kurikulum_instrumens.nama_kurikulum')
+                ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'pic_auditee.name as nama_pic_auditee', 'pic_auditee2.name as nama_pic_2', 'kurikulum_instrumens.nama_kurikulum')
                 ->leftJoin('users as users', 'users.id', 'jadwal_amis.input_oleh')
                 ->leftJoin('users as auditor1', 'auditor1.id', 'jadwal_amis.auditor_satu')
                 ->leftJoin('users as auditor2', 'auditor2.id', 'jadwal_amis.auditor_dua')
                 ->leftJoin('users as auditor3', 'auditor3.id', 'jadwal_amis.auditor_tiga')
                 ->leftJoin('users as pic_auditee', 'pic_auditee.id', 'jadwal_amis.pic_auditee')
+                ->leftJoin('users as pic_auditee2', 'pic_auditee2.id', 'jadwal_amis.pic_auditee2')
                 ->leftJoin('kurikulum_instrumens', 'kurikulum_instrumens.id', 'jadwal_amis.kurikulum_instrumen_id');
         } else if (Auth::user()->role == "Auditor") {
             $jadwal_amis = DB::table('jadwal_amis')
-                ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'pic_auditee.name as nama_pic_auditee', 'kurikulum_instrumens.nama_kurikulum')
+                ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'pic_auditee.name as nama_pic_auditee','pic_auditee2.name as nama_pic_2', 'kurikulum_instrumens.nama_kurikulum')
                 ->leftJoin('users as users', 'users.id', 'jadwal_amis.input_oleh')
                 ->leftJoin('users as auditor1', 'auditor1.id', 'jadwal_amis.auditor_satu')
                 ->leftJoin('users as auditor2', 'auditor2.id', 'jadwal_amis.auditor_dua')
                 ->leftJoin('users as auditor3', 'auditor3.id', 'jadwal_amis.auditor_tiga')
                 ->leftJoin('users as pic_auditee', 'pic_auditee.id', 'jadwal_amis.pic_auditee')
+                ->leftJoin('users as pic_auditee2', 'pic_auditee2.id', 'jadwal_amis.pic_auditee2')
                 ->leftJoin('kurikulum_instrumens', 'kurikulum_instrumens.id', 'jadwal_amis.kurikulum_instrumen_id')
                 ->where('auditor_satu', Auth::user()->id)
                 ->orWhere('auditor_dua', Auth::user()->id)
                 ->orWhere('auditor_tiga', Auth::user()->id);
         } else if (Auth::user()->role == "Auditee") {
             $jadwal_amis = DB::table('jadwal_amis')
-                ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'pic_auditee.name as nama_pic_auditee', 'kurikulum_instrumens.nama_kurikulum')
+                ->select('jadwal_amis.*', 'users.name as name', 'auditor1.name as auditor1', 'auditor2.name as auditor2', 'auditor3.name as auditor3', 'pic_auditee.name as nama_pic_auditee', 'pic_auditee2.name as nama_pic_2', 'kurikulum_instrumens.nama_kurikulum')
                 ->leftJoin('users as users', 'users.id', 'jadwal_amis.input_oleh')
                 ->leftJoin('users as auditor1', 'auditor1.id', 'jadwal_amis.auditor_satu')
                 ->leftJoin('users as auditor2', 'auditor2.id', 'jadwal_amis.auditor_dua')
                 ->leftJoin('users as auditor3', 'auditor3.id', 'jadwal_amis.auditor_tiga')
                 ->leftJoin('users as pic_auditee', 'pic_auditee.id', 'jadwal_amis.pic_auditee')
+                ->leftJoin('users as pic_auditee2', 'pic_auditee2.id', 'jadwal_amis.pic_auditee2')
                 ->leftJoin('kurikulum_instrumens', 'kurikulum_instrumens.id', 'jadwal_amis.kurikulum_instrumen_id')
                 ->where('pic_auditee', Auth::user()->id);
         }
@@ -89,13 +92,19 @@ class JadwalAmiController extends Controller
         } else {
 
             $cekDup = $this->cekDuplikatAuditor($request->auditor_satu, $request->auditor_dua, $request->auditor_tiga);
+            $cekPIC = $this->cekDuplikatPIC($request->pic_auditee, $request->pic_auditee2);
 
             if ($cekDup) {
                 $data = [
                     'responCode'    => 2,
                     'respon'        => 'Auditor tidak boleh duplikat!'
                 ];
-            } else {
+            } elseif($cekPIC){
+                $data = [
+                    'responCode'    => 2,
+                    'respon'        => 'PIC Auditee tidak boleh duplikat!'
+                ];
+            }  else {
                 $data = JadwalAmi::create([
                     'judul'   => $request->judul,
                     'priode'   => $request->priode,
@@ -106,6 +115,7 @@ class JadwalAmiController extends Controller
                     'auditor_dua'   => $request->auditor_dua,
                     'auditor_tiga'   => $request->auditor_tiga,
                     'pic_auditee'   => $request->pic_auditee,
+                    'pic_auditee2'   => $request->pic_auditee2,
                     'link_upload_dokumen'   => $request->link_upload_dokumen,
                     'kurikulum_instrumen_id'   => $request->kurikulum_instrumen_id,
                     'status_aktif'   => $request->status_aktif,
@@ -143,11 +153,17 @@ class JadwalAmiController extends Controller
         } else {
 
             $cekDup = $this->cekDuplikatAuditor($request->auditor_satu, $request->auditor_dua, $request->auditor_tiga);
+            $cekPIC = $this->cekDuplikatPIC($request->pic_auditee, $request->pic_auditee2);
 
             if ($cekDup) {
                 $data = [
                     'responCode'    => 2,
                     'respon'        => 'Auditor tidak boleh duplikat!'
+                ];
+            } elseif($cekPIC){
+                $data = [
+                    'responCode'    => 2,
+                    'respon'        => 'PIC Auditee tidak boleh duplikat!'
                 ];
             } else {
                 $jadwal_amis = JadwalAmi::find($request->id);
@@ -161,6 +177,7 @@ class JadwalAmiController extends Controller
                     'auditor_dua'   => $request->auditor_dua,
                     'auditor_tiga'   => $request->auditor_tiga,
                     'pic_auditee'   => $request->pic_auditee,
+                    'pic_auditee2'   => $request->pic_auditee2,
                     'link_upload_dokumen'   => $request->link_upload_dokumen,
                     'kurikulum_instrumen_id'   => $request->kurikulum_instrumen_id,
                     'status_aktif'   => $request->status_aktif,
@@ -188,6 +205,15 @@ class JadwalAmiController extends Controller
         if ($a1 == $a2 || $a1 == $a3) {
             return true;
         } else if ($a2 == $a3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function cekDuplikatPIC($a1, $a2)
+    {
+        if ($a1 == $a2) {
             return true;
         } else {
             return false;

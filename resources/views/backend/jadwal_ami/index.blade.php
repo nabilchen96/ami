@@ -119,6 +119,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="exampleInputEmail1">PIC Auditee2</label>
+                            <select name="pic_auditee2" id="pic_auditee2" class="form-control" required>
+                                <option value="">--Pilih--</option>
+                                    @foreach ($audites as $auditee)
+                                        <option value="{{ $auditee->id }}">{{ $auditee->name }}</option>
+                                    @endforeach
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="pic_auditee"></span>
+                        </div>
+
+                        <div class="form-group">
                             <label>Instrumen AMI</label>
                                 <select name="kurikulum_instrumen_id" id="kurikulum_instrumen_id" class="form-control ">
                                     <option value="">-Pilih-</option>
@@ -268,6 +279,7 @@
                                 
                                     <p>${row.prodi}</p>
                                     <p>PIC : ${row.nama_pic_auditee}</p>
+                                    <p>PIC 2 : ${row.nama_pic_2}</p>
                             `
                         }
                     },
@@ -336,6 +348,7 @@
                 modal.find('#auditor_tiga').val(cokData[0].auditor_tiga)
                 modal.find('#link_upload_dokumen').val(cokData[0].link_upload_dokumen)
                 modal.find('#pic_auditee').val(cokData[0].pic_auditee)
+                modal.find('#pic_auditee2').val(cokData[0].pic_auditee2)
                 modal.find('#kurikulum_instrumen_id').val(cokData[0].kurikulum_instrumen_id)
                 modal.find('#status_aktif').val(cokData[0].status_aktif)
             }
