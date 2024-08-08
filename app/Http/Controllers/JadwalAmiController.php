@@ -67,7 +67,8 @@ class JadwalAmiController extends Controller
                 ->leftJoin('users as pic_auditee', 'pic_auditee.id', 'jadwal_amis.pic_auditee')
                 ->leftJoin('users as pic_auditee2', 'pic_auditee2.id', 'jadwal_amis.pic_auditee2')
                 ->leftJoin('kurikulum_instrumens', 'kurikulum_instrumens.id', 'jadwal_amis.kurikulum_instrumen_id')
-                ->where('pic_auditee', Auth::user()->id);
+                ->where('pic_auditee', Auth::user()->id)
+                ->orwhere('pic_auditee2', Auth::user()->id);
         }
 
 

@@ -66,8 +66,8 @@
                                 <td colspan="3">
                                     {{-- <a target="_blank"
                                         href="{{ $jadwal->link_upload_dokumen }}">{{ $jadwal->link_upload_dokumen }}</a> --}}
-                                        <a href="{{ url('record_temuan/' . $jadwal->id) }}" class="btn btn-warning">List
-                                            Temuan</a>
+                                    <a href="{{ url('record_temuan/' . $jadwal->id) }}" class="btn btn-warning">List
+                                        Temuan</a>
                                 </td>
                                 <td>
                                     {{-- <a href="{{ url('record_temuan/' . $jadwal->id) }}" class="btn btn-warning">List
@@ -305,7 +305,28 @@
                                                                 @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                                     @if ($subss->upload_file == '1')
                                                                         <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
-                                                                            title="Cek File">Cek File</a>
+                                                                            title="Cek File">Cek File</a> <br>
+                                                                        <form action="">
+                                                                            <input type="number" class="form-control"
+                                                                                placeholder="Nilai 1">
+                                                                            <button class="btn btn-primary btn-block"
+                                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                        </form>
+                                                                        <hr>
+                                                                        <form action="">
+                                                                        <input type="number" class="form-control"
+                                                                            placeholder="Nilai 2">
+                                                                            <button class="btn btn-primary btn-block"
+                                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                        </form>
+                                                                        <hr>
+                                                                        <form action="">
+                                                                        <input type="number" class="form-control"
+                                                                            placeholder="Nilai 3">
+                                                                            <button class="btn btn-primary btn-block"
+                                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                        </form>
+                                                                        <hr>
                                                                     @else
                                                                     @endif
                                                                 @else
@@ -316,10 +337,49 @@
                                                                         <a href="#" title="Upload File"
                                                                             class="text-danger">Batas Waktu Upload telah
                                                                             Selesai</a>
+                                                                            <form action="">
+                                                                                <input type="number" class="form-control"
+                                                                                    placeholder="Nilai 1">
+                                                                                    <button class="btn btn-primary btn-block"
+                                                                                    style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                            </form>
+                                                                            <hr>
+                                                                            <form action="">
+                                                                            <input type="number" class="form-control"
+                                                                                placeholder="Nilai 2">
+                                                                                <button class="btn btn-primary btn-block"
+                                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                            </form>
+                                                                            <hr>
+                                                                            <form action="">
+                                                                            <input type="number" class="form-control"
+                                                                                placeholder="Nilai 3">
+                                                                                <button class="btn btn-primary btn-block"
+                                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                            </form>
+                                                                            <hr>
                                                                     @else
                                                                         @if ($subss->upload_file == '1')
                                                                             <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
                                                                                 title="Upload File">Upload File</a>
+                                                                                <form action="">
+                                                                                    <input type="number" class="form-control"
+                                                                                        placeholder="Nilai 1">
+                                                                                    
+                                                                                </form>
+                                                                                <hr>
+                                                                                <form action="">
+                                                                                <input type="number" class="form-control"
+                                                                                    placeholder="Nilai 2">
+                                                                                    
+                                                                                </form>
+                                                                                <hr>
+                                                                                <form action="">
+                                                                                <input type="number" class="form-control"
+                                                                                    placeholder="Nilai 3">
+                                                                                    
+                                                                                </form>
+                                                                                <hr>
                                                                         @else
                                                                         @endif
                                                                     @endif
@@ -396,8 +456,30 @@
                                                         <li>{{ $subss->nama_sub_butir }}
                                                             @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                                                 @if ($subss->upload_file == '1')
-                                                                    <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}">Cek
+                                                                    <a
+                                                                        href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}">Cek
                                                                         File</a>
+                                                                        <form action="">
+                                                                            <input type="number" class="form-control"
+                                                                                placeholder="Nilai 1">
+                                                                                <button class="btn btn-primary btn-block"
+                                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                        </form>
+                                                                        <hr>
+                                                                        <form action="">
+                                                                        <input type="number" class="form-control"
+                                                                            placeholder="Nilai 2">
+                                                                            <button class="btn btn-primary btn-block"
+                                                                            style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                        </form>
+                                                                        <hr>
+                                                                        <form action="">
+                                                                        <input type="number" class="form-control"
+                                                                            placeholder="Nilai 3">
+                                                                            <button class="btn btn-primary btn-block"
+                                                                            style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                                        </form>
+                                                                        <hr>
                                                                 @else
                                                                 @endif
                                                             @else
@@ -408,10 +490,40 @@
                                                                     <a href="#" title="Upload File"
                                                                         class="text-danger">Batas Waktu Upload telah
                                                                         Selesai</a>
+                                                                        <form action="">
+                                                                            <input type="number" class="form-control"
+                                                                                placeholder="Nilai 1">
+                                                                        </form>
+                                                                        <hr>
+                                                                        <form action="">
+                                                                        <input type="number" class="form-control"
+                                                                            placeholder="Nilai 2">
+                                                                        </form>
+                                                                        <hr>
+                                                                        <form action="">
+                                                                        <input type="number" class="form-control"
+                                                                            placeholder="Nilai 3">
+                                                                        </form>
+                                                                        <hr>
                                                                 @else
                                                                     @if ($subss->upload_file == '1')
                                                                         <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
                                                                             title="Upload File">Upload File</a>
+                                                                            <form action="">
+                                                                                <input type="number" class="form-control"
+                                                                                    placeholder="Nilai 1">
+                                                                            </form>
+                                                                            <hr>
+                                                                            <form action="">
+                                                                            <input type="number" class="form-control"
+                                                                                placeholder="Nilai 2">
+                                                                            </form>
+                                                                            <hr>
+                                                                            <form action="">
+                                                                            <input type="number" class="form-control"
+                                                                                placeholder="Nilai 3">
+                                                                            </form>
+                                                                            <hr>
                                                                     @else
                                                                     @endif
                                                                 @endif
