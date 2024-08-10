@@ -96,6 +96,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/penilaian_ami/{id}', 'App\Http\Controllers\PenilaianController@detail');
     Route::get('/data-penilaian_ami/{id}', 'App\Http\Controllers\PenilaianController@data');
     Route::post('/store-penilaian_ami', 'App\Http\Controllers\PenilaianController@store');
+    Route::post('/store-penilaian_ami1', 'App\Http\Controllers\PenilaianController@store1');
+    Route::post('/store-penilaian_ami2', 'App\Http\Controllers\PenilaianController@store2');
+    Route::post('/store-penilaian_ami3', 'App\Http\Controllers\PenilaianController@store3');
     Route::post('/update-penilaian_ami', 'App\Http\Controllers\PenilaianController@update');
     Route::post('/delete-penilaian_ami', 'App\Http\Controllers\PenilaianController@delete');
 
