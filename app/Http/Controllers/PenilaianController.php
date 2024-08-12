@@ -111,11 +111,11 @@ class PenilaianController extends Controller
             $skor = $request->skor_persen;
             if ($skor == 100) {
                 $nilainya = 4;
-            } elseif ($skor >= 66.0 && $skor <= 99.0) {
+            } elseif ($skor >= 66.0 && $skor <= 99.99) {
                 $nilainya = 3;
-            } elseif ($skor >= 33.0 && $skor <= 65.0) {
+            } elseif ($skor >= 33.0 && $skor <= 65.99) {
                 $nilainya = 2;
-            } elseif ($skor >= 0.0 && $skor <= 35.0) {
+            } elseif ($skor >= 0.0 && $skor <= 32.99) {
                 $nilainya = 1;
             } else {
                 $nilainya = 0;
@@ -211,18 +211,18 @@ class PenilaianController extends Controller
 
     public function store3(Request $request)
     {
-
+       
         $data = Jawaban::where('jadwal_ami_id',$request->jadwal_ami_id)->where('butir_instrumen_id',$request->butir_instrumen_id)->where('sub_butir_instrumen_id',$request->sub_butir_instrumen_id)->first();
-
+        
         $rata = ($data->skor_persen1 + $data->skor_persen2 + $request->skor_persen3 ) / 3;
 
         if ($rata == 100) {
             $nilainya = 4;
-        } elseif ($rata >= 66.0 && $rata <= 99.0) {
+        } elseif ($rata >= 66.0 && $rata <= 99.99) {
             $nilainya = 3;
-        } elseif ($rata >= 33.0 && $rata <= 65.0) {
+        } elseif ($rata >= 33.0 && $rata <= 65.99) {
             $nilainya = 2;
-        } elseif ($rata >= 0.0 && $rata <= 35.0) {
+        } elseif ($rata >= 0.0 && $rata <= 32.99) {
             $nilainya = 1;
         } else {
             $nilainya = 0;

@@ -248,7 +248,7 @@
                                         <th></th>
                                         <th></th>
                                         <th>Pertanyaan</th>
-                                        <th> Standar</th>
+                                        <th>Standar</th>
                                         <th>Rata-rata (%)</th>
                                         <th>Nilai (Skala 1-4)</th>
                                         @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
@@ -387,6 +387,12 @@
                                                                             <button class="btn btn-primary btn-block"
                                                                                 style="border-radius: 10px !important; margin-top:5px">Submit</button>
                                                                         </form>
+                                                                        
+                                                                        Rata-rata
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor_persen}}" class="form-control">
+
+                                                                        Skor (Skala 1 - 4)
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor}}" class="form-control">
                                                                         <hr>
                                                                     @else
                                                                     @endif
@@ -475,6 +481,12 @@
                                                                             <button class="btn btn-primary btn-block"
                                                                                 style="border-radius: 10px !important; margin-top:5px">Submit</button>
                                                                         </form>
+                                                                        Rata-rata
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor_persen}}" class="form-control">
+
+                                                                        Skor (Skala 1 - 4)
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor}}" class="form-control">
+                                                                        <hr>
                                                                         <hr>
                                                                     @else
                                                                         @if ($subss->upload_file == '1')
@@ -503,6 +515,12 @@
                                                                                     placeholder="Nilai 3 (%)">
 
                                                                             </form>
+                                                                            Rata-rata
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor_persen}}" class="form-control">
+
+                                                                        Skor (Skala 1 - 4)
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor}}" class="form-control">
+                                                                        <hr>
                                                                             <hr>
                                                                         @else
                                                                         @endif
@@ -547,6 +565,10 @@
                                                             value="{{ $persen }}" disabled
                                                             class="form-control">
                                                             <hr>
+                                                        <input name="skor_persen" type="number"
+                                                            value="{{ $persen }}" disabled
+                                                            class="form-control">
+                                                            
                                                     </td>
                                                     <td>
                                                         <input name="skor" type="number" value="{{ $item->skor }}"
@@ -603,6 +625,12 @@
                                                                         <button class="btn btn-primary btn-block"
                                                                             style="border-radius: 10px !important; margin-top:5px">Submit</button>
                                                                     </form>
+                                                                    Rata-rata
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor_persen}}" class="form-control">
+
+                                                                        Skor (Skala 1 - 4)
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor}}" class="form-control">
+                                                                        <hr>
                                                                     <hr>
                                                                 @else
                                                                 @endif
@@ -629,6 +657,12 @@
                                                                             placeholder="Nilai 3 (%)">
                                                                     </form>
                                                                     <hr>
+                                                                    Rata-rata
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor_persen}}" class="form-control">
+
+                                                                        Skor (Skala 1 - 4)
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor}}" class="form-control">
+                                                                        <hr>
                                                                 @else
                                                                     @if ($subss->upload_file == '1')
                                                                         <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
@@ -647,6 +681,12 @@
                                                                             <input type="number" class="form-control"
                                                                                 placeholder="Nilai 3 (%)">
                                                                         </form>
+                                                                        <hr>
+                                                                        Rata-rata
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor_persen}}" class="form-control">
+
+                                                                        Skor (Skala 1 - 4)
+                                                                        <input type="text" disabled name="" value="{{@$jwb->skor}}" class="form-control">
                                                                         <hr>
                                                                     @else
                                                                     @endif
