@@ -176,8 +176,8 @@
                                                     <input type="number" name="skor_persen1"
                                                         value="{{ @$jwb->skor_persen1 }}" class="form-control"
                                                         placeholder="Nilai 1 (%)">
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                    {{-- <button class="btn btn-primary btn-block"
+                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button> --}}
                                                 </form>
                                                 <hr>
                                                 <form action="{{ url('store-penilaian_ami2') }}" method="post">
@@ -199,8 +199,8 @@
                                                     <input type="number" name="skor_persen2"
                                                         value="{{ @$jwb->skor_persen2 }}" class="form-control"
                                                         placeholder="Nilai 2 (%)">
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                    {{-- <button class="btn btn-primary btn-block"
+                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button> --}}
                                                 </form>
                                                 <hr>
                                                 <form action="{{ url('store-penilaian_ami3') }}" method="post">
@@ -222,8 +222,8 @@
                                                     <input type="number" name="skor_persen3"
                                                         value="{{ @$jwb->skor_persen3 }}" class="form-control"
                                                         placeholder="Nilai 3 (%)">
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                    {{-- <button class="btn btn-primary btn-block"
+                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button> --}}
                                                 </form>
                                                 Rata-rata
                                                 <input type="text" disabled name=""
@@ -439,21 +439,31 @@
                                     @else
                                         @php
                                             $today = date('Y-m-d');
+                                            $getAngkaa = DB::table('jawabans')
+                                                ->where('sub_butir_instrumen_id', $subss->id)
+                                                ->where('jadwal_ami_id', $item->jadwal_ami_id)
+                                                ->first();
+
+                                            $jwabb = DB::table('jawabans')
+                                                ->where('jadwal_ami_id', $item->jadwal_ami_id)
+                                                ->where('sub_butir_instrumen_id', $subss->id)
+                                                ->first();
                                         @endphp
                                         @if ($jadwal->tgl_akhir_upload < $today)
                                             <a href="#" title="Upload File" class="text-danger">Batas Waktu
                                                 Upload telah
                                                 Selesai</a>
                                             <form action="">
-                                                <input type="number" class="form-control" placeholder="Nilai 1 (%)">
+                                                <input type="number" value="{{ $jwabb->skor_persen1 }}" class="form-control" disabled
+                                                    placeholder="Nilai 11 (%)">
                                             </form>
                                             <hr>
                                             <form action="">
-                                                <input type="number" class="form-control" placeholder="Nilai 2 (%)">
+                                                <input type="number" value="{{ $jwabb->skor_persen2 }}" class="form-control" disabled placeholder="Nilai 2 (%)">
                                             </form>
                                             <hr>
                                             <form action="">
-                                                <input type="number" class="form-control" placeholder="Nilai 3 (%)">
+                                                <input type="number" value="{{ $jwabb->skor_persen3 }}" class="form-control" disabled placeholder="Nilai 3 (%)">
                                             </form>
                                             <hr>
                                             Rata-rata
