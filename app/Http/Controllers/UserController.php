@@ -28,7 +28,6 @@ class UserController extends Controller
 
     public function store(Request $request){
 
-
         $validator = Validator::make($request->all(), [
             'password'   => 'required',
             'email'      => 'unique:users'
@@ -45,8 +44,13 @@ class UserController extends Controller
                 'role'          => $request->role,
                 'email'         => $request->email,
                 'nip'           => $request->nip,
+                'nohp'          => $request->nohp,
                 'password'      => Hash::make($request->password)
             ]);
+
+            if($request->kirim_wa == "Ya"){
+                sendWADosen($request->nohp, $request->name, $request->email, $request->password);
+            }
 
             $data = [
                 'responCode'    => 1,
@@ -76,6 +80,7 @@ class UserController extends Controller
                 'role'      => $request->role,
                 'email'     => $request->email,
                 'nip'       => $request->nip,
+                'nohp'      => $request->nohp,
                 'password'  => $request->password ? Hash::make($request->password) : $user->password
             ]);
 

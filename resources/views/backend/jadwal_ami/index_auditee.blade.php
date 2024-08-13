@@ -55,8 +55,6 @@
                                     <th>Auditee</th>
                                     <th>Periode Audit</th>
                                     <th>Aktif?</th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
                                 </tr>
                             </thead>
                         </table>
@@ -110,17 +108,6 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">PIC Auditee</label>
                             <select name="pic_auditee" id="pic_auditee" class="form-control" required>
-                                <option value="">--Pilih--</option>
-                                    @foreach ($audites as $auditee)
-                                        <option value="{{ $auditee->id }}">{{ $auditee->name }}</option>
-                                    @endforeach
-                            </select>
-                            <span class="text-danger error" style="font-size: 12px;" id="pic_auditee"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">PIC Auditee2</label>
-                            <select name="pic_auditee2" id="pic_auditee2" class="form-control" required>
                                 <option value="">--Pilih--</option>
                                     @foreach ($audites as $auditee)
                                         <option value="{{ $auditee->id }}">{{ $auditee->name }}</option>
@@ -201,16 +188,6 @@
                             </select>
                             <span class="text-danger error" style="font-size: 12px;" id="status_aktif_alert"></span>
                         </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Kirim WA?</label>
-                            <select class="form-control" name="kirim_wa" id="kirim_wa">
-                                <option value="1">Ya</option>
-                                <option value="0">Tidak</option>
-                            </select>
-                            <span class="text-danger error" style="font-size: 12px;" id="kirim_wa_alert"></span>
-                        </div>
-                        
                     </div>
                     <div class="modal-footer p-3">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
@@ -279,7 +256,6 @@
                                 
                                     <p>${row.prodi}</p>
                                     <p>PIC : ${row.nama_pic_auditee}</p>
-                                    <p>PIC 2 : ${row.nama_pic_2}</p>
                             `
                         }
                     },
@@ -302,22 +278,6 @@
                         }
                     },
 
-                    {
-                        render: function(data, type, row, meta) {
-                            return `<a data-toggle="modal" data-target="#modal"
-                                    data-bs-id=` + (row.id) + ` href="javascript:void(0)">
-                                    <i style="font-size: 1.5rem;" class="text-success bi bi-grid"></i>
-                                </a>`
-                        }
-                    },
-                    {
-                        render: function(data, type, row, meta) {
-                            return `<a href="javascript:void(0)" onclick="hapusData(` + (row
-                                .id) + `)">
-                                    <i style="font-size: 1.5rem;" class="text-danger bi bi-trash"></i>
-                                </a>`
-                        }
-                    },
                 ]
             })
         }
@@ -348,7 +308,6 @@
                 modal.find('#auditor_tiga').val(cokData[0].auditor_tiga)
                 modal.find('#link_upload_dokumen').val(cokData[0].link_upload_dokumen)
                 modal.find('#pic_auditee').val(cokData[0].pic_auditee)
-                modal.find('#pic_auditee2').val(cokData[0].pic_auditee2)
                 modal.find('#kurikulum_instrumen_id').val(cokData[0].kurikulum_instrumen_id)
                 modal.find('#status_aktif').val(cokData[0].status_aktif)
             }

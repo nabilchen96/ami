@@ -47,6 +47,7 @@
                                 <tr>
                                     <th width="5%">No</th>
                                     <th>Nama Kurikulum</th>
+                                    <th>Jenis Instrumen</th>
                                     <th>User</th>
                                     <th>Aktif?</th>
                                     <th width="5%"></th>
@@ -75,6 +76,17 @@
                             <input name="nama_kurikulum" id="nama_kurikulum" type="text" placeholder="Nama Kurikulum Instrumen"
                                 class="form-control form-control-sm" required>
                             <span class="text-danger error" style="font-size: 12px;" id="nama_kurikulum_alert"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jenis_instrumen">Nama Kurikulum Instrumen</label>
+                            <select name="jenis_instrumen" class="form-control" id="jenis_instrumen" required>
+                                <option value="">--Pilih Jenis Instrumen--</option>
+                                <option value="BAN-PT">BAN-PT</option>
+                                <option value="SN-DIKTI">SN-DIKTI</option>
+                                <option value="LAM">LAM</option>
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="jenis_instrumen_alert"></span>
                         </div>
 
                         <div class="form-group">
@@ -127,6 +139,9 @@
                     },
                     {
                         data: "nama_kurikulum"
+                    },
+                    {
+                        data: "jenis_instrumen"
                     },
                     {
                         data: "name"
@@ -189,6 +204,7 @@
                 var modal = $(this)
                 modal.find('#id').val(cokData[0].id)
                 modal.find('#nama_kurikulum').val(cokData[0].nama_kurikulum)
+                modal.find('#jenis_instrumen').val(cokData[0].jenis_instrumen)
                 modal.find('#is_aktif').val(cokData[0].is_aktif)
             }
         })

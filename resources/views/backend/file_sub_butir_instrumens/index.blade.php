@@ -18,10 +18,10 @@
         }
 
         /* th,
-        td {
-            white-space: nowrap !important;
-            vertical-align: middle !important;
-        } */
+                                            td {
+                                                white-space: nowrap !important;
+                                                vertical-align: middle !important;
+                                            } */
     </style>
 @endpush
 @section('content')
@@ -29,25 +29,33 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data Grup Instrumen</h3>
+                    <h3 class="font-weight-bold">Data File Berkas </h3>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-12 mt-4">
             <div class="card w-100">
                 <div class="card-body">
-                    <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
-                        Tambah
-                    </button>
+                    {{ $subbutir->nama_sub_butir }}
+                    <hr>
+                    @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee')
+                        <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
+                            Tambah
+                        </button>
+                    @endif
+
                     <div class="table-responsive">
                         <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>
                                     <th>Name</th>
-                                    <th>User</th>
+                                    <th>Berkas</th>
+                                    <th>Tampilkan File?</th>
+                                    <th>Waktu Upload</th>
                                     <th width="5%"></th>
                                     <th width="5%"></th>
                                 </tr>
@@ -58,25 +66,42 @@
             </div>
         </div>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="form">
+                <form id="form" enctype="multipart/form-data">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">User Form</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">File Sub Butir Instrumen</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
-                    
+                        <input type="hidden" name="sub_butir_instrumen_id" id="sub_butir_instrumen_id"
+                            value="{{ $sub_butir_instrumen_id }}">
+                        <input type="text" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Grup Instrumen</label>
-                            <input name="nama_grup_instrumen[]" id="nama_grup_instrumen" type="text" placeholder="Nama Grup Instrumen"
-                                class="form-control form-control-sm" >
-                            <span class="text-danger error" style="font-size: 12px;" id="nama_grup_instrumen_alert"></span>
+                            <label for="exampleInputEmail1">Nama File</label>
+                            <input name="nama_file" id="nama_file" type="text" placeholder="Nama File"
+                                class="form-control form-control-sm">
+                            <span class="text-danger error" style="font-size: 12px;" id="nama_file_alert"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Berkas</label>
+                            <input name="file_upload" id="file_upload" type="file" placeholder="File Berkas"
+                                class="form-control form-control-sm">
+                            <span class="text-danger error" style="font-size: 12px;" id="file_upload_alert"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tampilkan File?</label>
+                            <select class="form-control" name="tampilkan" id="tampilkan">
+                                <option value="">--Pilih--</option>
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="tampilkan_alert"></span>
                         </div>
 
-                        
                     </div>
                     <div class="modal-footer p-3">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
@@ -86,6 +111,8 @@
             </div>
         </div>
     </div>
+
+
     {{-- <span style="
     width: 200px !important;
     white-space: normal;
@@ -101,9 +128,11 @@
         })
 
         function getData() {
+            var sub_butir_instrumen_id = document.getElementById('sub_butir_instrumen_id').value
+            var jadwal_ami_id = document.getElementById('jadwal_ami_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-grup_instrumen',
+                ajax: '/data-file_subbutir_instrumen/' + sub_butir_instrumen_id + '/' + jadwal_ami_id ,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
@@ -117,10 +146,26 @@
                         }
                     },
                     {
-                        data: "nama_grup_instrumen"
+                        data: "nama_file"
                     },
                     {
-                        data: "name"
+                        render: function(data, type, row, meta) {
+                            return `<a href="/storage/${row.file_upload}" target="_blank">Lihat File</a>`
+                        }
+                    },
+                    {
+                        render: function(data, type, row, meta) {
+
+                            if (row.tampilkan == "1") {
+                                return `<span class="badge badge-success">Ya</span>`
+                            } else if (row.tampilkan == "0") {
+                                return `<span class="badge badge-warning">Tidak</span>`
+                            }
+                        }
+                    },
+
+                    {
+                        data: "created_at"
                     },
 
                     {
@@ -159,7 +204,8 @@
             if (recipient) {
                 var modal = $(this)
                 modal.find('#id').val(cokData[0].id)
-                modal.find('#nama_grup_instrumen').val(cokData[0].nama_grup_instrumen)
+                modal.find('#nama_file').val(cokData[0].nama_file)
+                modal.find('#tampilkan').val(cokData[0].tampilkan)
             }
         })
 
@@ -173,7 +219,8 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-grup_instrumen' : '/update-grup_instrumen',
+                    url: formData.get('id') == '' ? '/store-file_subbutir_instrumen' :
+                        '/update-file_subbutir_instrumen',
                     data: formData,
                 })
                 .then(function(res) {
@@ -193,7 +240,9 @@
                         getData()
 
                     } else {
-
+                        document.getElementById('file_upload_alert').innerHTML = res.data.respon.file_upload ?? ''
+                        document.getElementById('nama_file_alert').innerHTML = res.data.respon.nama_file ?? ''
+                        document.getElementById('tampilkan_alert').innerHTML = res.data.respon.tampilkan ?? ''
                         console.log('terjadi error');
                     }
 
@@ -205,6 +254,7 @@
                     console.log(res);
                 });
         }
+
 
         hapusData = (id) => {
             Swal.fire({
@@ -219,7 +269,7 @@
             }).then((result) => {
 
                 if (result.value) {
-                    axios.post('/delete-grup_instrumen', {
+                    axios.post('/delete-file_subbutir_instrumen', {
                             id
                         })
                         .then((response) => {

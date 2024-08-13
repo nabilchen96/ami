@@ -18,10 +18,10 @@
         }
 
         /* th,
-        td {
-            white-space: nowrap !important;
-            vertical-align: middle !important;
-        } */
+                                    td {
+                                        white-space: nowrap !important;
+                                        vertical-align: middle !important;
+                                    } */
     </style>
 @endpush
 @section('content')
@@ -29,25 +29,31 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data Grup Instrumen</h3>
+                    <h3 class="font-weight-bold">Data Sasaran Standar </h3>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-12 mt-4">
             <div class="card w-100">
                 <div class="card-body">
+                    {{ $butir_instrumen->nama_instrumen }}
+                    <hr>
+                    
                     <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
                         Tambah
                     </button>
+
+                   
                     <div class="table-responsive">
                         <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>
                                     <th>Name</th>
-                                    <th>User</th>
+                                    <th>Upload File?</th>
                                     <th width="5%"></th>
                                     <th width="5%"></th>
                                 </tr>
@@ -58,25 +64,35 @@
             </div>
         </div>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="form">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">User Form</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">Sub Butir Instrumen</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
-                    
+                        <input type="hidden" name="butir_instrumen_id" id="butir_instrumen_id"
+                            value="{{ $butir_instrumen_id }}">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Grup Instrumen</label>
-                            <input name="nama_grup_instrumen[]" id="nama_grup_instrumen" type="text" placeholder="Nama Grup Instrumen"
-                                class="form-control form-control-sm" >
-                            <span class="text-danger error" style="font-size: 12px;" id="nama_grup_instrumen_alert"></span>
+                            <label for="exampleInputEmail1">Nama Sub Butir Instrumen</label>
+                            <input name="nama_sub_butir" id="nama_sub_butir" type="text"
+                                placeholder="Nama Sub Butir Instrumen" class="form-control form-control-sm" required>
+                            <span class="text-danger error" style="font-size: 12px;" id="nama_sub_butir_alert"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Upload File?</label>
+                            <select class="form-control" name="upload_file" id="upload_file" required>
+                                <option value="">--Pilih--</option>
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="upload_file"></span>
                         </div>
 
-                        
                     </div>
                     <div class="modal-footer p-3">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
@@ -86,6 +102,8 @@
             </div>
         </div>
     </div>
+
+    
     {{-- <span style="
     width: 200px !important;
     white-space: normal;
@@ -101,9 +119,10 @@
         })
 
         function getData() {
+            var butir_instrumen_id = document.getElementById('butir_instrumen_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-grup_instrumen',
+                ajax: '/data-subbutir_instrumen/' + butir_instrumen_id,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
@@ -117,10 +136,17 @@
                         }
                     },
                     {
-                        data: "nama_grup_instrumen"
+                        data: "nama_sub_butir"
                     },
                     {
-                        data: "name"
+                        render: function(data, type, row, meta) {
+
+                            if (row.upload_file == "1") {
+                                return `<span class="badge badge-success">Ya</span>`
+                            } else if (row.upload_file == "0") {
+                                return `<span class="badge badge-warning">Tidak</span>`
+                            }
+                        }
                     },
 
                     {
@@ -159,7 +185,8 @@
             if (recipient) {
                 var modal = $(this)
                 modal.find('#id').val(cokData[0].id)
-                modal.find('#nama_grup_instrumen').val(cokData[0].nama_grup_instrumen)
+                modal.find('#nama_sub_butir').val(cokData[0].nama_sub_butir)
+                modal.find('#upload_file').val(cokData[0].upload_file)
             }
         })
 
@@ -173,7 +200,7 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-grup_instrumen' : '/update-grup_instrumen',
+                    url: formData.get('id') == '' ? '/store-subbutir_instrumen' : '/update-subbutir_instrumen',
                     data: formData,
                 })
                 .then(function(res) {
@@ -206,6 +233,7 @@
                 });
         }
 
+
         hapusData = (id) => {
             Swal.fire({
                 title: "Yakin hapus data?",
@@ -219,7 +247,7 @@
             }).then((result) => {
 
                 if (result.value) {
-                    axios.post('/delete-grup_instrumen', {
+                    axios.post('/delete-subbutir_instrumen', {
                             id
                         })
                         .then((response) => {

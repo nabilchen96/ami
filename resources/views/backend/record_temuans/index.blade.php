@@ -29,11 +29,12 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data Grup Instrumen</h3>
+                    <h3 class="font-weight-bold">Record Temuan {{ $judul->judul }}</h3>
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-12 mt-4">
             <div class="card w-100">
@@ -46,10 +47,9 @@
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Name</th>
-                                    <th>User</th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
+                                    <th>No HP</th>
+                                    <th>Keterangan</th>
+                                    <th>Tgl. Input</th>
                                 </tr>
                             </thead>
                         </table>
@@ -64,18 +64,39 @@
             <div class="modal-content">
                 <form id="form">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">User Form</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">Isi Temuan</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
-                    
+                        <input type="hidden" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Grup Instrumen</label>
-                            <input name="nama_grup_instrumen[]" id="nama_grup_instrumen" type="text" placeholder="Nama Grup Instrumen"
-                                class="form-control form-control-sm" >
-                            <span class="text-danger error" style="font-size: 12px;" id="nama_grup_instrumen_alert"></span>
+                            <label for="exampleInputEmail1">No HP</label>
+                            <input name="no_hp" id="no_hp" type="text" value="{{$getKontak->nohp}}" placeholder="No HP"
+                                class="form-control form-control-sm" readonly>
+                            <span class="text-danger error" style="font-size: 12px;" id="nohp_alert"></span>
                         </div>
 
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Keterangan</label>
+                            <textarea name="isi_keterangan" id="isi_keterangan" class="form-control" cols="30" rows="10"></textarea>
+                            <span class="text-danger error" style="font-size: 12px;" id="isi_keterangan_alert"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tgl Input</label>
+                            <input name="tanggal_input" id="tanggal_input" type="date" placeholder="Tgl Input"
+                                class="form-control form-control-sm" required>
+                            <span class="text-danger error" style="font-size: 12px;" id="tanggal_input_alert"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Kirim WA?</label>
+                            <select name="kirim_wa" class="form-control" id="kirim_wa" required>
+                                <option value="">--Pilih--</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+                        </div>
                         
                     </div>
                     <div class="modal-footer p-3">
@@ -101,9 +122,10 @@
         })
 
         function getData() {
+            var jadwal_ami_id = document.getElementById('jadwal_ami_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-grup_instrumen',
+                ajax: '/data-record_temuan/'+jadwal_ami_id,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
@@ -117,28 +139,15 @@
                         }
                     },
                     {
-                        data: "nama_grup_instrumen"
+                        data: "no_hp"
                     },
                     {
-                        data: "name"
-                    },
-
-                    {
-                        render: function(data, type, row, meta) {
-                            return `<a data-toggle="modal" data-target="#modal"
-                                    data-bs-id=` + (row.id) + ` href="javascript:void(0)">
-                                    <i style="font-size: 1.5rem;" class="text-success bi bi-grid"></i>
-                                </a>`
-                        }
+                        data: "isi_keterangan"
                     },
                     {
-                        render: function(data, type, row, meta) {
-                            return `<a href="javascript:void(0)" onclick="hapusData(` + (row
-                                .id) + `)">
-                                    <i style="font-size: 1.5rem;" class="text-danger bi bi-trash"></i>
-                                </a>`
-                        }
+                        data: "tanggal_input"
                     },
+                    
                 ]
             })
         }
@@ -173,7 +182,7 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-grup_instrumen' : '/update-grup_instrumen',
+                    url: formData.get('id') == '' ? '/store-record_temuan' : '/update-record_temuan',
                     data: formData,
                 })
                 .then(function(res) {

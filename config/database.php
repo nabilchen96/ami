@@ -60,7 +60,15 @@ return [
             'engine' => 'InnoDB ROW_FORMAT=DYNAMIC',
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+                
+            ]) : [
+                PDO::ATTR_EMULATE_PREPARES => true, // Tambahkan baris ini
+            ],
+            // 'options' => [
+            //     PDO::ATTR_PERSISTENT => false,
+            //     PDO::ATTR_EMULATE_PREPARES   => true,
+            //     PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+            // ],
         ],
 
         'pgsql' => [

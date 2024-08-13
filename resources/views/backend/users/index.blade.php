@@ -48,6 +48,7 @@
                                     <th width="5%">No</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>No. HP</th>
                                     <th>NIP</th>
                                     <th>Role</th>
                                     <th width="5%"></th>
@@ -87,9 +88,15 @@
                                 class="form-control form-control-sm" required>
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputEmail1">No. WA (Aktif)</label>
+                            <input name="nohp" id="nohp" type="number" placeholder="nohp"
+                                class="form-control form-control-sm" required>
+                            <span class="text-danger error" style="font-size: 12px;" id="nohp_alert"></span>
+                        </div>
+                        <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
                             <input name="password" id="password" type="password" placeholder="Password"
-                                class="form-control form-control-sm" required>
+                                class="form-control form-control-sm">
                             <span class="text-danger error" style="font-size: 12px;" id="password_alert"></span>
                         </div>
                         <div class="form-group">
@@ -97,6 +104,15 @@
                             <select name="role" class="form-control" id="role" required>
                                 <option value="Admin">Admin</option>
                                 <option value="Auditor">Auditor</option>
+                                <option value="Auditee">Auditee</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Kirim WA?</label>
+                            <select name="kirim_wa" class="form-control" id="kirim_wa" required>
+                                <option value="">--Pilih--</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
                             </select>
                         </div>
 
@@ -146,6 +162,9 @@
                         data: "email"
                     },
                     {
+                        data: "nohp"
+                    },
+                    {
                         data: "nip"
                     },
                     {
@@ -155,6 +174,8 @@
                                 return `<span class="badge badge-success">${row.role}</span>`
                             } else if (row.role == "Auditor") {
                                 return `<span class="badge badge-primary">${row.role}</span>`
+                            } else if (row.role == "Auditee") {
+                                return `<span class="badge badge-warning">${row.role}</span>`
                             }
                         }
                     },
@@ -196,6 +217,7 @@
                 var modal = $(this)
                 modal.find('#id').val(cokData[0].id)
                 modal.find('#email').val(cokData[0].email)
+                modal.find('#nohp').val(cokData[0].nohp)
                 modal.find('#name').val(cokData[0].name)
                 modal.find('#role').val(cokData[0].role)
                 modal.find('#nip').val(cokData[0].nip)
@@ -232,7 +254,7 @@
                         getData()
 
                     } else {
-
+                        document.getElementById('password_alert').innerHTML = res.data.respon.password ?? ''
                         console.log('terjadi error');
                     }
 

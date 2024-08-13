@@ -18,10 +18,10 @@
         }
 
         /* th,
-        td {
-            white-space: nowrap !important;
-            vertical-align: middle !important;
-        } */
+                td {
+                    white-space: nowrap !important;
+                    vertical-align: middle !important;
+                } */
     </style>
 @endpush
 @section('content')
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
                     <h3 class="font-weight-bold">Data Butir Instrumen </h3>
-                    
+
                 </div>
             </div>
         </div>
@@ -43,13 +43,13 @@
                         Tambah
                     </button>
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
+                        <table id="myTable" class="table table-bordered" style="width: 100%;">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Kriteria / Sub Kriteria</th>
-                                    <th>Kode</th>
-                                    <th>Instrumen</th>
+                                    <th>Kriteria / Sub Kriteria / Kode</th>
+                                    <th>Pernyataan</th>
+                                    <th>Sasaran Standar</th>
                                     <th>User</th>
                                     <th width="5%"></th>
                                     <th width="5%"></th>
@@ -67,7 +67,7 @@
             <div class="modal-content">
                 <form id="form">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">User Form</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">Butir Instrumen Form</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="kurikulum_id" name="kurikulum_id" value="{{ $kurikulum_id }}">
@@ -87,13 +87,14 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Grup Instrumen</label>
                             <select class="form-control" name="grup_instrumen_id" id="grup_instrumen_id">
+                                <option value="">--Pilih--</option>
                                 @foreach ($grup_instrumen as $gi)
                                     <option value="{{ $gi->id }}">{{ $gi->nama_grup_instrumen }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger error" style="font-size: 12px;" id="grup_instrumen_id_alert"></span>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="exampleInputEmail1">Sub Grup Instrumen</label>
                             <select class="form-control" name="sub_grup_id" id="sub_grup_id">
                                 @foreach ($sub_grup as $gi)
@@ -101,14 +102,21 @@
                                 @endforeach
                             </select>
                             <span class="text-danger error" style="font-size: 12px;" id="sub_grup_id_alert"></span>
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Sub Grup Instrumen</label>
+                            <select class="form-control" name="sub_grup_id" id="sub_grup_id">
+
+                            </select>
+                            <span class="text-danger error" style="font-size: 12px;" id="sub_grup_id_alert"></span>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Keterangan</label>
-                           <textarea class="form-control" name="keterangan" id="keterangan" cols="30" rows="10"></textarea>
-                           <span class="text-danger error" style="font-size: 12px;" id="keterangan_alert"></span>
+                            <textarea class="form-control" name="keterangan" id="keterangan" cols="30" rows="10"></textarea>
+                            <span class="text-danger error" style="font-size: 12px;" id="keterangan_alert"></span>
                         </div>
-                        
-                        
+
+
                     </div>
                     <div class="modal-footer p-3">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
@@ -129,15 +137,41 @@
     <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
     <script>
         ClassicEditor
-                .create( document.querySelector( '#keterangan' ),{
-                    minHeight: '500px'
-                } )
-                .then( editor => {
-                        console.log( editor );
-                } )
-                .catch( error => {
-                        console.error( error );
-                } );
+            .create(document.querySelector('#keterangan'), {
+                minHeight: '500px'
+            })
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#grup_instrumen_id').on('change', function() {
+                let id = $(this).val();
+                $('#sub_grup_id').empty();
+                $('#sub_grup_id').append(`<option value="0" disabled selected>Processing...</option>`);
+                $.ajax({
+                    type: 'GET',
+                    url: '/sub_grups_by_grup_id/' + id,
+                    success: function(response) {
+                        var response = JSON.parse(response);
+                        console.log(response);
+                        $('#sub_grup_id').empty();
+                        $('#sub_grup_id').append(
+                            `<option value="0" disabled selected>--Pilih Sub--</option>`);
+                        response.forEach(element => {
+                            $('#sub_grup_id').append(
+                                `<option value="${element['id']}">${element['nama_sub_grup']} </option>`
+                            );
+                        });
+                    }
+                });
+            });
+        });
     </script>
 
     <script>
@@ -149,7 +183,7 @@
             var kurikulum_id = document.getElementById('kurikulum_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-butir_instrumen/'+ kurikulum_id,
+                ajax: '/data-butir_instrumen/' + kurikulum_id,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
@@ -165,16 +199,22 @@
                     {
                         render: function(data, type, row, meta) {
                             return `
-                                ${row.nama_grup_instrumen} / ${row.nama_sub_grup}
+                                ${row.nama_grup_instrumen} / ${row.nama_sub_grup} / ${row.kode_instrumen}
                             `
                         }
                     },
 
                     {
-                        data: "kode_instrumen"
+                        data: "nama_instrumen"
                     },
                     {
-                        data: "nama_instrumen"
+                        render: function(data, type, row, meta) {
+                            return `
+                                <a href="/subbutir_instrumen/${row.id}">
+                                    <i style="font-size: 1.5rem;" class="text-info text-center bi bi-eye"></i>
+                                </a>
+                            `
+                        }
                     },
                     {
                         data: "name"
@@ -245,7 +285,7 @@
                         })
 
                         $("#modal").modal("hide");
-                        
+
                         $('#myTable').DataTable().clear().destroy();
                         getData()
                         setTimeout(() => {

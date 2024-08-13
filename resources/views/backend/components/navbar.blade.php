@@ -55,11 +55,13 @@
                 </a>
                 <div class="collapse" id="ui-basic2">
                     <ul class="nav flex-column sub-menu">
+                        @if (Auth::user()->role == 'Admin' )
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('jadwal_ami') }}">
                                 <span class="menu-title">Jadwal AMI</span>
                             </a>
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('penilaian_ami') }}">
                                 <span class="menu-title">Penilaian AMI</span>

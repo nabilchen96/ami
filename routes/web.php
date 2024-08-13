@@ -65,6 +65,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-butir_instrumen', 'App\Http\Controllers\ButirInstrumenController@update');
     Route::post('/delete-butir_instrumen', 'App\Http\Controllers\ButirInstrumenController@delete');
 
+    // SUB BUTIR INSTRUMEN
+    Route::get('/subbutir_instrumen/{butir_instrumen_id}', 'App\Http\Controllers\SubButirInstrumenController@index');
+    Route::get('/data-subbutir_instrumen/{butir_instrumen_id}', 'App\Http\Controllers\SubButirInstrumenController@data');
+    Route::get('subbutir_instrumen/edit-butir_instrumen/{id}', 'App\Http\Controllers\SubButirInstrumenController@edit');
+    Route::post('/store-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@store');
+    Route::post('/store-subbutir_instrumen_bulk', 'App\Http\Controllers\SubButirInstrumenController@store_bulk');
+    Route::post('/update-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@update');
+    Route::post('/delete-subbutir_instrumen', 'App\Http\Controllers\SubButirInstrumenController@delete');
+
+    // FILE SUB BUTIR
+    Route::get('/file_subbutir_instrumen/{sub_butir_instrumen_id}/{jadwal_ami_id}', 'App\Http\Controllers\FileSubButirInstrumenController@index');
+    Route::get('/data-file_subbutir_instrumen/{sub_butir_instrumen_id}/{jadwal_ami_id}', 'App\Http\Controllers\FileSubButirInstrumenController@data');
+    Route::post('/store-file_subbutir_instrumen', 'App\Http\Controllers\FileSubButirInstrumenController@store');
+    Route::post('/update-file_subbutir_instrumen', 'App\Http\Controllers\FileSubButirInstrumenController@update');
+    Route::post('/delete-file_subbutir_instrumen', 'App\Http\Controllers\FileSubButirInstrumenController@delete');
+
+    Route::get('/sub_grups_by_grup_id/{id}', 'App\Http\Controllers\ButirInstrumenController@getSubGrup');
+
     // JADWAL AMI
     Route::get('/jadwal_ami', 'App\Http\Controllers\JadwalAmiController@index');
     Route::get('/data-jadwal_ami', 'App\Http\Controllers\JadwalAmiController@data');
@@ -78,13 +96,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/penilaian_ami/{id}', 'App\Http\Controllers\PenilaianController@detail');
     Route::get('/data-penilaian_ami/{id}', 'App\Http\Controllers\PenilaianController@data');
     Route::post('/store-penilaian_ami', 'App\Http\Controllers\PenilaianController@store');
+    Route::post('/store-penilaian_ami1', 'App\Http\Controllers\PenilaianController@store1');
+    Route::post('/store-penilaian_ami2', 'App\Http\Controllers\PenilaianController@store2');
+    Route::post('/store-penilaian_ami3', 'App\Http\Controllers\PenilaianController@store3');
     Route::post('/update-penilaian_ami', 'App\Http\Controllers\PenilaianController@update');
     Route::post('/delete-penilaian_ami', 'App\Http\Controllers\PenilaianController@delete');
+
+    // RECORD TEMUAN
+    Route::get('/record_temuan/{jadwal_ami_id}', 'App\Http\Controllers\RecordTemuanController@index');
+    Route::get('/data-record_temuan/{jadwal_ami_id}', 'App\Http\Controllers\RecordTemuanController@data');
+    Route::post('/store-record_temuan', 'App\Http\Controllers\RecordTemuanController@store');
+    Route::post('/update-record_temuan', 'App\Http\Controllers\RecordTemuanController@update');
+    Route::post('/delete-record_temuan', 'App\Http\Controllers\RecordTemuanController@delete');
 
     // LAPORAN AMI
     Route::get('/laporan_ami', 'App\Http\Controllers\LaporanController@index');
     Route::get('/laporan_ami/{id}', 'App\Http\Controllers\LaporanController@detail');
+    Route::get('/laporan_ami/{id}/{id_komponen}', 'App\Http\Controllers\LaporanController@detailKomponen');
     Route::get('/data-laporan_ami/{id}', 'App\Http\Controllers\LaporanController@data');
+    Route::get('/data-laporan_ami/{id}/{id_komponen}', 'App\Http\Controllers\LaporanController@dataKomponen');
 });
 
 //LOGOUT

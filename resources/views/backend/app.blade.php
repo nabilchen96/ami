@@ -118,11 +118,13 @@
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
                 style="box-shadow: 0px 5px 21px -5px #CDD1E1;">
-                <a class="navbar-brand brand-logo mr-5" style="font-size: 16px; margin-left: 20px;"
+                
+                <a
                     href="{{ url('/') }}">
-                    <h3><b>E-AMI</b></h3>
+                    <img src="{{ asset('siami2.png') }}" width="97px" alt="" srcset="">
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}">
                     <h4><b>AMI</b></h4>
@@ -142,6 +144,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="#">
+                                {{ Auth::user()->name }} : {{ Auth::user()->role }}
+                            </a>
                             <a class="dropdown-item" href="{{ url('logout') }}">
                                 <i class="ti-power-off text-primary"></i>
                                 Logout
