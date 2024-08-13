@@ -379,7 +379,7 @@
                                         @if ($subss->upload_file == '1')
                                             <a
                                                 href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}">Cek
-                                                File ({{ $subss->id }})</a>
+                                                File</a>
                                             <form action="{{ url('store-penilaian_ami1') }}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="butir_instrumen_id"
