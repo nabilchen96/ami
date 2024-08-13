@@ -52,6 +52,7 @@ class PenilaianController extends Controller
                 'j.skor_persen3',
             )
             ->where('ja.id', $id)
+            ->groupBy('bi.id')
             ->get();
 
 
