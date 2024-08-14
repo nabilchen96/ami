@@ -41,7 +41,10 @@
         <div class="col-12 mt-4">
             <div class="card w-100">
                 <div class="card-body">
-                    {{ $subbutir->nama_sub_butir }}
+                    <ul>
+                        <li><h4>{{ $subbutir->nama_sub_butir }}</h4></li>
+                    </ul>
+                    
                     <hr>
                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee')
                         @if ($jadwal->tgl_akhir_upload < $today)
