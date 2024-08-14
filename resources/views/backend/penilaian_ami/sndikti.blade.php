@@ -14,6 +14,8 @@
         ->where('auditor_tiga', $user->id)
         ->first();
 
+    $today = date('Y-m-d');
+
 @endphp
 
 <div class="table-responsive mt-4">
@@ -26,7 +28,7 @@
                 <th>Standar</th>
                 <th>Rata-rata (%)</th>
                 <th>Nilai (Skala 1-4)</th>
-                
+
             </tr>
         </thead>
         <tbody>
@@ -84,8 +86,15 @@
                                     <li>{{ $subss->nama_sub_butir }}
                                         @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                             @if ($subss->upload_file == '1')
-                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
-                                                    title="Cek File">Cek File</a> <br>
+                                                @if ($jadwal->tgl_akhir_upload < $today)
+                                                <a class="text-danger" href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                    title="Cek File">Batas Waktu
+                                                    Upload telah
+                                                    Selesai</a> <br>
+                                                @else
+                                                    <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                        title="Cek File">Cek File</a> <br>
+                                                @endif
 
                                                 <form action="{{ url('store-penilaian_ami1') }}" method="post">
                                                     @csrf
@@ -185,11 +194,8 @@
                                             @else
                                             @endif
                                         @else
-                                            @php
-                                                $today = date('Y-m-d');
-                                            @endphp
                                             @if ($jadwal->tgl_akhir_upload < $today)
-                                                <a href="#" title="Upload File" class="text-danger">Batas Waktu
+                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}" title="Upload File" class="text-danger">Batas Waktu
                                                     Upload telah
                                                     Selesai</a>
                                                 <form action="{{ url('store-penilaian_ami1') }}" method="post">
@@ -208,7 +214,7 @@
                                                         value="{{ $jadwal->jenis_instrumen }}">
                                                     <input type="hidden" name="sub_butir_instrumen_id"
                                                         value="{{ $subss->id }}">
-                                                    <input type="number" name="skor_persen1"
+                                                    <input type="number" name="skor_persen1" disabled
                                                         value="{{ @$jwb->skor_persen1 }}" class="form-control"
                                                         placeholder="Nilai 1 (%)">
                                                     {{-- <button class="btn btn-primary btn-block"
@@ -231,7 +237,7 @@
                                                         value="{{ $jadwal->jenis_instrumen }}">
                                                     <input type="hidden" name="sub_butir_instrumen_id"
                                                         value="{{ $subss->id }}">
-                                                    <input type="number" name="skor_persen2"
+                                                    <input type="number" name="skor_persen2" disabled
                                                         value="{{ @$jwb->skor_persen2 }}" class="form-control"
                                                         placeholder="Nilai 2 (%)">
                                                     {{-- <button class="btn btn-primary btn-block"
@@ -253,20 +259,20 @@
                                                     <input type="hidden" name="jenis_instrumen"
                                                         value="{{ $jadwal->jenis_instrumen }}">
                                                     <input type="hidden" name="sub_butir_instrumen_id"
-                                                        value="{{ $subss->id }}">
+                                                        value="{{ $subss->id }}" >
                                                     <input type="number" name="skor_persen3"
                                                         value="{{ @$jwb->skor_persen3 }}" class="form-control"
-                                                        placeholder="Nilai 3 (%)">
+                                                        placeholder="Nilai 3 (%)" disabled>
                                                     {{-- <button class="btn btn-primary btn-block"
                                                         style="border-radius: 10px !important; margin-top:5px">Submit</button> --}}
                                                 </form>
                                                 Rata-rata
                                                 <input type="text" disabled name=""
-                                                    value="{{ @$jwb->skor_persen }} didi" class="form-control">
+                                                    value="{{ @$jwb->skor_persen }} " class="form-control">
 
                                                 Skor (Skala 1 - 4)
                                                 <input type="text" disabled name=""
-                                                    value="{{ @$jwb->skor }} didi" class="form-control">
+                                                    value="{{ @$jwb->skor }} " class="form-control">
                                                 <hr>
                                                 <hr>
                                             @else
@@ -348,7 +354,7 @@
                                     class="form-control" readonly>
 
                             </td>
-                            
+
                         </form>
                     </tr>
                     @php
@@ -368,198 +374,204 @@
 
                             @endphp
                             <ul>
-                            @foreach ($subs as $subss)
-                                @php
-                                    $jwab = DB::table('jawabans')
-                                        ->where('jadwal_ami_id', $item->jadwal_ami_id)
-                                        ->where('sub_butir_instrumen_id', $subss->id)
-                                        ->first();
-                                @endphp
-                                <li>{{ $subss->nama_sub_butir }}
-                                    @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
-                                        @if ($subss->upload_file == '1')
-                                            <a
-                                                href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}">Cek
-                                                File</a>
-                                            <form action="{{ url('store-penilaian_ami1') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="butir_instrumen_id"
-                                                    value="{{ $item->butir_instrumen_id }}">
-                                                <input type="hidden" name="grup_instrumen_id"
-                                                    value="{{ $item->grup_instrumen_id }}">
-                                                <input type="hidden" name="kurikulum_instrumen_id"
-                                                    value="{{ $item->kurikulum_instrumen_id }}">
-                                                <input type="hidden" name="jadwal_ami_id"
-                                                    value="{{ $item->jadwal_ami_id }}">
-                                                <input type="hidden" name="sub_grup_id"
-                                                    value="{{ $item->sub_grup_id }}">
-                                                <input type="hidden" name="jenis_instrumen"
-                                                    value="{{ $jadwal->jenis_instrumen }}">
-                                                <input type="hidden" name="sub_butir_instrumen_id"
-                                                    value="{{ $subss->id }}">
-                                                <input type="number" name="skor_persen1"
-                                                    value="{{ @$jwab->skor_persen1 }}" class="form-control"
-                                                    placeholder="Nilai 1 (%)">
-                                                @if (Auth::user()->role == 'Admin')
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button>
-                                                @elseif(Auth::user()->role == 'Auditor')
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px"
-                                                        {{ @$auditor1->auditor_satu != @$user->id ? 'disabled' : '' }}>Submit</button>
-                                                @endif
-                                            </form>
-                                            <hr>
-                                            <form action="{{ url('store-penilaian_ami2') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="butir_instrumen_id"
-                                                    value="{{ $item->butir_instrumen_id }}">
-                                                <input type="hidden" name="grup_instrumen_id"
-                                                    value="{{ $item->grup_instrumen_id }}">
-                                                <input type="hidden" name="kurikulum_instrumen_id"
-                                                    value="{{ $item->kurikulum_instrumen_id }}">
-                                                <input type="hidden" name="jadwal_ami_id"
-                                                    value="{{ $item->jadwal_ami_id }}">
-                                                <input type="hidden" name="sub_grup_id"
-                                                    value="{{ $item->sub_grup_id }}">
-                                                <input type="hidden" name="jenis_instrumen"
-                                                    value="{{ $jadwal->jenis_instrumen }}">
-                                                <input type="hidden" name="sub_butir_instrumen_id"
-                                                    value="{{ $subss->id }}">
-                                                <input type="number" name="skor_persen2"
-                                                    value="{{ @$jwab->skor_persen2 }}" class="form-control"
-                                                    placeholder="Nilai 2 (%)">
-                                                @if (Auth::user()->role == 'Admin')
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button>
-                                                @elseif(Auth::user()->role == 'Auditor')
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px"
-                                                        {{ @$auditor2->auditor_dua != @$user->id ? 'disabled' : '' }}>Submit</button>
-                                                @endif
-                                            </form>
-                                            <hr>
-                                            <form action="{{ url('store-penilaian_ami3') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="butir_instrumen_id"
-                                                    value="{{ $item->butir_instrumen_id }}">
-                                                <input type="hidden" name="grup_instrumen_id"
-                                                    value="{{ $item->grup_instrumen_id }}">
-                                                <input type="hidden" name="kurikulum_instrumen_id"
-                                                    value="{{ $item->kurikulum_instrumen_id }}">
-                                                <input type="hidden" name="jadwal_ami_id"
-                                                    value="{{ $item->jadwal_ami_id }}">
-                                                <input type="hidden" name="sub_grup_id"
-                                                    value="{{ $item->sub_grup_id }}">
-                                                <input type="hidden" name="jenis_instrumen"
-                                                    value="{{ $jadwal->jenis_instrumen }}">
-                                                <input type="hidden" name="sub_butir_instrumen_id"
-                                                    value="{{ $subss->id }}">
-                                                <input type="number" name="skor_persen3"
-                                                    value="{{ @$jwab->skor_persen3 }}" class="form-control"
-                                                    placeholder="Nilai 3 (%)">
-                                                @if (Auth::user()->role == 'Admin')
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px">Submit</button>
-                                                @elseif(Auth::user()->role == 'Auditor')
-                                                    <button class="btn btn-primary btn-block"
-                                                        style="border-radius: 10px !important; margin-top:5px"
-                                                        {{ @$auditor3->auditor_tiga != @$user->id ? 'disabled' : '' }}>Submit</button>
-                                                @endif
+                                @foreach ($subs as $subss)
+                                    @php
+                                        $jwab = DB::table('jawabans')
+                                            ->where('jadwal_ami_id', $item->jadwal_ami_id)
+                                            ->where('sub_butir_instrumen_id', $subss->id)
+                                            ->first();
+                                    @endphp
+                                    <li>{{ $subss->nama_sub_butir }}
+                                        @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
+                                            @if ($subss->upload_file == '1')
+                                            @if ($jadwal->tgl_akhir_upload < $today)
+                                            <a class="text-danger" href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                title="Cek File">Batas Waktu
+                                                Upload telah
+                                                Selesai</a> <br>
+                                            @else
+                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                    title="Cek File">Cek File</a> <br>
+                                            @endif
 
-                                            </form>
+                                                <form action="{{ url('store-penilaian_ami1') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="butir_instrumen_id"
+                                                        value="{{ $item->butir_instrumen_id }}">
+                                                    <input type="hidden" name="grup_instrumen_id"
+                                                        value="{{ $item->grup_instrumen_id }}">
+                                                    <input type="hidden" name="kurikulum_instrumen_id"
+                                                        value="{{ $item->kurikulum_instrumen_id }}">
+                                                    <input type="hidden" name="jadwal_ami_id"
+                                                        value="{{ $item->jadwal_ami_id }}">
+                                                    <input type="hidden" name="sub_grup_id"
+                                                        value="{{ $item->sub_grup_id }}">
+                                                    <input type="hidden" name="jenis_instrumen"
+                                                        value="{{ $jadwal->jenis_instrumen }}">
+                                                    <input type="hidden" name="sub_butir_instrumen_id"
+                                                        value="{{ $subss->id }}">
+                                                    <input type="number" name="skor_persen1"
+                                                        value="{{ @$jwab->skor_persen1 }}" class="form-control"
+                                                        placeholder="Nilai 1 (%)">
+                                                    @if (Auth::user()->role == 'Admin')
+                                                        <button class="btn btn-primary btn-block"
+                                                            style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                    @elseif(Auth::user()->role == 'Auditor')
+                                                        <button class="btn btn-primary btn-block"
+                                                            style="border-radius: 10px !important; margin-top:5px"
+                                                            {{ @$auditor1->auditor_satu != @$user->id ? 'disabled' : '' }}>Submit</button>
+                                                    @endif
+                                                </form>
+                                                <hr>
+                                                <form action="{{ url('store-penilaian_ami2') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="butir_instrumen_id"
+                                                        value="{{ $item->butir_instrumen_id }}">
+                                                    <input type="hidden" name="grup_instrumen_id"
+                                                        value="{{ $item->grup_instrumen_id }}">
+                                                    <input type="hidden" name="kurikulum_instrumen_id"
+                                                        value="{{ $item->kurikulum_instrumen_id }}">
+                                                    <input type="hidden" name="jadwal_ami_id"
+                                                        value="{{ $item->jadwal_ami_id }}">
+                                                    <input type="hidden" name="sub_grup_id"
+                                                        value="{{ $item->sub_grup_id }}">
+                                                    <input type="hidden" name="jenis_instrumen"
+                                                        value="{{ $jadwal->jenis_instrumen }}">
+                                                    <input type="hidden" name="sub_butir_instrumen_id"
+                                                        value="{{ $subss->id }}">
+                                                    <input type="number" name="skor_persen2"
+                                                        value="{{ @$jwab->skor_persen2 }}" class="form-control"
+                                                        placeholder="Nilai 2 (%)">
+                                                    @if (Auth::user()->role == 'Admin')
+                                                        <button class="btn btn-primary btn-block"
+                                                            style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                    @elseif(Auth::user()->role == 'Auditor')
+                                                        <button class="btn btn-primary btn-block"
+                                                            style="border-radius: 10px !important; margin-top:5px"
+                                                            {{ @$auditor2->auditor_dua != @$user->id ? 'disabled' : '' }}>Submit</button>
+                                                    @endif
+                                                </form>
+                                                <hr>
+                                                <form action="{{ url('store-penilaian_ami3') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="butir_instrumen_id"
+                                                        value="{{ $item->butir_instrumen_id }}">
+                                                    <input type="hidden" name="grup_instrumen_id"
+                                                        value="{{ $item->grup_instrumen_id }}">
+                                                    <input type="hidden" name="kurikulum_instrumen_id"
+                                                        value="{{ $item->kurikulum_instrumen_id }}">
+                                                    <input type="hidden" name="jadwal_ami_id"
+                                                        value="{{ $item->jadwal_ami_id }}">
+                                                    <input type="hidden" name="sub_grup_id"
+                                                        value="{{ $item->sub_grup_id }}">
+                                                    <input type="hidden" name="jenis_instrumen"
+                                                        value="{{ $jadwal->jenis_instrumen }}">
+                                                    <input type="hidden" name="sub_butir_instrumen_id"
+                                                        value="{{ $subss->id }}">
+                                                    <input type="number" name="skor_persen3"
+                                                        value="{{ @$jwab->skor_persen3 }}" class="form-control"
+                                                        placeholder="Nilai 3 (%)">
+                                                    @if (Auth::user()->role == 'Admin')
+                                                        <button class="btn btn-primary btn-block"
+                                                            style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                    @elseif(Auth::user()->role == 'Auditor')
+                                                        <button class="btn btn-primary btn-block"
+                                                            style="border-radius: 10px !important; margin-top:5px"
+                                                            {{ @$auditor3->auditor_tiga != @$user->id ? 'disabled' : '' }}>Submit</button>
+                                                    @endif
+
+                                                </form>
+                                                @php
+                                                    $getAngka = DB::table('jawabans')
+                                                        ->where('sub_butir_instrumen_id', $subss->id)
+                                                        ->where('jadwal_ami_id', $item->jadwal_ami_id)
+                                                        ->first();
+                                                @endphp
+                                                Rata-rata
+                                                <input type="text" disabled name=""
+                                                    value="{{ @$getAngka->skor_persen }} " class="form-control">
+
+                                                Skor (Skala 1 - 4)
+                                                <input type="text" disabled name=""
+                                                    value="{{ @$getAngka->skor }} " class="form-control">
+                                                <hr>
+                                            @else
+                                            @endif
+                                        @else
                                             @php
-                                                $getAngka = DB::table('jawabans')
+
+                                                $getAngkaa = DB::table('jawabans')
                                                     ->where('sub_butir_instrumen_id', $subss->id)
                                                     ->where('jadwal_ami_id', $item->jadwal_ami_id)
                                                     ->first();
+
+                                                $jwabb = DB::table('jawabans')
+                                                    ->where('jadwal_ami_id', $item->jadwal_ami_id)
+                                                    ->where('sub_butir_instrumen_id', $subss->id)
+                                                    ->first();
                                             @endphp
-                                            Rata-rata
-                                            <input type="text" disabled name=""
-                                                value="{{ @$getAngka->skor_persen }} " class="form-control">
-
-                                            Skor (Skala 1 - 4)
-                                            <input type="text" disabled name=""
-                                                value="{{ @$getAngka->skor }} " class="form-control">
-                                            <hr>
-                                        @else
-                                        @endif
-                                    @else
-                                        @php
-                                            $today = date('Y-m-d');
-                                            $getAngkaa = DB::table('jawabans')
-                                                ->where('sub_butir_instrumen_id', $subss->id)
-                                                ->where('jadwal_ami_id', $item->jadwal_ami_id)
-                                                ->first();
-
-                                            $jwabb = DB::table('jawabans')
-                                                ->where('jadwal_ami_id', $item->jadwal_ami_id)
-                                                ->where('sub_butir_instrumen_id', $subss->id)
-                                                ->first();
-                                        @endphp
-                                        @if ($jadwal->tgl_akhir_upload < $today)
-                                            <a href="#" title="Upload File" class="text-danger">Batas Waktu
-                                                Upload telah
-                                                Selesai</a>
-                                            <form action="">
-                                                <input type="number" value="{{ @$jwabb->skor_persen1 }}"
-                                                    class="form-control" disabled placeholder="Nilai 11 (%)">
-                                            </form>
-                                            <hr>
-                                            <form action="">
-                                                <input type="number" value="{{ @$jwabb->skor_persen2 }}"
-                                                    class="form-control" disabled placeholder="Nilai 2 (%)">
-                                            </form>
-                                            <hr>
-                                            <form action="">
-                                                <input type="number" value="{{ @$jwabb->skor_persen3 }}"
-                                                    class="form-control" disabled placeholder="Nilai 3 (%)">
-                                            </form>
-                                            <hr>
-                                            Rata-rata
-                                            <input type="text" disabled name=""
-                                                value="{{ @$jwb->skor_persen }} " class="form-control">
-
-                                            Skor (Skala 1 - 4)
-                                            <input type="text" disabled name=""
-                                                value="{{ @$jwb->skor }}" class="form-control">
-                                            <hr>
-                                        @else
-                                            @if ($subss->upload_file == '1')
-                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
-                                                    title="Upload File">Upload File</a>
+                                            @if ($jadwal->tgl_akhir_upload < $today)
+                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}" title="Upload File" class="text-danger">Batas Waktu
+                                                    Upload telah
+                                                    Selesai</a>
                                                 <form action="">
-                                                    <input type="number" class="form-control"
-                                                        placeholder="Nilai 1 (%)">
+                                                    <input type="number" value="{{ @$jwabb->skor_persen1 }}"
+                                                        class="form-control" disabled placeholder="Nilai 11 (%)">
                                                 </form>
                                                 <hr>
                                                 <form action="">
-                                                    <input type="number" class="form-control"
-                                                        placeholder="Nilai 2 (%)">
+                                                    <input type="number" value="{{ @$jwabb->skor_persen2 }}"
+                                                        class="form-control" disabled placeholder="Nilai 2 (%)">
                                                 </form>
                                                 <hr>
                                                 <form action="">
-                                                    <input type="number" class="form-control"
-                                                        placeholder="Nilai 3 (%)">
+                                                    <input type="number" value="{{ @$jwabb->skor_persen3 }}"
+                                                        class="form-control" disabled placeholder="Nilai 3 (%)">
                                                 </form>
                                                 <hr>
                                                 Rata-rata
                                                 <input type="text" disabled name=""
-                                                    value="{{ @$jwb->skor_persen }}" class="form-control">
+                                                    value="{{ @$jwb->skor_persen }} " class="form-control">
 
                                                 Skor (Skala 1 - 4)
                                                 <input type="text" disabled name=""
                                                     value="{{ @$jwb->skor }}" class="form-control">
                                                 <hr>
                                             @else
+                                                @if ($subss->upload_file == '1')
+                                                    <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                        title="Upload File">Upload File</a>
+                                                    <form action="">
+                                                        <input type="number" class="form-control"
+                                                            placeholder="Nilai 1 (%)">
+                                                    </form>
+                                                    <hr>
+                                                    <form action="">
+                                                        <input type="number" class="form-control"
+                                                            placeholder="Nilai 2 (%)">
+                                                    </form>
+                                                    <hr>
+                                                    <form action="">
+                                                        <input type="number" class="form-control"
+                                                            placeholder="Nilai 3 (%)">
+                                                    </form>
+                                                    <hr>
+                                                    Rata-rata
+                                                    <input type="text" disabled name=""
+                                                        value="{{ @$jwb->skor_persen }}" class="form-control">
+
+                                                    Skor (Skala 1 - 4)
+                                                    <input type="text" disabled name=""
+                                                        value="{{ @$jwb->skor }}" class="form-control">
+                                                    <hr>
+                                                @else
+                                                @endif
                                             @endif
                                         @endif
-                                    @endif
 
-                                </li>
-                            
-                            @endforeach
-                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </td>
                         <form action="{{ url('store-penilaian_ami') }}" method="POST">
                             @csrf
@@ -601,7 +613,7 @@
                                 <input name="skor" type="number" value="{{ $getAVGS->ss }}" disabled
                                     class="form-control" readonly>
                             </td>
-                            
+
                         </form>
                     </tr>
                 @endif
