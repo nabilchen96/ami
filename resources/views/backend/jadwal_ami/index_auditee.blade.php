@@ -29,7 +29,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data Jadwal AMI</h3>
+                    <h3 class="font-weight-bold" style="color: #ffffff">Data Jadwal AMI</h3>
                 </div>
             </div>
         </div>
