@@ -180,7 +180,7 @@
                     background: #4b49ac;
                     background-image:  
                     url('https://cdn.pixabay.com/photo/2022/08/05/07/06/background-7366180_1280.jpg'); 
-                    height: 200px; 
+                    height: 270px; 
                     background-position: center;
                     background-size: cover;
                     width: 100%;">

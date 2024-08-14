@@ -367,6 +367,7 @@
                                     ->get();
 
                             @endphp
+                            <ul>
                             @foreach ($subs as $subss)
                                 @php
                                     $jwab = DB::table('jawabans')
@@ -556,7 +557,9 @@
                                     @endif
 
                                 </li>
+                            
                             @endforeach
+                        </ul>
                         </td>
                         <form action="{{ url('store-penilaian_ami') }}" method="POST">
                             @csrf
