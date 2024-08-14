@@ -48,7 +48,7 @@
                 @if ($namagrup != $namagrupprev)
                     <tr style="background: green !important;">
                         <td
-                            colspan="{{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor' ? '6' : '5' }} ">
+                            colspan="{{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor' ? '6' : '6' }} ">
                             <b>{{ $item->nama_grup_instrumen }}</b>
                         </td>
                     </tr>
@@ -516,7 +516,7 @@
                                                     Selesai</a>
                                                 <form action="">
                                                     <input type="number" value="{{ @$jwabb->skor_persen1 }}"
-                                                        class="form-control" disabled placeholder="Nilai 11 (%)">
+                                                        class="form-control" disabled placeholder="Nilai 1 (%)">
                                                 </form>
                                                 <hr>
                                                 <form action="">
