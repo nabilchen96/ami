@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FileSubButirInstrumen;
+use App\Models\JadwalAmi;
 use App\Models\SubButirInstrumen;
 use Illuminate\Http\Request;
 use DB;
@@ -15,10 +16,12 @@ class FileSubButirInstrumenController extends Controller
     public function index($sub_butir_instrumen_id, $jadwal_ami_id)
     {
         $subbutir = SubButirInstrumen::where('id', $sub_butir_instrumen_id)->first();
+        $jadwal = JadwalAmi::find($jadwal_ami_id);
         return view('backend.file_sub_butir_instrumens.index', [
             'subbutir' => $subbutir,
             'sub_butir_instrumen_id' => $sub_butir_instrumen_id,
             'jadwal_ami_id' => $jadwal_ami_id,
+            'jadwal' => $jadwal,
         ]);
     }
 

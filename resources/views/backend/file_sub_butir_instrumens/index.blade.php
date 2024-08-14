@@ -18,10 +18,10 @@
         }
 
         /* th,
-                                            td {
-                                                white-space: nowrap !important;
-                                                vertical-align: middle !important;
-                                            } */
+                                                td {
+                                                    white-space: nowrap !important;
+                                                    vertical-align: middle !important;
+                                                } */
     </style>
 @endpush
 @section('content')
@@ -34,7 +34,9 @@
             </div>
         </div>
     </div>
-
+    @php
+        $today = date('Y-m-d');
+    @endphp
     <div class="row">
         <div class="col-12 mt-4">
             <div class="card w-100">
@@ -42,9 +44,14 @@
                     {{ $subbutir->nama_sub_butir }}
                     <hr>
                     @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee')
-                        <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal">
-                            Tambah
-                        </button>
+                        @if ($jadwal->tgl_akhir_upload < $today)
+                        <h4 class="text-danger">Batas Waktu Upload telah habis</h4>
+                        @else
+                            <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal"
+                                data-target="#modal">
+                                Tambah
+                            </button>
+                        @endif
                     @endif
 
                     <div class="table-responsive">
@@ -132,7 +139,7 @@
             var jadwal_ami_id = document.getElementById('jadwal_ami_id').value
             $("#myTable").DataTable({
                 "ordering": false,
-                ajax: '/data-file_subbutir_instrumen/' + sub_butir_instrumen_id + '/' + jadwal_ami_id ,
+                ajax: '/data-file_subbutir_instrumen/' + sub_butir_instrumen_id + '/' + jadwal_ami_id,
                 processing: true,
                 scrollX: true,
                 scrollCollapse: true,
