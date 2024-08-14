@@ -179,7 +179,7 @@
                     style="
                     background: #4b49ac;
                     background-image:  
-                    url('https://cdn.pixabay.com/photo/2022/01/11/17/04/city-6931092_1280.jpg'); 
+                    url('laptop.jpg'); 
                     height: 200px; 
                     background-position: center;
                     background-size: cover;
