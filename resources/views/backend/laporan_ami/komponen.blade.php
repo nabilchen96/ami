@@ -57,7 +57,7 @@
                             <tr>
                                 <td>Rata-rata</td>
                                 <td>:</td>
-                                <td colspan="4"><b>{{ $rata2 }}</b></td>
+                                <td colspan="4"><b>{{ round($rata2,2) }}</b></td>
                             </tr>
                         </table>
                     </div>
@@ -78,7 +78,7 @@
                                 @foreach ($data as $k => $item)
                                     <tr>
                                         <td>{{ $k + 1 }}</td>
-                                        <td>{{ $item->nama_instrumen }}</td>
+                                        <td>{{ $item->kode_instrumen }}. {{ $item->nama_instrumen }}</td>
                                         <td>{{ $item->skor }}</td>
                                     </tr>
                                 @endforeach

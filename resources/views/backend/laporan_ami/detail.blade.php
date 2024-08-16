@@ -62,7 +62,7 @@
                             <tr>
                                 <td>Rata-rata</td>
                                 <td>:</td>
-                                <td colspan="4"><b>{{ $rata2 }}</b></td>
+                                <td colspan="4"><b>{{ round($rata2,2) }}</b></td>
                             </tr>
                         </table>
                     </div>

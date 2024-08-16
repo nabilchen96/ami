@@ -37,6 +37,7 @@ class LaporanController extends Controller
             ->select(
                 'ja.id as jadwal_ami_id',
                 'bi.grup_instrumen_id',
+                'bi.kode_instrumen',
                 'gi.nama_grup_instrumen',
                 DB::raw('AVG(j.skor) as rata_rata')
             )
@@ -143,7 +144,7 @@ class LaporanController extends Controller
                 'ja.id as jadwal_ami_id',
                 'bi.grup_instrumen_id',
                 'gi.nama_grup_instrumen',
-                DB::raw('AVG(j.skor) as rata_rata')
+                DB::raw('ROUND(AVG(j.skor),2) as rata_rata')
             )
             ->where('ja.id', $id)
             ->groupBy('bi.grup_instrumen_id')
