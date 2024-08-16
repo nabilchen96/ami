@@ -78,7 +78,7 @@
                                 @foreach ($data as $k => $item)
                                     <tr>
                                         <td>{{ $k + 1 }}</td>
-                                        <td>{{ $item->kode_instrumen }}. {{ $item->nama_instrumen }}</td>
+                                        <td>{{ $item->kode_instrumen }}) {{ $item->nama_instrumen }}</td>
                                         <td>{{ $item->skor }}</td>
                                     </tr>
                                 @endforeach
