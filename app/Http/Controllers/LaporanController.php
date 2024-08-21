@@ -46,12 +46,12 @@ class LaporanController extends Controller
         $kurikulums = KurikulumInstrumen::where('is_aktif', '1')->get();
         $jadwal = JadwalAmi::find($jadwal_ami_id);
         $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id )->first();
-        $getUser = User::find($dataBA->lead_auditor);
+        $getUser = User::find(@$dataBA->lead_auditor);
         return view('backend.laporan_ami.ba_cetak', [
             'auditors' => $auditors,
             'kurikulums' => $kurikulums,
             'jadwal' => $jadwal,
-            'getUser' => $getUser,
+            'getUser' => @$getUser,
             'dataBA' => $dataBA,
         ]);
     }

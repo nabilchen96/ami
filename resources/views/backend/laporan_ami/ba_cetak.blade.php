@@ -82,11 +82,11 @@
             </tr>
             <tr>
                 <td>Nama</td>
-                <td>: {{$getUser->name}}</td>
+                <td>: {{@$getUser->name}}</td>
             </tr>
             <tr>
                 <td>NIP/NIDN</td>
-                <td>: {{$getUser->nip}}</td>
+                <td>: {{@$getUser->nip}}</td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -117,7 +117,7 @@
                 <td width="50%" class="text-center">
                     <b>Auditor</b>
                     <br><br><br><br><br>
-                    ({{$getUser->name}})
+                    ({{@$getUser->name}})
                 </td>
                 <td width="50%" class="text-center">
                     <b>Auditee</b>

@@ -38,89 +38,88 @@
                                 </button>
                             </div>
                         @endif
-                        @if (Auth::user()->role == 'Admin')
-                            <form action="{{ url('update_ba_admin') }}" method="post">
-                            @elseif(Auth::user()->role == 'Auditor')
-                                <form action="{{ url('update_ba') }}" method="post">
-                        @endif
 
-                        @csrf
-                        <table class="table table-borderless table-header">
-                            <tr>
-                                <td colspan="2" class="text-center">
-                                    <h4>BERITA ACARA AUDIT MUTU INTERNAL</h4>
+                        <form method="post"
+                            action="@if (Auth::user()->role == 'Auditor'){{ url('update_ba') }} @elseif(Auth::user()->role == 'Admin') {{ url('update_ba_admin') }}@endif">
 
-                                    <br>
-                                    <input type="text" class="form-control" placeholder="Nomor Surat, Diisi oleh SPM"
-                                        name="nomor_surat" value="{{ @$dataBA->nomor_surat }}" id=""
-                                        {{ Auth::user()->role == 'Auditor' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
-                                </td>
-                            </tr>
-                            <tr>
-                                <input type="hidden" name="jadwal_ami_id" value="{{ $jadwal->id }}" id="">
-                                <td colspan="2">
-                                    Dengan ini dinyatakan bahwa pada tanggal
-                                    {{ date('d', strtotime($jadwal->tgl_awal_upload)) }} -
-                                    {{ date('d', strtotime($jadwal->tgl_akhir_upload)) }}
-                                    {{ date('M', strtotime($jadwal->tgl_awal_upload)) }}
-                                    {{ date('Y', strtotime($jadwal->tgl_awal_upload)) }}, Auditor:
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Nama</td>
-                                <input type="hidden" name="lead_auditor" value="{{ Auth::user()->id }}" id="">
-                                <td>: {{ Auth::user()->name }}</td>
-                            </tr>
-                            <tr>
-                                <td>NIP/NIDN</td>
-                                <td>: {{ Auth::user()->nip }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    Telah melaksanakan audit mutu internal (AMI):
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Nama Ka. Prodi/Perwakilan</td>
-                                <td>: <input type="text" name="nama_auditee" value="{{ @$dataBA->nama_auditee }}"
-                                        style="width: 300px"
-                                        {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}
-                                        required> </td>
-                            </tr>
-                            <tr>
-                                <td>NIP/NIDN</td>
-                                <td>: <input type="text" name="nip_auditee" value="{{ @$dataBA->nip_auditee }}"
-                                        style="width: 300px"
-                                        {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}
-                                        required></td>
-                            </tr>
-                            <tr>
-                                <td>Program Studi</td>
-                                <td>: {{ $jadwal->prodi }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    Catatan Pelaksanaan Audit
-                                    <textarea {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }} name="isi_ba"
-                                        id="isi_ba" cols="30" rows="10" required>{{ @$dataBA->isi_ba }}</textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    Publish?
-                                    <select name="is_publish" id="is_publish" class="form-control"
-                                        {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
-                                        <option value="1">Ya</option>
-                                        <option value="0">Tidak</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <button type="submit" class="btn btn-primary btn-block"> Submit </button>
-                                </td>
-                            </tr>
-                        </table>
+                            @csrf
+                            <table class="table table-borderless table-header">
+                                <tr>
+                                    <td colspan="2" class="text-center">
+                                        <h4>BERITA ACARA AUDIT MUTU INTERNAL</h4>
+
+                                        <br>
+                                        <input type="text" class="form-control" placeholder="Nomor Surat, Diisi oleh SPM"
+                                            name="nomor_surat" value="{{ @$dataBA->nomor_surat }}" id=""
+                                            {{ Auth::user()->role == 'Auditor' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <input type="hidden" name="jadwal_ami_id" value="{{ $jadwal->id }}" id="">
+                                    <td colspan="2">
+                                        Dengan ini dinyatakan bahwa pada tanggal
+                                        {{ date('d', strtotime($jadwal->tgl_awal_upload)) }} -
+                                        {{ date('d', strtotime($jadwal->tgl_akhir_upload)) }}
+                                        {{ date('M', strtotime($jadwal->tgl_awal_upload)) }}
+                                        {{ date('Y', strtotime($jadwal->tgl_awal_upload)) }}, Auditor:
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nama</td>
+                                    <input type="hidden" name="lead_auditor" value="{{ Auth::user()->id }}"
+                                        id="">
+                                    <td>: {{ Auth::user()->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>NIP/NIDN</td>
+                                    <td>: {{ Auth::user()->nip }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        Telah melaksanakan audit mutu internal (AMI):
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nama Ka. Prodi/Perwakilan</td>
+                                    <td>: <input type="text" name="nama_auditee" value="{{ @$dataBA->nama_auditee }}"
+                                            style="width: 300px"
+                                            {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}
+                                            required> </td>
+                                </tr>
+                                <tr>
+                                    <td>NIP/NIDN</td>
+                                    <td>: <input type="text" name="nip_auditee" value="{{ @$dataBA->nip_auditee }}"
+                                            style="width: 300px"
+                                            {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}
+                                            required></td>
+                                </tr>
+                                <tr>
+                                    <td>Program Studi</td>
+                                    <td>: {{ $jadwal->prodi }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        Catatan Pelaksanaan Audit
+                                        <textarea {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }} name="isi_ba"
+                                            id="isi_ba" cols="30" rows="10">{{ @$dataBA->isi_ba }}</textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        Publish?
+                                        <select name="is_publish" id="is_publish" class="form-control"
+                                            {{ Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditee' ? 'disabled' : '' }}>
+                                            <option value="1">Ya</option>
+                                            <option value="0">Tidak</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <button type="submit" class="btn btn-primary btn-block"> Submit </button>
+                                    </td>
+                                </tr>
+                            </table>
                         </form>
                     </div>
                 </div>
