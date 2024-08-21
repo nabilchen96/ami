@@ -19,7 +19,7 @@
         <table class="table table-bordered table-header">
             <tr>
                 <td width="25%" class="text-center" rowspan="5">
-                    LOGO
+                    <img src="https://poltekbangplg.ac.id/wp-content/uploads/2021/02/logo_poltekbangplg_new400x258.png" alt="" style="width: 150px; height: 150px;">
                 </td>
                 <td width="25%" class="text-center" rowspan="3">
                     <b>
@@ -47,7 +47,7 @@
 
                 <td class="text-center" rowspan="3">
                     <b>
-                        SISTEM MUTU <br>
+                        DOKUMEN MUTU <br>
                         SISTEM PENJAMIN <br>
                         MUTU INTERNAL <br>
                     </b>
@@ -111,13 +111,15 @@
                     <?php echo @$dataBA->isi_ba ?>
                 </td>
             </tr>
+        </table>
+        <table class="table table-borderless">
             <tr>
-                <td class="text-center">
+                <td width="50%" class="text-center">
                     <b>Auditor</b>
                     <br><br><br><br><br>
                     ({{$getUser->name}})
                 </td>
-                <td class="text-center">
+                <td width="50%" class="text-center">
                     <b>Auditee</b>
                     <br><br><br><br><br>
                     ({{@$dataBA->nama_auditee}})
