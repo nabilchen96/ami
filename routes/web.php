@@ -115,6 +115,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/laporan_ami/{id}/{id_komponen}', 'App\Http\Controllers\LaporanController@detailKomponen');
     Route::get('/data-laporan_ami/{id}', 'App\Http\Controllers\LaporanController@data');
     Route::get('/data-laporan_ami/{id}/{id_komponen}', 'App\Http\Controllers\LaporanController@dataKomponen');
+    Route::get('/ba_ami/{jadwalami}', 'App\Http\Controllers\LaporanController@listba');
+    Route::get('/ba_cetak/{jadwalami}', 'App\Http\Controllers\LaporanController@ba_cetak');
+    Route::post('/update_ba', 'App\Http\Controllers\LaporanController@updateBA');
+    Route::post('/update_ba_admin', 'App\Http\Controllers\LaporanController@updateBAAdmin');
 });
 
 //LOGOUT

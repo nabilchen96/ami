@@ -62,7 +62,16 @@
                             <tr>
                                 <td>Rata-rata</td>
                                 <td>:</td>
-                                <td colspan="4"><b>{{ round($rata2,2) }}</b></td>
+                                <td><b>{{ round($rata2,2) }}</b></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    @if (Auth::user()->role == "Auditor")
+                                    <a href="{{ url('ba_ami/'.$jadwal->id) }}" class="btn btn-success" style="border-radius: 10px !important;">Isi Berita Acara</a>
+                                    @else
+                                    <a href="{{ url('ba_cetak/'.$jadwal->id) }}" class="btn btn-success" style="border-radius: 10px !important;">Lihat Berita Acara</a>
+                                    @endif
+                                </td>
                             </tr>
                         </table>
                     </div>

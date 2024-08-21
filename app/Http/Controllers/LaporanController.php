@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BeritaAcara;
+use App\Models\JadwalAmi;
 use App\Models\Jawaban;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,6 +23,92 @@ class LaporanController extends Controller
             'auditors' => $auditors,
             'kurikulums' => $kurikulums,
         ]);
+    }
+
+    public function listba($jadwal_ami_id)
+    {
+        $auditors = User::where('role', 'Auditor')->get();
+        $kurikulums = KurikulumInstrumen::where('is_aktif', '1')->get();
+        $jadwal = JadwalAmi::find($jadwal_ami_id);
+        $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id )->first();
+        
+        return view('backend.laporan_ami.ba', [
+            'auditors' => $auditors,
+            'kurikulums' => $kurikulums,
+            'jadwal' => $jadwal,
+            'dataBA' => $dataBA,
+        ]);
+    }
+
+    public function ba_cetak($jadwal_ami_id)
+    {
+        $auditors = User::where('role', 'Auditor')->get();
+        $kurikulums = KurikulumInstrumen::where('is_aktif', '1')->get();
+        $jadwal = JadwalAmi::find($jadwal_ami_id);
+        $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id )->first();
+        $getUser = User::find($dataBA->lead_auditor);
+        return view('backend.laporan_ami.ba_cetak', [
+            'auditors' => $auditors,
+            'kurikulums' => $kurikulums,
+            'jadwal' => $jadwal,
+            'getUser' => $getUser,
+            'dataBA' => $dataBA,
+        ]);
+    }
+
+    public function updateBA(Request $request)
+    {
+        // dd($request->all());
+        $update = BeritaAcara::UpdateOrcreate(
+            [
+                'jadwal_ami_id' => $request->jadwal_ami_id,
+            ],
+            [
+                'jadwal_ami_id' => $request->jadwal_ami_id,
+                'lead_auditor' => $request->lead_auditor,
+                'nama_auditee' => $request->nama_auditee,
+                'nip_auditee' => $request->nip_auditee,
+                'isi_ba' => $request->isi_ba,
+                'input_id' => Auth::user()->id,
+                'is_publish' => $request->is_publish,
+            ]
+        );
+
+        if($update){
+            return redirect()->back()->with([
+                'success' => "Data Berhasil diupdate"
+            ]);
+        } else {
+            return redirect()->back()->with([
+                'failed' => "Data Gagal diupdate"
+            ]);
+        }
+        
+    }
+
+    public function updateBAAdmin(Request $request)
+    {
+        // dd($request->all());
+        $update = BeritaAcara::UpdateOrcreate(
+            [
+                'jadwal_ami_id' => $request->jadwal_ami_id,
+            ],
+            [
+                'jadwal_ami_id' => $request->jadwal_ami_id,
+                'nomor_surat' => $request->nomor_surat,
+            ]
+        );
+
+        if($update){
+            return redirect()->back()->with([
+                'success' => "Data Berhasil diupdate"
+            ]);
+        } else {
+            return redirect()->back()->with([
+                'failed' => "Data Gagal diupdate"
+            ]);
+        }
+        
     }
 
     public function detail($id)
