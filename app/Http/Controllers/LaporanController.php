@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\KurikulumInstrumen;
 use DB;
 use Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class LaporanController extends Controller
@@ -30,8 +31,8 @@ class LaporanController extends Controller
         $auditors = User::where('role', 'Auditor')->get();
         $kurikulums = KurikulumInstrumen::where('is_aktif', '1')->get();
         $jadwal = JadwalAmi::find($jadwal_ami_id);
-        $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id )->first();
-        
+        $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id)->first();
+
         return view('backend.laporan_ami.ba', [
             'auditors' => $auditors,
             'kurikulums' => $kurikulums,
@@ -45,7 +46,7 @@ class LaporanController extends Controller
         $auditors = User::where('role', 'Auditor')->get();
         $kurikulums = KurikulumInstrumen::where('is_aktif', '1')->get();
         $jadwal = JadwalAmi::find($jadwal_ami_id);
-        $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id )->first();
+        $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id)->first();
         $getUser = User::find(@$dataBA->lead_auditor);
         return view('backend.laporan_ami.ba_cetak', [
             'auditors' => $auditors,
@@ -58,23 +59,81 @@ class LaporanController extends Controller
 
     public function updateBA(Request $request)
     {
-        // dd($request->all());
-        $update = BeritaAcara::UpdateOrcreate(
-            [
-                'jadwal_ami_id' => $request->jadwal_ami_id,
-            ],
-            [
-                'jadwal_ami_id' => $request->jadwal_ami_id,
-                'lead_auditor' => $request->lead_auditor,
-                'nama_auditee' => $request->nama_auditee,
-                'nip_auditee' => $request->nip_auditee,
-                'isi_ba' => $request->isi_ba,
-                'input_id' => Auth::user()->id,
-                'is_publish' => $request->is_publish,
-            ]
-        );
+        if (Auth::user()->role == "Auditor") {
+            // validasi data
+            $request->validate([
+                'ttd_auditor' => 'required|image|file|max:2048', // 1mb = 1024kb, 2mb = 2048kb
+            ]);
+            $get = BeritaAcara::where('jadwal_ami_id', $request->jadwal_ami_id)->first();
+            if ($get) {
+                if ($request->file('ttd_auditor')) {
+                    if ($get->ttd_auditor) {
+                        // delete terlebih dahulu gambar lama
+                        Storage::delete($get->ttd_auditor);
+                    }
 
-        if($update){
+                    // upload file yg baru
+                    $pathFile = $request->file('ttd_auditor')->store('ttd_auditor');
+                } else {
+                    $pathFile = $get->ttd_auditor;
+                }
+            } else {
+                if ($request->file('ttd_auditor')) {
+                    // upload file yg baru
+                    $pathFile = $request->file('ttd_auditor')->store('ttd_auditor');
+                }
+            }
+            $update = BeritaAcara::UpdateOrcreate(
+                [
+                    'jadwal_ami_id' => $request->jadwal_ami_id,
+                ],
+                [
+                    'jadwal_ami_id' => $request->jadwal_ami_id,
+                    'lead_auditor' => $request->lead_auditor,
+                    'nama_auditee' => $request->nama_auditee,
+                    'nip_auditee' => $request->nip_auditee,
+                    'isi_ba' => $request->isi_ba,
+                    'input_id' => Auth::user()->id,
+                    'ttd_auditor' => $pathFile,
+                    'is_publish' => $request->is_publish,
+                ]
+            );
+        } else if (Auth::user()->role == "Auditee") {
+            // validasi data
+            $request->validate([
+                'ttd_auditee' => 'required|image|file|max:2048', // 1mb = 1024kb, 2mb = 2048kb
+            ]);
+            $get = BeritaAcara::where('jadwal_ami_id', $request->jadwal_ami_id)->first();
+            if ($get) {
+                if ($request->file('ttd_auditee')) {
+                    if ($get->ttd_auditee) {
+                        // delete terlebih dahulu gambar lama
+                        Storage::delete($get->ttd_auditee);
+                    }
+
+                    // upload file yg baru
+                    $pathFile = $request->file('ttd_auditee')->store('ttd_auditee');
+                } else {
+                    $pathFile = $get->ttd_auditee;
+                }
+            } else {
+                if ($request->file('ttd_auditee')) {
+                    // upload file yg baru
+                    $pathFile = $request->file('ttd_auditee')->store('ttd_auditee');
+                }
+            }
+            $update = BeritaAcara::UpdateOrcreate(
+                [
+                    'jadwal_ami_id' => $request->jadwal_ami_id,
+                ],
+                [
+                    'ttd_auditee' => $pathFile,
+                ]
+            );
+        }
+
+
+        if ($update) {
             return redirect()->back()->with([
                 'success' => "Data Berhasil diupdate"
             ]);
@@ -83,7 +142,6 @@ class LaporanController extends Controller
                 'failed' => "Data Gagal diupdate"
             ]);
         }
-        
     }
 
     public function updateBAAdmin(Request $request)
@@ -99,7 +157,7 @@ class LaporanController extends Controller
             ]
         );
 
-        if($update){
+        if ($update) {
             return redirect()->back()->with([
                 'success' => "Data Berhasil diupdate"
             ]);
@@ -108,7 +166,6 @@ class LaporanController extends Controller
                 'failed' => "Data Gagal diupdate"
             ]);
         }
-        
     }
 
     public function detail($id)

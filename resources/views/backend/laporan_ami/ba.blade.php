@@ -40,13 +40,17 @@
                         @endif
 
                         <form method="post"
-                            action="@if (Auth::user()->role == 'Auditor'){{ url('update_ba') }} @elseif(Auth::user()->role == 'Admin') {{ url('update_ba_admin') }}@endif">
+                            action="@if (Auth::user()->role == 'Auditor' || Auth::user()->role == 'Auditee'){{ url('update_ba') }} @elseif(Auth::user()->role == 'Admin') {{ url('update_ba_admin') }}@endif" enctype="multipart/form-data">
 
                             @csrf
                             <table class="table table-borderless table-header">
                                 <tr>
                                     <td colspan="2" class="text-center">
-                                        <h4>BERITA ACARA AUDIT MUTU INTERNAL</h4>
+                                        <h4>BERITA ACARA AUDIT MUTU INTERNAL 
+                                            @if (@$dataBA->ttd_auditor && @$dataBA->ttd_auditee)
+                                            <a href="{{ url('ba_cetak/'.@$jadwal->id) }}" target="_blank" class="btn btn-primary">Cetak</a> 
+                                            @endif
+                                        </h4>
 
                                         <br>
                                         <input type="text" class="form-control" placeholder="Nomor Surat, Diisi oleh SPM"
@@ -114,11 +118,39 @@
                                         </select>
                                     </td>
                                 </tr>
+                                @if (Auth::user()->role != "Admin")
+                                <tr>
+                                    <td colspan="2">
+                                        Upload Tanda Tangan
+                                        @if (Auth::user()->role == "Auditor")
+                                        <input type="file" name="ttd_auditor" class="form-control" style="height: 45px;" {{ Auth::user()->role == "Auditor" ? 'required' : '' }} >
+                                        <p class="text-danger">Ukuran Max: 2Mb, Format : JPG, PNG, JPEG</p>
+                                        @else
+                                        <input type="file" name="ttd_auditee" class="form-control" style="height: 45px;" {{ Auth::user()->role == "Auditor" ? 'required' : '' }} >
+                                        <p class="text-danger">Ukuran Max: 2Mb, Format : JPG, PNG, JPEG</p>
+                                        @endif
+                                        
+                                    </td>
+                                </tr>
+                                @endif
+                                <tr>
+                                    <td class="text-center">Tanda Tangan Auditor <br> @if (@$dataBA->ttd_auditor)
+                                        <img src="{{ asset('storage/' . @$dataBA->ttd_auditor) }}" alt="" style="width: 300px; height:300px;"> </td>
+                                    @else
+                                        <img src="https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg" alt="" style="width: 300px; height:300px;"> </td>
+                                    @endif 
+                                    <td class="text-center">Tanda Tangan Auditee <br> @if (@$dataBA->ttd_auditee)
+                                        <img src="{{ asset('storage/' . @$dataBA->ttd_auditee) }}" alt="" style="width: 300px; height:300px;"> </td>
+                                    @else
+                                        <img src="https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg" alt="" style="width: 300px; height:300px;"> </td>
+                                    @endif </td>
+                                </tr>
                                 <tr>
                                     <td colspan="2">
                                         <button type="submit" class="btn btn-primary btn-block"> Submit </button>
                                     </td>
                                 </tr>
+                                
                             </table>
                         </form>
                     </div>

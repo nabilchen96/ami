@@ -116,12 +116,16 @@
             <tr>
                 <td width="50%" class="text-center">
                     <b>Auditor</b>
-                    <br><br><br><br><br>
+                    <br>
+                    <img src="{{ asset('storage/' . @$dataBA->ttd_auditor) }}" alt="" style="width: 150px; height:150px;">
+                    <br>
                     ({{@$getUser->name}})
                 </td>
                 <td width="50%" class="text-center">
                     <b>Auditee</b>
-                    <br><br><br><br><br>
+                    <br>
+                    <img src="{{ asset('storage/' . @$dataBA->ttd_auditee) }}" alt="" style="width: 150px; height:150px;">
+                    <br>
                     ({{@$dataBA->nama_auditee}})
                 </td>
             </tr>
