@@ -69,7 +69,7 @@
             <tr>
                 <td colspan="2" class="text-center">
                     <h4>BERITA ACARA AUDIT MUTU INTERNAL</h4>
-                    Poltekbang.Plg/SPM/STD-09
+                    {{!@$dataBA->nomor_surat ? 'No. Belum diisi' : @$dataBA->nomor_surat }}
                 </td>
             </tr>
             <tr>
@@ -117,14 +117,14 @@
                 <td width="50%" class="text-center">
                     <b>Auditor</b>
                     <br>
-                    <img src="{{ asset('storage/' . @$dataBA->ttd_auditor) }}" alt="" style="width: 150px; height:150px;">
+                    <img src="{{ asset('storage/' . @$dataBA->ttd_auditor) }}" alt="" style="width: 200px; height:85px;">
                     <br>
                     ({{@$getUser->name}})
                 </td>
-                <td width="50%" class="text-center">
+                <td width="55%" class="text-center">
                     <b>Auditee</b>
                     <br>
-                    <img src="{{ asset('storage/' . @$dataBA->ttd_auditee) }}" alt="" style="width: 150px; height:150px;">
+                    <img src="{{ asset('storage/' . @$dataBA->ttd_auditee) }}" alt="" style="width: 200px; height:85px;">
                     <br>
                     ({{@$dataBA->nama_auditee}})
                 </td>

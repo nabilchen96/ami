@@ -34,9 +34,18 @@
         </div>
     </div>
     <div class="row">
+
         <div class="col-12 mt-4">
             <div class="card w-100">
                 <div class="card-body">
+                    @if ($message = Session::get('message'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                     <div class="table-responsive">
                         <table class="mb-1 table table-striped">
                             <tr>
@@ -62,14 +71,16 @@
                             <tr>
                                 <td>Rata-rata</td>
                                 <td>:</td>
-                                <td><b>{{ round($rata2,2) }}</b></td>
+                                <td><b>{{ round($rata2, 2) }}</b></td>
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    @if (Auth::user()->role == "Auditor" || Auth::user()->role == "Admin")
-                                    <a href="{{ url('ba_ami/'.$jadwal->id) }}"  class="btn btn-success" style="border-radius: 10px !important;">Berita Acara</a>
+                                    @if (Auth::user()->role == 'Auditor' || Auth::user()->role == 'Admin')
+                                        <a href="{{ url('ba_ami/' . $jadwal->id) }}" class="btn btn-success"
+                                            style="border-radius: 10px !important;">Berita Acara</a>
                                     @else
-                                    <a href="{{ url('ba_ami/'.$jadwal->id) }}" class="btn btn-success" style="border-radius: 10px !important;">Berita Acara</a>
+                                        <a href="{{ url('ba_ami/' . $jadwal->id) }}" class="btn btn-success"
+                                            style="border-radius: 10px !important;">Berita Acara</a>
                                     @endif
                                 </td>
                             </tr>
@@ -94,7 +105,8 @@
                                     <tr>
                                         <td>{{ $k + 1 }}</td>
                                         <td>
-                                            <a href="{{ url('laporan_ami') }}/{{ $item->jadwal_ami_id }}/{{ $item->grup_instrumen_id}}">
+                                            <a
+                                                href="{{ url('laporan_ami') }}/{{ $item->jadwal_ami_id }}/{{ $item->grup_instrumen_id }}">
                                                 {{ $item->nama_grup_instrumen }}
                                             </a>
                                         </td>

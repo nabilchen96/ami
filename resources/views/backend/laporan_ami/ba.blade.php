@@ -72,7 +72,7 @@
                                     <td>Nama</td>
                                     <input type="hidden" name="lead_auditor" value="{{ Auth::user()->id }}"
                                         id="">
-                                    <td>: {{ Auth::user()->name }}</td>
+                                    <td>: {{ $getUserA1->name }}</td>
                                 </tr>
                                 <tr>
                                     <td>NIP/NIDN</td>

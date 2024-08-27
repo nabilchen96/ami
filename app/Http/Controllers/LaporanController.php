@@ -32,12 +32,25 @@ class LaporanController extends Controller
         $kurikulums = KurikulumInstrumen::where('is_aktif', '1')->get();
         $jadwal = JadwalAmi::find($jadwal_ami_id);
         $dataBA = BeritaAcara::where('jadwal_ami_id', $jadwal_ami_id)->first();
+        $getUserA1 = User::where('id',@$jadwal->auditor_satu)->first();
+
+        if(Auth::user()->role == "Auditee") {
+            if(!@$dataBA->ttd_auditor){
+                return redirect()->back()->with(
+                    [
+                        'message' => "Berita Acara belum diisi Auditor"
+                    ]
+                );
+            }
+            
+        }
 
         return view('backend.laporan_ami.ba', [
             'auditors' => $auditors,
             'kurikulums' => $kurikulums,
             'jadwal' => $jadwal,
             'dataBA' => $dataBA,
+            'getUserA1' => $getUserA1,
         ]);
     }
 
