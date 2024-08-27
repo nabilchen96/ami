@@ -49,7 +49,7 @@ class UserController extends Controller
             ]);
 
             if($request->kirim_wa == "Ya"){
-                sendWADosen($request->nohp, $request->name, $request->email, $request->password);
+                sendWADosen($request->nohp, $request->role, $request->name, $request->email, $request->password);
             }
 
             $data = [

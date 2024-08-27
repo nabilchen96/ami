@@ -58,17 +58,17 @@ function getListDosenWANumber()
     return $dataString;
 }
 
-function sendWADosen($noWA, $namaDosen, $email, $password)
+function sendWADosen($noWA, $role, $namaDosen, $email, $password)
 {
     $greet = greetToDosen();
 
     $pesan = "$greet
-    *$namaDosen*, berikut kami sampaikan Akun untuk mengakses aplikasi AMI.
+    *$namaDosen*, berikut kami sampaikan Akun $role untuk mengakses aplikasi SIAMI.
     URL : https://ami.poltekbangplg.ac.id
     EMAIL : $email
     PASSWORD : *$password*
 
-    Harap simpan *AKUN* tersebut agar bisa mengakses aplikasi AMI. 
+    Harap simpan *AKUN* tersebut agar bisa mengakses aplikasi SIAMI. 
 
     Salam Hormat 
     *- Admin SPM -*";
@@ -116,7 +116,7 @@ function sendWAJadwal($noWA, $judul, $tglAwal, $tglAkhir)
 
     $pesan = "$greet
         
-    *$namaUser*, berikut kami sampaikan jadwal AMI.
+    *$namaUser*, berikut kami sampaikan jadwal SIAMI.
 
     Nama Kegiatan : *$judul*
     Periode : *$priode*
