@@ -84,6 +84,10 @@ class UserController extends Controller
                 'password'  => $request->password ? Hash::make($request->password) : $user->password
             ]);
 
+            if($request->kirim_wa == "Ya"){
+                sendWADosen($request->nohp, $request->role, $request->name, $request->email, $request->password);
+            }
+
             $data = [
                 'responCode'    => 1,
                 'respon'        => 'Data Sukses Disimpan'
