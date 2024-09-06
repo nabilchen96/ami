@@ -298,11 +298,11 @@
                                                     </form>
                                                     Rata-rata
                                                     <input type="text" disabled name=""
-                                                        value="{{ @$jwb->skor_persen }} dodo" class="form-control">
+                                                        value="{{ @$jwb->skor_persen }} " class="form-control">
 
                                                     Skor (Skala 1 - 4)
                                                     <input type="text" disabled name=""
-                                                        value="{{ @$jwb->skor }} dodo" class="form-control">
+                                                        value="{{ @$jwb->skor }} " class="form-control">
                                                     <hr>
                                                     <hr>
                                                 @else
