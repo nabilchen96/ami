@@ -361,6 +361,8 @@
                 modal.find('#prodi').val(cokData[0].prodi)
                 modal.find('#tgl_awal_upload').val(cokData[0].tgl_awal_upload)
                 modal.find('#tgl_akhir_upload').val(cokData[0].tgl_akhir_upload)
+                modal.find('#tgl_awal_penilaian').val(cokData[0].tgl_awal_penilaian)
+                modal.find('#tgl_akhir_penilaian').val(cokData[0].tgl_akhir_penilaian)
                 modal.find('#auditor_satu').val(cokData[0].auditor_satu)
                 modal.find('#auditor_dua').val(cokData[0].auditor_dua)
                 modal.find('#auditor_tiga').val(cokData[0].auditor_tiga)
