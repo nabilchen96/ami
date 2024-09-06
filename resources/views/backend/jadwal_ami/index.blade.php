@@ -53,7 +53,8 @@
                                     <th>Instrumen AMI</th>
                                     <th>Auditor</th>
                                     <th>Auditee</th>
-                                    <th>Periode Audit</th>
+                                    <th>Periode Upload</th>
+                                    <th>Periode Penilaian</th>
                                     <th>Aktif?</th>
                                     <th width="5%"></th>
                                     <th width="5%"></th>
@@ -154,10 +155,21 @@
                                 <span class="text-danger error" style="font-size: 12px;" id="tgl_akhir_upload_alert"></span>
                               </div>
 
-                              <div class="form-group">
+                              {{-- <div class="form-group">
                                 <label>Link Unggahan Dokumen</label>
                                 <input name="link_upload_dokumen" id="link_upload_dokumen" type="url" class="form-control">
                                 <span class="text-danger error" style="font-size: 12px;" id="link_upload_dokumen_alert"></span>
+                              </div> --}}
+                              <div class="form-group">
+                                <label>Tgl Awal Penilaian</label>
+                                <input name="tgl_awal_penilaian" id="tgl_awal_penilaian" type="date" class="form-control">
+                                <span class="text-danger error" style="font-size: 12px;" id="tgl_awal_penilaian_alert"></span>
+                              </div>
+                
+                              <div class="form-group">
+                                <label>Tgl Akhir Penilaian</label>
+                                <input name="tgl_akhir_penilaian" id="tgl_akhir_penilaian" type="date" class="form-control">
+                                <span class="text-danger error" style="font-size: 12px;" id="tgl_akhir_penilaian_alert"></span>
                               </div>
                         </fieldset>
                         <fieldset class="form-group border p-3">
@@ -290,7 +302,13 @@
                             `
                         }
                     },
-
+                    {
+                        render: function(data, type, row, meta) {
+                            return `
+                                ${row.tgl_awal_penilaian} s/d ${row.tgl_akhir_penilaian}
+                            `
+                        }
+                    },
                     {
                         render: function(data, type, row, meta) {
                             
