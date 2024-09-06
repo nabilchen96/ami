@@ -49,7 +49,7 @@ class FileSubButirInstrumenController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_file'      => 'required',
             'tampilkan'      => 'required',
-            'file_upload' => 'mimes:pdf,doc,docx|file|max:20480|required',
+            'file_upload' => 'mimes:pdf,doc,docx|file|max:40480|required',
         ]);
 
         if ($validator->fails()) {
@@ -88,7 +88,7 @@ class FileSubButirInstrumenController extends Controller
             'id' => 'required',
             'nama_file'      => 'required',
             'tampilkan'      => 'required',
-            'file_upload' => 'mimes:pdf,doc,docx|file|max:20480|nullable',
+            'file_upload' => 'mimes:pdf,doc,docx|file|max:40480|nullable',
         ]);
 
         if ($validator->fails()) {
