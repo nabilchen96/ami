@@ -89,7 +89,7 @@
                         <input type="hidden" name="id" id="id">
                         <input type="hidden" name="sub_butir_instrumen_id" id="sub_butir_instrumen_id"
                             value="{{ $sub_butir_instrumen_id }}">
-                        <input type="text" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
+                        <input type="hidden" name="jadwal_ami_id" id="jadwal_ami_id" value="{{ $jadwal_ami_id }}">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nama File</label>
                             <input name="nama_file" id="nama_file" type="text" placeholder="Nama File"
