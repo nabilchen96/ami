@@ -87,10 +87,11 @@
                                         @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                             @if ($subss->upload_file == '1')
                                                 @if ($jadwal->tgl_akhir_upload < $today)
-                                                <a class="text-danger" href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
-                                                    title="Cek File">Batas Waktu
-                                                    Upload telah
-                                                    Selesai</a> <br>
+                                                    <a class="text-danger"
+                                                        href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                        title="Cek File">Batas Waktu
+                                                        Upload telah
+                                                        Selesai</a> <br>
                                                 @else
                                                     <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
                                                         title="Cek File">Cek File</a> <br>
@@ -173,14 +174,25 @@
                                                     <input type="number" name="skor_persen3"
                                                         value="{{ @$jwb->skor_persen3 }}" class="form-control"
                                                         placeholder="Nilai 3 (%)">
-                                                    @if (Auth::user()->role == 'Admin')
-                                                        <button class="btn btn-primary btn-block"
-                                                            style="border-radius: 10px !important; margin-top:5px">Submit</button>
-                                                    @elseif(Auth::user()->role == 'Auditor')
-                                                        <button class="btn btn-primary btn-block"
-                                                            style="border-radius: 10px !important; margin-top:5px"
-                                                            {{ @$auditor3->auditor_tiga != @$user->id ? 'disabled' : '' }}>Submit</button>
+                                                    @if (@!$jwb->skor_persen2 || @!$jwb->skor_persen1)
+                                                        @if (Auth::user()->role == 'Admin')
+                                                            <button class="btn btn-primary btn-block" disabled
+                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                        @elseif(Auth::user()->role == 'Auditor')
+                                                            <button class="btn btn-primary btn-block" disabled
+                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                        @endif
+                                                    @else
+                                                        @if (Auth::user()->role == 'Admin')
+                                                            <button class="btn btn-primary btn-block"
+                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                        @elseif(Auth::user()->role == 'Auditor')
+                                                            <button class="btn btn-primary btn-block"
+                                                                style="border-radius: 10px !important; margin-top:5px"
+                                                                {{ @$auditor3->auditor_tiga != @$user->id ? 'disabled' : '' }}>Submit</button>
+                                                        @endif
                                                     @endif
+
                                                 </form>
 
                                                 Rata-rata
@@ -195,7 +207,8 @@
                                             @endif
                                         @else
                                             @if ($jadwal->tgl_akhir_upload < $today)
-                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}" title="Upload File" class="text-danger">Batas Waktu
+                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                    title="Upload File" class="text-danger">Batas Waktu
                                                     Upload telah
                                                     Selesai</a>
                                                 <form action="{{ url('store-penilaian_ami1') }}" method="post">
@@ -259,7 +272,7 @@
                                                     <input type="hidden" name="jenis_instrumen"
                                                         value="{{ $jadwal->jenis_instrumen }}">
                                                     <input type="hidden" name="sub_butir_instrumen_id"
-                                                        value="{{ $subss->id }}" >
+                                                        value="{{ $subss->id }}">
                                                     <input type="number" name="skor_persen3"
                                                         value="{{ @$jwb->skor_persen3 }}" class="form-control"
                                                         placeholder="Nilai 3 (%)" disabled>
@@ -384,15 +397,16 @@
                                     <li>{{ $subss->nama_sub_butir }}
                                         @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Auditor')
                                             @if ($subss->upload_file == '1')
-                                            @if ($jadwal->tgl_akhir_upload < $today)
-                                            <a class="text-danger" href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
-                                                title="Cek File">Batas Waktu
-                                                Upload telah
-                                                Selesai</a> <br>
-                                            @else
-                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
-                                                    title="Cek File">Cek File</a> <br>
-                                            @endif
+                                                @if ($jadwal->tgl_akhir_upload < $today)
+                                                    <a class="text-danger"
+                                                        href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                        title="Cek File">Batas Waktu
+                                                        Upload telah
+                                                        Selesai</a> <br>
+                                                @else
+                                                    <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                        title="Cek File">Cek File</a> <br>
+                                                @endif
 
                                                 <form action="{{ url('store-penilaian_ami1') }}" method="post">
                                                     @csrf
@@ -471,14 +485,26 @@
                                                     <input type="number" name="skor_persen3"
                                                         value="{{ @$jwab->skor_persen3 }}" class="form-control"
                                                         placeholder="Nilai 3 (%)">
-                                                    @if (Auth::user()->role == 'Admin')
-                                                        <button class="btn btn-primary btn-block"
-                                                            style="border-radius: 10px !important; margin-top:5px">Submit</button>
-                                                    @elseif(Auth::user()->role == 'Auditor')
-                                                        <button class="btn btn-primary btn-block"
-                                                            style="border-radius: 10px !important; margin-top:5px"
-                                                            {{ @$auditor3->auditor_tiga != @$user->id ? 'disabled' : '' }}>Submit</button>
+
+                                                    @if (@!$jwb->skor_persen2 || @!$jwb->skor_persen1)
+                                                        @if (Auth::user()->role == 'Admin')
+                                                            <button class="btn btn-primary btn-block" disabled
+                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                        @elseif(Auth::user()->role == 'Auditor')
+                                                            <button class="btn btn-primary btn-block" disabled
+                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                        @endif
+                                                    @else
+                                                        @if (Auth::user()->role == 'Admin')
+                                                            <button class="btn btn-primary btn-block"
+                                                                style="border-radius: 10px !important; margin-top:5px">Submit</button>
+                                                        @elseif(Auth::user()->role == 'Auditor')
+                                                            <button class="btn btn-primary btn-block"
+                                                                style="border-radius: 10px !important; margin-top:5px"
+                                                                {{ @$auditor3->auditor_tiga != @$user->id ? 'disabled' : '' }}>Submit</button>
+                                                        @endif
                                                     @endif
+
 
                                                 </form>
                                                 @php
@@ -511,7 +537,8 @@
                                                     ->first();
                                             @endphp
                                             @if ($jadwal->tgl_akhir_upload < $today)
-                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}" title="Upload File" class="text-danger">Batas Waktu
+                                                <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
+                                                    title="Upload File" class="text-danger">Batas Waktu
                                                     Upload telah
                                                     Selesai</a>
                                                 <form action="">

@@ -216,21 +216,21 @@ class PenilaianController extends Controller
         $data = Jawaban::where('jadwal_ami_id',$request->jadwal_ami_id)->where('butir_instrumen_id',$request->butir_instrumen_id)->where('sub_butir_instrumen_id',$request->sub_butir_instrumen_id)->first();
         $cekJwb = Jawaban::where('jadwal_ami_id',$request->jadwal_ami_id)->where('butir_instrumen_id',$request->butir_instrumen_id)->where('sub_butir_instrumen_id',$request->sub_butir_instrumen_id)->where('skor_persen1', NULL)->orWhere('skor_persen2', NULL)->first();
 
-        if(!$data) {
-            echo "<script language='javascript'>
-                window.alert('Nilai 1 atau Nilai 2 belum diinput!');
-                window.history.go(-1)
-                </script>";
-            die();
-        }
+        // if(!$data) {
+        //     echo "<script language='javascript'>
+        //         window.alert('Nilai 1 atau Nilai 2 belum diinput!');
+        //         window.history.go(-1)
+        //         </script>";
+        //     die();
+        // }
 
-        if($cekJwb) {
-            echo "<script language='javascript'>
-                window.alert('Nilai 1 atau Nilai 2 belum diinput!');
-                window.history.go(-1)
-                </script>";
-            die();
-        }
+        // if($cekJwb) {
+        //     echo "<script language='javascript'>
+        //         window.alert('Nilai 1 atau Nilai 2 belum diinput!');
+        //         window.history.go(-1)
+        //         </script>";
+        //     die();
+        // }
         
         $rata = ($data->skor_persen1 + $data->skor_persen2 + $request->skor_persen3 ) / 3;
 
