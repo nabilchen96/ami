@@ -60,13 +60,13 @@
                                 </tr>
                                 <tr>
                                     <input type="hidden" name="jadwal_ami_id" value="{{ $jadwal->id }}" id="">
-                                    <td colspan="2">
+                                    {{-- <td colspan="2">
                                         Dengan ini dinyatakan bahwa pada tanggal
                                         {{ date('d', strtotime($jadwal->tgl_awal_upload)) }} -
                                         {{ date('d', strtotime($jadwal->tgl_akhir_upload)) }}
                                         {{ date('M', strtotime($jadwal->tgl_awal_upload)) }}
                                         {{ date('Y', strtotime($jadwal->tgl_awal_upload)) }}, Auditor:
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 <tr>
                                     <td>Nama</td>
@@ -100,6 +100,10 @@
                                 <tr>
                                     <td>Program Studi</td>
                                     <td>: {{ $jadwal->prodi }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tgl. Kegiatan</td>
+                                    <td>: <input type="date" name="tgl_awal" id="tgl_awal" value="{{ @$dataBA->tgl_awal }}"> s/d <input type="date" name="tgl_akhir" id="tgl_akhir" value="{{ @$dataBA->tgl_akhir }}">  </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
@@ -145,12 +149,12 @@
                                         <img src="https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg" alt="" style="width: 300px; height:300px;"> </td>
                                     @endif </td>
                                 </tr>
+                               
                                 <tr>
                                     <td colspan="2">
                                         <button type="submit" class="btn btn-primary btn-block"> Submit </button>
                                     </td>
                                 </tr>
-                                
                             </table>
                         </form>
                     </div>

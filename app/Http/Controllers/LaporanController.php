@@ -108,6 +108,8 @@ class LaporanController extends Controller
                     'isi_ba' => $request->isi_ba,
                     'input_id' => Auth::user()->id,
                     'ttd_auditor' => $pathFile,
+                    'tgl_awal' => $request->tgl_awal,
+                    'tgl_akhir' => $request->tgl_akhir,
                     'is_publish' => $request->is_publish,
                 ]
             );

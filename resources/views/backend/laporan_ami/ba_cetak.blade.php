@@ -74,10 +74,10 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Dengan ini dinyatakan bahwa pada tanggal {{ date('d', strtotime($jadwal->tgl_awal_upload)) }} -
-                    {{ date('d', strtotime($jadwal->tgl_akhir_upload)) }}
-                    {{ date('M', strtotime($jadwal->tgl_awal_upload)) }}
-                    {{ date('Y', strtotime($jadwal->tgl_awal_upload)) }}, Auditor:
+                    Dengan ini dinyatakan bahwa pada tanggal {{ date('d', strtotime(@$dataBA->tgl_awal)) }} -
+                    {{ date('d', strtotime(@$dataBA->tgl_akhir)) }}
+                    {{ date('M', strtotime(@$dataBA->tgl_awal)) }}
+                    {{ date('Y', strtotime(@$dataBA->tgl_awal)) }}, Auditor:
                 </td>
             </tr>
             <tr>
