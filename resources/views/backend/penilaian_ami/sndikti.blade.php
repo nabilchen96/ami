@@ -195,7 +195,7 @@
 
                                                 </form>
 
-                                                Rata-ratas
+                                                Rata-rata
                                                 <input type="text" disabled name=""
                                                     value="{{ @$jwb->skor_persen }} " class="form-control">
 
@@ -280,7 +280,7 @@
                                                     {{-- <button class="btn btn-primary btn-block"
                                                         style="border-radius: 10px !important; margin-top:5px">Submit</button> --}}
                                                 </form>
-                                                Rata-rataaa
+                                                Rata-rata
                                                 <input type="text" disabled name=""
                                                     value="{{ @$jwb->skor_persen }} " class="form-control">
 
