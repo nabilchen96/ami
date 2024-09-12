@@ -195,7 +195,7 @@
 
                                                 </form>
 
-                                                Rata-rata
+                                                Rata-ratas
                                                 <input type="text" disabled name=""
                                                     value="{{ @$jwb->skor_persen }} " class="form-control">
 
@@ -206,6 +206,7 @@
                                             @else
                                             @endif
                                         @else
+                                        {{-- AUDITEE --}}
                                             @if ($jadwal->tgl_akhir_upload < $today)
                                                 <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
                                                     title="Upload File" class="text-danger">Batas Waktu
@@ -279,7 +280,7 @@
                                                     {{-- <button class="btn btn-primary btn-block"
                                                         style="border-radius: 10px !important; margin-top:5px">Submit</button> --}}
                                                 </form>
-                                                Rata-rata
+                                                Rata-rataaa
                                                 <input type="text" disabled name=""
                                                     value="{{ @$jwb->skor_persen }} " class="form-control">
 
@@ -358,9 +359,16 @@
                                         ->where('butir_instrumen_id', $item->butir_instrumen_id)
                                         ->where('jadwal_ami_id', $item->jadwal_ami_id)
                                         ->first();
+
+                                        
+                                        
                                 @endphp
+                                
                                 <input name="skor_persen" type="number" value="{{ $getAVG->sp }}" disabled
                                     class="form-control">
+
+                                    {{-- <input name="skor_persen" type="text" value="NININI" disabled
+                                    class="form-control"> --}}
                             </td>
                             <td>
                                 <input name="skor" type="number" value="{{ $getAVG->ss }}" disabled
@@ -524,6 +532,7 @@
                                             @else
                                             @endif
                                         @else
+                                        {{-- AUDITEE --}}
                                             @php
 
                                                 $getAngkaa = DB::table('jawabans')
@@ -538,7 +547,7 @@
                                             @endphp
                                             @if ($jadwal->tgl_akhir_upload < $today)
                                                 <a href="{{ url('file_subbutir_instrumen/' . $subss->id . '/' . $jadwal->id) }}"
-                                                    title="Upload File" class="text-danger">Batas Waktu
+                                                    title="Upload File" class="text-danger">Batas Waktuz
                                                     Upload telah
                                                     Selesai</a>
                                                 <form action="">
@@ -556,13 +565,19 @@
                                                         class="form-control" disabled placeholder="Nilai 3 (%)">
                                                 </form>
                                                 <hr>
+                                                @php
+                                                    $getAngka = DB::table('jawabans')
+                                                        ->where('sub_butir_instrumen_id', $subss->id)
+                                                        ->where('jadwal_ami_id', $item->jadwal_ami_id)
+                                                        ->first();
+                                                @endphp
                                                 Rata-rata
                                                 <input type="text" disabled name=""
-                                                    value="{{ @$jwb->skor_persen }} " class="form-control">
+                                                    value="{{ @$getAngka->skor_persen }} " class="form-control">
 
                                                 Skor (Skala 1 - 4)
                                                 <input type="text" disabled name=""
-                                                    value="{{ @$jwb->skor }}" class="form-control">
+                                                    value="{{ @$getAngka->skor }}" class="form-control">
                                                 <hr>
                                             @else
                                                 @if ($subss->upload_file == '1')
@@ -583,13 +598,19 @@
                                                             placeholder="Nilai 3 (%)">
                                                     </form>
                                                     <hr>
+                                                    @php
+                                                    $getAngka = DB::table('jawabans')
+                                                        ->where('sub_butir_instrumen_id', $subss->id)
+                                                        ->where('jadwal_ami_id', $item->jadwal_ami_id)
+                                                        ->first();
+                                                @endphp
                                                     Rata-rata
                                                     <input type="text" disabled name=""
-                                                        value="{{ @$jwb->skor_persen }}" class="form-control">
+                                                        value="{{ @$getAngka->skor_persen }}" class="form-control">
 
                                                     Skor (Skala 1 - 4)
                                                     <input type="text" disabled name=""
-                                                        value="{{ @$jwb->skor }}" class="form-control">
+                                                        value="{{ @$getAngka->skor }}" class="form-control">
                                                     <hr>
                                                 @else
                                                 @endif
@@ -634,7 +655,7 @@
                                 @endphp
                                 <input name="skor_persen" type="number" value="{{ $getAVGS->sp }}" disabled
                                     class="form-control">
-
+                                {{-- <input type="text" name="" value="NANANA" id=""> --}}
                             </td>
                             <td>
                                 <input name="skor" type="number" value="{{ $getAVGS->ss }}" disabled
