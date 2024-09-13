@@ -83,6 +83,48 @@
             </div>
         </div>
     </div>
+    @if (Auth::user()->role == "Auditor" || Auth::user()->role = "Auditee")
+    <div class="row">
+        <div class="mt-4 p-5  text-black rounded" style="width: 100% !important; background-color:#f2f2f2 ">
+            <h4>Berikut merupakan standar penilaian AMI SN-Dikti bagi auditor :</h4>
+            <table class="table">
+                <tr>
+                    <th>RENTANG NILAI</th>
+                    <th>NILAI</th>
+                    <th>KRITERIA</th>
+                    <th>INDIKATOR</th>
+                </tr>
+                <tr>
+                    <td>100 %</td>
+                    <td>4</td>
+                    <td>Terpenuhi</td>
+                    <td>Tersedia dokumen dengan lengkap dan sesuai, dilengkapi nama jelas dan tanda tangan penanggung jawab</td>
+                </tr>
+                <tr>
+                    <td>66 % - 99%</td>
+                    <td>3</td>
+                    <td>Cukup Terpenuhi</td>
+                    <td>Tersedia dokumen yang sesuai namun belum lengkap seperti nama jelas, tanda tangan penanggung jawab</td>
+                </tr>
+                <tr>
+                    <td>33 % - 65%</td>
+                    <td>2</td>
+                    <td>Kurang Terpenuhi</td>
+                    <td>Tersedia dokumen yang diupload namun belum sesuai dengan sasaran standar yang diminta</td>
+                </tr>
+                <tr>
+                    <td>0 – 32%</td>
+                    <td>1</td>
+                    <td>Tidak Terpenuhi</td>
+                    <td>Tidak ada dokumen yang diupload</td>
+                </tr>
+            </table>
+            <br>
+            <p>Panduan SiAMI dapat diunduh pada link berikut : …………….</p>
+          </div>
+    </div>
+    @endif
+    
 @endsection
 @push('script')
     <script>
