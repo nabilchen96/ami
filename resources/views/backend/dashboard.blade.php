@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-    @if (Auth::user()->role == "Auditor" || Auth::user()->role = "Auditee")
+    {{-- @if (Auth::user()->role == "Auditor" || Auth::user()->role = "Auditee")
     <div class="row">
         <div class="mt-4 p-5  text-black rounded" style="width: 100% !important; background-color:#f2f2f2 ">
             <h4>Berikut merupakan standar penilaian AMI SN-Dikti bagi auditor :</h4>
@@ -123,7 +123,7 @@
             <p>Panduan SiAMI dapat diunduh pada link berikut : …………….</p>
           </div>
     </div>
-    @endif
+    @endif --}}
     
 @endsection
 @push('script')
