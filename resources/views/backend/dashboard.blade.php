@@ -86,7 +86,7 @@
     @if (Auth::user()->role != "Admin")
     <div class="row">
         <div class="mt-4 p-5  text-black rounded" style="width: 100% !important; background-color:#f2f2f2 ">
-            <h4>Berikut merupakan standar penilaian AMI SN-Dikti bagi auditor :</h4>
+            <h4>Berikut merupakan standar penilaian AMI SN-Dikti :</h4>
             <table width="100%">
                 <tr>
                     <th>RENTANG NILAI</th>
