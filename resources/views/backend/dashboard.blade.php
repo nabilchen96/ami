@@ -87,7 +87,7 @@
     <div class="row">
         <div class="mt-4 p-5  text-black rounded" style="width: 100% !important; background-color:#f2f2f2 ">
             <h4>Berikut merupakan standar penilaian AMI SN-Dikti bagi auditor :</h4>
-            <table class="table">
+            <table width="100%">
                 <tr>
                     <th>RENTANG NILAI</th>
                     <th>NILAI</th>
@@ -120,7 +120,7 @@
                 </tr>
             </table>
             <br>
-            <p>Panduan SiAMI dapat diunduh pada link berikut : …………….</p>
+            <h5>Panduan SiAMI dapat diunduh pada link berikut : <a href="https://drive.google.com/file/d/1A8ZVhK4IsFVqtKOHdyW75ggRVp356jCP/view?usp=sharing" target="_blank">Download disini</a></h5>
           </div>
     </div>
     @endif
