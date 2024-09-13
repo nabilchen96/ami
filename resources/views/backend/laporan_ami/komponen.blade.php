@@ -68,8 +68,8 @@
                         <table id="myTable" class="table table-bordered table-striped" style="width: 100%;">
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <th></th>
-                                    <th>Nama Instrumen</th>
+                                    <th width="5%"></th>
+                                    <th>Sasaran Standar</th>
                                     <th>Nilai</th>
                                     {{-- <th></th> --}}
                                 </tr>
