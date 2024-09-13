@@ -276,14 +276,23 @@ class LaporanController extends Controller
             ->leftJoin('kurikulum_instrumens', 'kurikulum_instrumens.id', 'jadwal_amis.kurikulum_instrumen_id')
             ->where('jadwal_amis.id', $id);
 
+        $listJawaban = DB::table('jawabans')->where('jadwal_ami_id', $id )->where('grup_instrumen_id',$id_komponen)
+        ->leftJoin('sub_butir_instrumens','sub_butir_instrumens.id','jawabans.sub_butir_instrumen_id')
+        ->select(
+            'jawabans.*',
+            'sub_butir_instrumens.nama_sub_butir',
+        )
+        ->get();
 
+        
         $jadwal_amis = $jadwal_amis->first();
 
-        $getAVG = DB::table('jawabans')->select(DB::raw('AVG(skor) as rata_rata'))->where('jadwal_ami_id', $id)->first();
+        $getAVG = DB::table('jawabans')->select(DB::raw('AVG(skor) as rata_rata'))->where('jadwal_ami_id', $id)->where('grup_instrumen_id', $id_komponen)->first();
         // dd($getAVG->rata_rata);
 
         return view('backend.laporan_ami.komponen', [
             'data' => $data,
+            'listJawaban' => $listJawaban,
             'jadwal' => $jadwal_amis,
             'rata2' => $getAVG->rata_rata,
         ]);

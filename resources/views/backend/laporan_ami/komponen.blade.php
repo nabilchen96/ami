@@ -75,10 +75,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $k => $item)
+                                {{-- @foreach ($data as $k => $item)
                                     <tr>
                                         <td>{{ $k + 1 }}</td>
                                         <td>{{ $item->kode_instrumen == '.' ? '' : $item->kode_instrumen . '.' }} {{ $item->nama_instrumen }}</td>
+                                        <td>{{ $item->skor }}</td>
+                                    </tr>
+                                @endforeach --}}
+
+                                @foreach ($listJawaban as $k => $item)
+                                    <tr>
+                                        <td>{{ $k + 1 }}</td>
+                                        <td>{{ $item->nama_sub_butir }}</td>
                                         <td>{{ $item->skor }}</td>
                                     </tr>
                                 @endforeach
